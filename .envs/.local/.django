@@ -1,0 +1,18 @@
+# General
+# ------------------------------------------------------------------------------
+USE_DOCKER=yes
+IPYTHONDIR=/app/.ipython
+DATABASE_URL=postgres://postgres:1488@127.0.0.1:5432/kino
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+
+# Celery
+# ------------------------------------------------------------------------------
+
+# Flower
+CELERY_FLOWER_USER=kyYoiTfvpJPpDnqXIYJPSYamXtspORWB
+CELERY_FLOWER_PASSWORD=Kh54TmYPs4xmtjMgPc9n5JK1ahv1BlBINvBvW4UI5aeiqbLxOIFEwFQ7phBI79CP
+
+# IMDb API
+API_IMDB_KEY=a01fdf9d
