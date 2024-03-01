@@ -1,6 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
+from simple_history.models import HistoricalRecords
 
 from kino.enums import QualityChoose, StatusChoose
 
@@ -14,6 +15,7 @@ class Media(models.Model):
     episode = models.PositiveSmallIntegerField(default=None, null=True, blank=True, verbose_name="Номер серии")
     source_link = models.CharField(verbose_name="Ссылка на исходное видео в S3 ИЛИ путь к файлу на компьютере")
     date_added = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    history = HistoricalRecords()
 
     class Meta:
         verbose_name = "Медиафайл"
@@ -34,7 +36,7 @@ class Task(models.Model):
         verbose_name_plural = "Статусы загрузок"
 
     def __str__(self):
-        return f"{self.media.card.name} — {self.get_status_display()}"
+        return f"{self.media.card.name} — {self.get_status_display()} — {self.date_added}"
 
 
 class VideoQuality(models.Model):

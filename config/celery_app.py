@@ -15,3 +15,7 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
+
+# Change time limit for converting video
+app.conf.task_soft_time_limit = 1800
+app.conf.task_time_limit = 6000
