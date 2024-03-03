@@ -1,3 +1,5 @@
+import logging
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -13,11 +15,12 @@ def save_media(sender, instance, created, **kwargs):
         Media.objects.create(content_type=content_type, object_id=instance.id)
 
 
-# скачивание с S3
+# Download file from S3 or local path
 @receiver(post_save, sender="video.Media")
-def download_media(sender, instance, created, update_fields, **kwargs):
+def download_media(sender, instance, created, **kwargs):
     from kino.video.tasks import download_video
-    if created or ("source_link" in update_fields if update_fields else False):
-        download_video(instance.id)
-
-
+    if instance.source_link and instance.source_link != instance.history.first().prev_record.source_link:
+        logging.info("START CELERY")
+        download_video.delay(instance.id)
+    else:
+        logging.warning(f"{instance.card.name} can't update, {instance.source_link} wasn't new")

@@ -1,18 +1,20 @@
 import logging
 import ffmpeg
-import os
-
+from pathlib import Path
 from kino.enums import StatusChoose
 from kino.video.models import Task
 from config.settings import base
-from kino.utils.upload_video import upload_video
 
 media_path = base.PATH_TO_MEDIA
 
 
 # кодировка видео в разные качества
-def record_video(input_file, media):
+def record_video(input_file, media_id):
+    from kino.video.tasks import save_or_upload_quality
+    from kino.video.models import Media
+    media = Media.objects.get(id=media_id)
     try:
+        logging.info(f"Starting encode for {input_file}")
         input_video = ffmpeg.input(input_file)
         info = ffmpeg.probe(input_file)
         video_stream = next((stream for stream in info["streams"] if stream["codec_type"] == "video"), None)
@@ -33,10 +35,11 @@ def record_video(input_file, media):
         for quality in qualities:
             quality_width = round((quality * aspect_ratio) / 2) * 2
             vf_filter = f"scale={quality_width}:{quality}"
-            output_directory = os.path.join(media_path, "quality", f"{media.card.name}")
-            if not os.path.exists(output_directory):
-                os.makedirs(output_directory, exist_ok=True)
-            output_file = os.path.join(output_directory, f"{media.card.name}_{quality}.mp4")
+            output_directory = Path(media_path) / "quality" / f"{media.card.name}"
+            output_directory.mkdir(parents=True, exist_ok=True)
+            logging.info(f"out directory - {output_directory}")
+            output_file = f"{output_directory}\\{media.card.name}_{quality}.mp4"
+            logging.info(f"output_file - {output_file}")
             output_video = (
                 input_video
                 .output(output_file,
@@ -49,10 +52,8 @@ def record_video(input_file, media):
             output_video.run()
             output_files.append(output_file)
             logging.info(f"{media.card.name} was converted to {quality}")
-        upload_video(output_files, media)
+            save_or_upload_quality.delay(output_file, media.id)
         Task.objects.filter(media=media).update(status=StatusChoose.completed)
-
-
     except Exception:
         Task.objects.filter(media=media).update(status=StatusChoose.failed)
         logging.exception("Error during video encoding")
