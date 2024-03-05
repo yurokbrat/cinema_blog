@@ -1,20 +1,22 @@
 import logging
 import ffmpeg
 from pathlib import Path
+from django.conf import settings
+
 from kino.enums import StatusChoose
-from kino.video.models import Task
-from config.settings import base
+from kino.video.models import Task, Media
+from kino.utils import upload_video
 
-media_path = base.PATH_TO_MEDIA
+media_path = settings.PATH_TO_MEDIA
 
 
-# кодировка видео в разные качества
+# Record video in different qualities
+
 def record_video(input_file, media_id):
-    from kino.video.tasks import save_or_upload_quality
-    from kino.video.models import Media
     media = Media.objects.get(id=media_id)
     try:
-        logging.info(f"Starting encode for {input_file}")
+        info_start_encode = f"Starting encode for {input_file}"
+        logging.info(info_start_encode)
         input_video = ffmpeg.input(input_file)
         info = ffmpeg.probe(input_file)
         video_stream = next((stream for stream in info["streams"] if stream["codec_type"] == "video"), None)
@@ -30,16 +32,12 @@ def record_video(input_file, media_id):
             "720": {"video_bitrate": "3500k", "audio_bitrate": "220k"},
         }
 
-        output_files = []
-
         for quality in qualities:
             quality_width = round((quality * aspect_ratio) / 2) * 2
             vf_filter = f"scale={quality_width}:{quality}"
             output_directory = Path(media_path) / "quality" / f"{media.card.name}"
             output_directory.mkdir(parents=True, exist_ok=True)
-            logging.info(f"out directory - {output_directory}")
             output_file = f"{output_directory}\\{media.card.name}_{quality}.mp4"
-            logging.info(f"output_file - {output_file}")
             output_video = (
                 input_video
                 .output(output_file,
@@ -50,9 +48,9 @@ def record_video(input_file, media_id):
                 .overwrite_output()
             )
             output_video.run()
-            output_files.append(output_file)
-            logging.info(f"{media.card.name} was converted to {quality}")
-            save_or_upload_quality.delay(output_file, media.id)
+            info_end_encode = f"{media.card.name} was converted to {quality}"
+            logging.info(info_end_encode)
+            upload_video(output_file, media)
         Task.objects.filter(media=media).update(status=StatusChoose.completed)
     except Exception:
         Task.objects.filter(media=media).update(status=StatusChoose.failed)

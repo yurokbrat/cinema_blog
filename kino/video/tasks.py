@@ -1,22 +1,20 @@
 import logging
 from pathlib import Path
 from config import celery_app
-from config.settings import base
+from django.conf import settings
 
 from kino.video.models import Media, Task
 from kino.enums import StatusChoose
-from kino.utils.download_video import download_video_from_s3
-from kino.utils.record_video import record_video
-from kino.utils.upload_video import upload_video
-from kino.utils.check_s3 import connection_to_s3
+from kino.utils import record_video, connection_to_s3, download_video_from_s3
 
-media_path = base.PATH_TO_MEDIA
+media_path = settings.PATH_TO_MEDIA
 
 
 @celery_app.task()
 def download_video(media_id):
     media = Media.objects.get(id=media_id)
-    logging.info(f"Start download {media.card.name}")
+    info_start_work = f"Start work with {media.card.name}"
+    logging.info(info_start_work)
     destination_path = Path(media_path) / "source" / media.card.name
     try:
         if not Path(destination_path).exists():
@@ -26,23 +24,16 @@ def download_video(media_id):
                 video_path = download_video_from_s3(media, destination_path)
             else:
                 video_path = media.source_link
-                logging.info("Downloading from local machine")
+                logging.info("Start work with video from local machine")
                 Task.objects.create(media=media, status=StatusChoose.processing)
                 encode_video.delay(video_path, media_id)
         else:
-            logging.error(f"File was downloading yet. Please check directory — {destination_path}")
+            logging.error("File was downloading yet. Please check directory again")
     except Exception:
         Task.objects.filter(media=media).update(status=StatusChoose.failed)
-        logging.exception(f"Error with download {media.card.name}")
+        logging.exception("Error during download")
 
 
 @celery_app.task()
 def encode_video(video_path, media_id):
-    logging.info(f"Media in task of encode - {media_id}")
     record_video(video_path, media_id)
-
-
-@celery_app.task()
-def save_or_upload_quality(output_files, media_id):
-    media = Media.objects.get(id=media_id)
-    upload_video(output_files, media)

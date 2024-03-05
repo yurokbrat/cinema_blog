@@ -18,8 +18,8 @@ class Media(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        verbose_name = "Медиафайл"
-        verbose_name_plural = "Медифайлы"
+        verbose_name = "медиафайл"
+        verbose_name_plural = "медифайлы"
 
     def __str__(self):
         return self.card.name
@@ -32,8 +32,8 @@ class Task(models.Model):
     date_added = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки задачи")
 
     class Meta:
-        verbose_name = "Статус загрузки"
-        verbose_name_plural = "Статусы загрузок"
+        verbose_name = "статус загрузки"
+        verbose_name_plural = "статусы загрузок"
 
     def __str__(self):
         return f"{self.media.card.name} — {self.get_status_display()} — {self.date_added}"
@@ -47,8 +47,8 @@ class VideoQuality(models.Model):
     date_added = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки качества")
 
     class Meta:
-        verbose_name = "Качество медиафайла"
-        verbose_name_plural = "Качества медиафайла"
+        verbose_name = "качество медиафайла"
+        verbose_name_plural = "качества медиафайла"
 
     def __str__(self):
         return f"{self.media.card.name} — {self.quality}"

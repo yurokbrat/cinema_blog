@@ -14,11 +14,11 @@ class Comments(models.Model):
     moderated = models.BooleanField(default=False, verbose_name="Модерация")
 
     class Meta:
-        verbose_name = "Комментарий"
-        verbose_name_plural = "Комментарии"
+        verbose_name = "комментарий"
+        verbose_name_plural = "комментарии"
 
     def __str__(self):
-        return f"Комментарий {self.user} на {self.card}"
+        return f"{self.user} оставил комментарий на {self.card}"
 
 
 class Rates(models.Model):
@@ -30,8 +30,8 @@ class Rates(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, verbose_name="Дата оценки")
 
     class Meta:
-        verbose_name = "Оценка"
-        verbose_name_plural = "Оценки"
+        verbose_name = "оценка"
+        verbose_name_plural = "оценки"
 
     def __str__(self):
         return f'{self.user} {"like" if self.value == 1 else "dislike"} {self.card}'
