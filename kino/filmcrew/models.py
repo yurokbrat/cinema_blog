@@ -11,8 +11,8 @@ class FilmCrew(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE, verbose_name="Место рождения")
 
     class Meta:
-        verbose_name = "Участник производства"
-        verbose_name_plural = "Участники производства"
+        verbose_name = "участник производства"
+        verbose_name_plural = "участники производства"
 
     def __str__(self):
         return self.name
@@ -23,8 +23,8 @@ class PhotoPerson(models.Model):
     photo_person = models.ImageField(upload_to="photos_persons/", verbose_name="Фото")
 
     class Meta:
-        verbose_name = "Фотография участника"
-        verbose_name_plural = "Фотографии участников"
+        verbose_name = "фотография участника"
+        verbose_name_plural = "фотографии участников"
 
     def __str__(self):
         return f"Фото {self.person}"

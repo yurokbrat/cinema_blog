@@ -298,10 +298,10 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html#task-time-limit
 # TODO: set to whatever value is adequate in your circumstances
-CELERY_TASK_TIME_LIMIT = 5 * 60
+CELERY_TASK_TIME_LIMIT = 5 * 1200
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html#task-soft-time-limit
 # TODO: set to whatever value is adequate in your circumstances
-CELERY_TASK_SOFT_TIME_LIMIT = 60
+CELERY_TASK_SOFT_TIME_LIMIT = 1200
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html#beat-scheduler
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html#worker-send-task-events
@@ -352,9 +352,9 @@ SPECTACULAR_SETTINGS = {
 # Your stuff...
 # ------------------------------------------------------------------------------
 # IMDb API rating
-IMDB_API_KEY = env.str("IMDB_API_KEY", default="")
+IMDB_API = env.str("IMDB_API", default="")
 # Save video path
 PATH_TO_MEDIA = env.str("PATH_TO_MEDIA", default="")
-# S3
-AWS_ACCESS_KEY_ID = env.str("YOUR_ACCESS_KEY_ID", default="")
-AWS_SECRET_ACCESS_KEY = env.str("YOUR_SECRET_ACCESS_KEY", default="")
+# Connection to S3
+AWS_ACCESS_KEY_ID = env.str("S3_ACCESS_KEY_ID", default="")
+AWS_SECRET_ACCESS_KEY = env.str("S3_SECRET_ACCESS_KEY", default="")

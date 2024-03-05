@@ -9,8 +9,8 @@ class Genre(models.Model):
     description = models.TextField(verbose_name="Описание")
 
     class Meta:
-        verbose_name = "Жанр"
-        verbose_name_plural = "Жанры"
+        verbose_name = "жанр"
+        verbose_name_plural = "жанры"
 
     def __str__(self):
         return self.name
@@ -20,8 +20,8 @@ class Country(models.Model):
     name = models.CharField(max_length=30, verbose_name="Название")
 
     class Meta:
-        verbose_name = "Страна"
-        verbose_name_plural = "Страны"
+        verbose_name = "страна"
+        verbose_name_plural = "страны"
 
     def __str__(self):
         return self.name
@@ -37,9 +37,10 @@ class Card(models.Model):
     avg_rating = models.FloatField(default=0.0, blank=True, verbose_name="Рейтинг пользователей")
     id_imdb = models.CharField(max_length=255, blank=True, verbose_name="ID фильма/сериала на IMDb")
     rating_imdb = models.FloatField(default=0.0, blank=True, verbose_name="Рейтинг IMDb")
-    age_restriction = models.CharField(choices=AgeChoose.choices, default="0+", verbose_name="Возрастное ограничение")
-    trailer = models.URLField(default=None, verbose_name="Трейлер")
-    poster = models.ImageField(upload_to="posters/", verbose_name="Постер")
+    age_restriction = models.CharField(choices=AgeChoose.choices, default="0+",
+                                   blank=True, verbose_name="Возрастное ограничение")
+    trailer = models.URLField(default=None, blank=True, verbose_name="Трейлер")
+    poster = models.ImageField(upload_to="posters/", blank=True, verbose_name="Постер")
     is_visible = models.BooleanField(default=False, verbose_name="Публикация")
 
     class Meta:
@@ -47,26 +48,26 @@ class Card(models.Model):
 
 
 class Film(Card):
-    year = models.PositiveSmallIntegerField(verbose_name="Год выхода фильма")
+    year = models.PositiveSmallIntegerField(blank=True, verbose_name="Год выхода фильма")
 
     class Meta:
-        verbose_name = "Фильм"
-        verbose_name_plural = "Фильмы"
+        verbose_name = "фильм"
+        verbose_name_plural = "фильмы"
 
     def __str__(self):
         return self.name
 
 
 class Serial(Card):
-    start_year = models.PositiveSmallIntegerField(verbose_name="Год начала выхода сериала")
-    end_year = models.PositiveSmallIntegerField(default=timezone.now().year,
+    start_year = models.PositiveSmallIntegerField(blank=True, verbose_name="Год начала выхода сериала")
+    end_year = models.PositiveSmallIntegerField(default=timezone.now().year, blank=True,
                                                 verbose_name="Год окончания выхода сериала")
-    num_seasons = models.PositiveSmallIntegerField(verbose_name="Количество сезонов")
-    num_episodes = models.PositiveSmallIntegerField(verbose_name="Количество серий")
+    num_seasons = models.PositiveSmallIntegerField(blank=True, verbose_name="Количество сезонов")
+    num_episodes = models.PositiveSmallIntegerField(blank=True, verbose_name="Количество серий")
 
     class Meta:
-        verbose_name = "Сериал"
-        verbose_name_plural = "Сериалы"
+        verbose_name = "сериал"
+        verbose_name_plural = "сериалы"
 
     def __str__(self):
         return self.name
@@ -77,8 +78,8 @@ class PhotoFilm(models.Model):
     photo_film = models.ImageField(upload_to="photos_films/", verbose_name="Кадры из фильма")
 
     class Meta:
-        verbose_name = "Фотография фильма"
-        verbose_name_plural = "Фотографии фильмов"
+        verbose_name = "фотография фильма"
+        verbose_name_plural = "фотографии фильмов"
 
     def __str__(self):
         return f"Фото фильма {self.film.name}"
@@ -89,8 +90,8 @@ class PhotoSerial(models.Model):
     photo_serial = models.ImageField(upload_to="photos_films/", verbose_name="Кадры из фильма")
 
     class Meta:
-        verbose_name = "Фотография сериала"
-        verbose_name_plural = "Фотографии сериалов"
+        verbose_name = "фотография сериала"
+        verbose_name_plural = "фотографии сериалов"
 
     def __str__(self):
         return f"Фото сериала {self.serial.name}"
