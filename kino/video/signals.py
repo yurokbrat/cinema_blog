@@ -14,7 +14,6 @@ from kino.video.tasks import download_video
 @receiver(post_save, sender=Serial)
 def save_media(sender, instance, created, **kwargs):
     try:
-        logging.info("SINGAL WORK")
         content_type = ContentType.objects.get_for_model(sender)
         if created:
             Media.objects.create(content_type=content_type, object_id=instance.id)
