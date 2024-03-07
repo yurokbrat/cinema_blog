@@ -148,6 +148,7 @@ ignore = [
     "RUF001", # String contains ambiguous
     "RUF003",  # Comment contains ambiguous
     "I001",
+    "COM812"
 ]
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]

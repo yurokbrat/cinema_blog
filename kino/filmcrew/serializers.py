@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import *
+from kino.filmcrew.models import PhotoPerson, FilmCrew
+from kino.cards.models import Country
 
 
 class PhotoPersonSerializer(serializers.ModelSerializer):
@@ -11,13 +12,23 @@ class PhotoPersonSerializer(serializers.ModelSerializer):
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ["id", "name"]
+        fields = [
+            "id",
+            "name",
+        ]
 
 
 class FilmCrewSerializer(serializers.ModelSerializer):
     country = CountrySerializer()
-    photo_person = PhotoPersonSerializer()
+    photo_person = PhotoPersonSerializer(many=True)
 
     class Meta:
         model = FilmCrew
-        fields = ["id", "name", "profession", "birthday", "country"]
+        fields = [
+            "id",
+            "name",
+            "profession",
+            "birthday",
+            "country",
+            "photo_person",
+        ]
