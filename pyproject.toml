@@ -147,8 +147,7 @@ ignore = [
     "RUF012", # Mutable class attributes should be annotated with `typing.ClassVar`
     "RUF001", # String contains ambiguous
     "RUF003",  # Comment contains ambiguous
-    "I001",
-    "COM812"
+    "I001", # Import block is un-sorted or un-formatted
 ]
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
