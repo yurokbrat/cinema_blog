@@ -28,7 +28,6 @@ class Country(models.Model):
 
 
 class Card(models.Model):
-
     name = models.CharField(max_length=255, verbose_name="Название на русском")
     description = models.TextField(verbose_name="Описание")
     country = models.ManyToManyField(Country, verbose_name="Страна производитель")
@@ -38,7 +37,7 @@ class Card(models.Model):
     id_imdb = models.CharField(max_length=255, blank=True, verbose_name="ID фильма/сериала на IMDb")
     rating_imdb = models.FloatField(default=0.0, blank=True, verbose_name="Рейтинг IMDb")
     age_restriction = models.CharField(choices=AgeChoose.choices, default="0+",
-                                   blank=True, verbose_name="Возрастное ограничение")
+                                       blank=True, verbose_name="Возрастное ограничение")
     trailer = models.URLField(default=None, blank=True, verbose_name="Трейлер")
     poster = models.ImageField(upload_to="posters/", blank=True, verbose_name="Постер")
     is_visible = models.BooleanField(default=False, verbose_name="Публикация")
