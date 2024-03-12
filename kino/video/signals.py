@@ -24,9 +24,16 @@ def save_media(sender, instance, created, **kwargs):
 
 # Download file from S3 or local path
 @receiver(post_save, sender=Media)
-def download_media(sender, instance, **kwargs):
-    if instance.source_link and instance.source_link != instance.history.first().prev_record.source_link:
-        download_video.delay(instance.id)
+def download_media(sender, instance, created, **kwargs):
+    if not created and instance.source_link is not None:
+        history = instance.history.first()
+        if history and history.prev_record and history.prev_record.source_link is not None:
+            if instance.source_link != history.prev_record.source_link:
+                download_video.delay(instance.id)
+            else:
+                error_start = f"{instance.card.name} can't update, {instance.source_link} wasn't new"
+                logging.warning(error_start)
+        else:
+            download_video.delay(instance.id)
     else:
-        error_start = f"{instance.card.name} can't update, {instance.source_link} wasn't new"
-        logging.warning(error_start)
+        logging.warning("Source link is not defined for the Media object or Media object just created.")

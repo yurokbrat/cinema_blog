@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
 from kino.cards.models import Serial, Film
-from kino.cards.serializers.serializers_auth import (FilmListSerializer, SerialListSerializer,
-                                                     FilmFullSerializer, SerialFullSerializer)
-from kino.video.serializers import AdminQualitySerializer
-from kino.comments.serializers import AdminCommentSerializer
+from kino.cards.api.serializers.serializers_auth import (FilmListSerializer, SerialListSerializer,
+                                                         FilmFullSerializer, SerialFullSerializer)
+from kino.cards.api.serializers.mixins import ActivityMixin
+
 
 
 # Serializers for admins
@@ -16,7 +16,7 @@ class AdminBaseSerializer(serializers.ModelSerializer):
         ]
 
 
-class AdminFilmListSerializer(AdminBaseSerializer):
+class AdminFilmListSerializer(AdminBaseSerializer, ActivityMixin):
     class Meta(AdminBaseSerializer.Meta):
         model = Film
         fields = [
@@ -25,7 +25,7 @@ class AdminFilmListSerializer(AdminBaseSerializer):
         ]
 
 
-class AdminSerialListSerializer(AdminBaseSerializer):
+class AdminSerialListSerializer(AdminBaseSerializer, ActivityMixin):
     class Meta(AdminBaseSerializer.Meta):
         model = Serial
         fields = [
@@ -34,29 +34,20 @@ class AdminSerialListSerializer(AdminBaseSerializer):
         ]
 
 
-class AdminFilmFullSerializer(AdminBaseSerializer):
-    quality = AdminQualitySerializer(many=True)
-    comments = AdminCommentSerializer(many=True)
-
+class AdminFilmFullSerializer(AdminBaseSerializer, ActivityMixin):
     class Meta(AdminBaseSerializer.Meta):
         model = Film
         fields = [
             *FilmFullSerializer.Meta.fields,
             *AdminBaseSerializer.Meta.fields,
-            "quality",
-            "comments",
         ]
 
 
-class AdminSerialFullSerializer(AdminBaseSerializer):
-    quality = AdminQualitySerializer(many=True)
-    comments = AdminCommentSerializer(many=True)
+class AdminSerialFullSerializer(AdminBaseSerializer, ActivityMixin):
 
     class Meta(AdminBaseSerializer.Meta):
         model = Serial
         fields = [
             *SerialFullSerializer.Meta.fields,
             *AdminBaseSerializer.Meta.fields,
-            "quality",
-            "comments",
         ]

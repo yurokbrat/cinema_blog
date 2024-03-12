@@ -9,7 +9,6 @@ class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = [
-            "id",
             "name",
             "description",
         ]
@@ -29,6 +28,7 @@ class PhotoSerialSerializer(serializers.ModelSerializer):
 
 class BaseSerializer(serializers.ModelSerializer):
     country = CountrySerializer(many=True)
+    genre = GenreSerializer(many=True)
 
     class Meta:
         model = Card
@@ -36,6 +36,7 @@ class BaseSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "country",
+            "genre",
             "avg_rating",
             "rating_imdb",
             "age_restriction",

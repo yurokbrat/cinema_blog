@@ -36,7 +36,7 @@ class Card(models.Model):
     avg_rating = models.FloatField(default=0.0, blank=True, verbose_name="Рейтинг пользователей")
     id_imdb = models.CharField(max_length=255, blank=True, verbose_name="ID фильма/сериала на IMDb")
     rating_imdb = models.FloatField(default=0.0, blank=True, verbose_name="Рейтинг IMDb")
-    age_restriction = models.CharField(choices=AgeChoose.choices, default="0+",
+    age_restriction = models.CharField(choices=AgeChoose.choices, default=0,
                                        blank=True, verbose_name="Возрастное ограничение")
     trailer = models.URLField(default=None, blank=True, verbose_name="Трейлер")
     poster = models.ImageField(upload_to="posters/", blank=True, verbose_name="Постер")
@@ -74,7 +74,7 @@ class Serial(Card):
 
 class PhotoFilm(models.Model):
     film = models.ForeignKey(Film, on_delete=models.CASCADE, verbose_name="Карточка")
-    photo_film = models.ImageField(upload_to="photos_films/", verbose_name="Кадры из фильма")
+    photo_film = models.ImageField(upload_to="photos_films/", verbose_name="Кадры из фильма", blank=True, null=True)
 
     class Meta:
         verbose_name = "фотография фильма"
@@ -86,7 +86,7 @@ class PhotoFilm(models.Model):
 
 class PhotoSerial(models.Model):
     serial = models.ForeignKey(Serial, on_delete=models.CASCADE, verbose_name="Карточка")
-    photo_serial = models.ImageField(upload_to="photos_films/", verbose_name="Кадры из фильма")
+    photo_serial = models.ImageField(upload_to="photos_films/", verbose_name="Кадры из фильма", blank=True, null=True)
 
     class Meta:
         verbose_name = "фотография сериала"

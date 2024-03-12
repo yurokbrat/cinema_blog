@@ -15,6 +15,7 @@ def download_video(media_id):
     media = Media.objects.get(id=media_id)
     info_start_work = f"Start work with {media.card.name}"
     logging.info(info_start_work)
+    # потом сделать с англ названием наверное подумать, так как с русским папка не создаётся
     destination_path = Path(media_path) / "source" / media.card.name
     try:
         if not Path(destination_path).exists():
