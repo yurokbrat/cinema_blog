@@ -18,16 +18,12 @@ class CountrySerializer(serializers.ModelSerializer):
 
 
 class FilmCrewSerializer(serializers.ModelSerializer):
-    country = CountrySerializer()
-    photo_person = PhotoPersonSerializer(many=True)
+    country = CountrySerializer(many=False)
 
     class Meta:
         model = FilmCrew
         fields = [
-            "id",
             "name",
             "profession",
-            "birthday",
             "country",
-            "photo_person",
         ]

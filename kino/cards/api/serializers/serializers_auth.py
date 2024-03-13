@@ -1,12 +1,13 @@
 from rest_framework import serializers
 
-from kino.cards.api.serializers.mixins import ActivityMixin
+from kino.cards.api.mixins import OtherMixin, RatesMixin, CommentMixin, ActivityMixin
 from kino.cards.models import Film, Serial
 from kino.cards.api.serializers.serializers_all import BaseSerializer
 
 
 # Serializers for authenticated users
-class FilmListSerializer(BaseSerializer, ActivityMixin):
+class FilmListSerializer(BaseSerializer, ActivityMixin, RatesMixin):
+
     class Meta(BaseSerializer.Meta):
         model = Film
         fields = [
@@ -18,8 +19,9 @@ class FilmListSerializer(BaseSerializer, ActivityMixin):
         ]
 
 
-class SerialListSerializer(BaseSerializer, ActivityMixin):
-    class Meta:
+class SerialListSerializer(BaseSerializer, ActivityMixin, RatesMixin):
+
+    class Meta(BaseSerializer.Meta):
         model = Serial
         fields = [
             *BaseSerializer.Meta.fields,
@@ -30,31 +32,31 @@ class SerialListSerializer(BaseSerializer, ActivityMixin):
         ]
 
 
-class FilmFullSerializer(FilmListSerializer, ActivityMixin):
+class FilmFullSerializer(FilmListSerializer, ActivityMixin, RatesMixin, CommentMixin, OtherMixin):
     trailer = serializers.CharField(max_length=150)
 
     class Meta(FilmListSerializer.Meta):
         fields = [
             *FilmListSerializer.Meta.fields,
             "description",
+            "photo",
             "trailer",
-            "is_favorite",
             "is_see_later",
             "rating_value",
             "comments",
             "quality",
-            "photo",
         ]
 
 
-class SerialFullSerializer(SerialListSerializer, ActivityMixin):
+class SerialFullSerializer(SerialListSerializer, ActivityMixin, RatesMixin, CommentMixin, OtherMixin):
     trailer = serializers.CharField(max_length=150)
 
-    class Meta:
+    class Meta(SerialListSerializer.Meta):
         model = Serial
         fields = [
             *SerialListSerializer.Meta.fields,
             "description",
+            "photo",
             "trailer",
             "num_seasons",
             "num_episodes",

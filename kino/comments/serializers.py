@@ -3,6 +3,8 @@ from kino.comments.models import Comments, Rates
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.CharField()
+
     class Meta:
         model = Comments
         fields = [
@@ -22,7 +24,7 @@ class RateSerializer(serializers.ModelSerializer):
         ]
 
 
-class AdminCommentSerializer(serializers.ModelSerializer):
+class AdminCommentSerializer(CommentSerializer):
     class Meta(CommentSerializer.Meta):
         fields = [
             *CommentSerializer.Meta.fields,
