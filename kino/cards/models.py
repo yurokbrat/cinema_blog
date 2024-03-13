@@ -86,7 +86,7 @@ class PhotoFilm(models.Model):
 
 class PhotoSerial(models.Model):
     serial = models.ForeignKey(Serial, on_delete=models.CASCADE, verbose_name="Карточка")
-    photo_serial = models.ImageField(upload_to="photos_films/", verbose_name="Кадры из фильма", blank=True, null=True)
+    photo_serial = models.ImageField(upload_to="photos_serials/", verbose_name="Кадры из фильма", blank=True, null=True)
 
     class Meta:
         verbose_name = "фотография сериала"

@@ -29,12 +29,12 @@ class RateChoose(models.TextChoices):
 
 
 class CrewChoose(models.TextChoices):
-    director = "director", "Режиссёр"
-    actor = "actor", "Актёр"
-    cinematographer = "cinematographer", "Оператор (камера)"
-    editor = "editor", "Монтажёр"
-    screenwriter = "screenwriter","Сценарист"
-    designer = "designer", "Художник-постановщик"
-    sound_engineer = "sound_engineer", "Звукоинженер (звукорежиссёр)"
-    composer = "composer", "Композитор"
-    producer = "producer", "Продюсер"
+    director = "Режиссёр", "Режиссёр"
+    actor = "Актёр", "Актёр"
+    cinematographer = "Оператор", "Оператор"
+    editor = "Монтажёр", "Монтажёр"
+    screenwriter = "Сценарист","Сценарист"
+    designer = "Художник-постановщик", "Художник-постановщик"
+    sound_engineer = "Звукорежиссёр", "Звукорежиссёр"
+    composer = "Композитор", "Композитор"
+    producer = "Продюсер", "Продюсер"
