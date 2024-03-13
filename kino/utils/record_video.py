@@ -37,7 +37,7 @@ def record_video(input_file, media_id):
             vf_filter = f"scale={quality_width}:{quality}"
             output_directory = Path(media_path) / "quality" / f"{media.card.name}"
             output_directory.mkdir(parents=True, exist_ok=True)
-            output_file = f"{output_directory}\\{media.card.name}_{quality}.mp4"
+            output_file = f"{output_directory}\\{quality}.mp4"
             output_video = (
                 input_video
                 .output(output_file,

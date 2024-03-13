@@ -3,11 +3,15 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.routers import SimpleRouter
 
 from kino.users.api.views import UserViewSet
+from kino.cards.api.views import CardViewSet, GenreViewSet
+
 
 router = DefaultRouter() if settings.DEBUG else SimpleRouter()
 
 router.register("users", UserViewSet)
-
+router.register("films", CardViewSet, basename="films")
+router.register("serials", CardViewSet, basename="serials")
+router.register("genre", GenreViewSet)
 
 app_name = "api"
 urlpatterns = router.urls

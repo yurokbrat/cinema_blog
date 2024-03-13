@@ -1,13 +1,14 @@
 from rest_framework import serializers
 
 from kino.cards.models import Serial, Film
-from kino.cards.serializers.serializers_auth import (BaseSerializer, GenreSerializer, FilmListSerializer,
-                                                     PhotoFilmSerializer, SerialListSerializer, PhotoSerialSerializer)
+from kino.cards.api.serializers.serializers_auth import (BaseSerializer, GenreSerializer,
+                                                         PhotoFilmSerializer, PhotoSerialSerializer)
 
 
 # Serializers for guests
 class FilmListGuestSerializer(BaseSerializer):
     genre = GenreSerializer(many=True)
+    description = None
 
     class Meta(BaseSerializer.Meta):
         model = Film
@@ -20,6 +21,7 @@ class FilmListGuestSerializer(BaseSerializer):
 
 class SerialListGuestSerializer(BaseSerializer):
     genre = GenreSerializer(many=True)
+    description = None
 
     class Meta(BaseSerializer.Meta):
         model = Serial
@@ -31,26 +33,26 @@ class SerialListGuestSerializer(BaseSerializer):
         ]
 
 
-class FilmFullGuestSerializer(FilmListSerializer):
-    photo_film = PhotoFilmSerializer(many=True)
+class FilmFullGuestSerializer(FilmListGuestSerializer):
+    photo_film = PhotoFilmSerializer(many=True, required=False)
     trailer = serializers.CharField(max_length=150)
 
-    class Meta(FilmListSerializer.Meta):
+    class Meta(FilmListGuestSerializer.Meta):
         fields = [
-            *FilmListSerializer.Meta.fields,
+            *FilmListGuestSerializer.Meta.fields,
             "description",
             "trailer",
             "photo_film",
         ]
 
 
-class SerialFullGuestSerializer(SerialListSerializer):
-    photo_serial = PhotoSerialSerializer(many=True)
+class SerialFullGuestSerializer(SerialListGuestSerializer):
+    photo_serial = PhotoSerialSerializer(many=True, required=False)
     trailer = serializers.CharField(max_length=150)
 
-    class Meta(SerialListSerializer.Meta):
+    class Meta(SerialListGuestSerializer.Meta):
         fields = [
-            *SerialListSerializer.Meta.fields,
+            *SerialListGuestSerializer.Meta.fields,
             "description",
             "trailer",
             "photo_serial",
