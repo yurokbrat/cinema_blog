@@ -15,7 +15,7 @@ def download_video(media_id):
     media = Media.objects.get(id=media_id)
     info_start_work = f"Start work with {media.card.name}"
     logging.info(info_start_work)
-    destination_path = Path(media_path, "source", media.card.name)
+    destination_path = Path(media_path) / "source" / media.card.name
     try:
         if not Path(destination_path).exists():
             if connection_to_s3():

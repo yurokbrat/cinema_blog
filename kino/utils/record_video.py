@@ -1,5 +1,4 @@
 import logging
-import re
 import ffmpeg
 from pathlib import Path
 from django.conf import settings
@@ -12,10 +11,10 @@ media_path = settings.PATH_TO_MEDIA
 
 
 # Record video in different qualities
+
 def record_video(input_file, media_id):
     media = Media.objects.get(id=media_id)
     try:
-        logging.info(f"АААААААААmedia_path = {media_path}")
         info_start_encode = f"Starting encode for {input_file}"
         logging.info(info_start_encode)
         input_video = ffmpeg.input(input_file)
@@ -36,13 +35,12 @@ def record_video(input_file, media_id):
         for quality in qualities:
             quality_width = round((quality * aspect_ratio) / 2) * 2
             vf_filter = f"scale={quality_width}:{quality}"
-            directory_name = re.sub(r'[:"/\\|?*]', '', media.card.name)
-            output_directory = Path(media_path, "quality", directory_name)
+            output_directory = Path(media_path) / "quality" / f"{media.card.name}"
             output_directory.mkdir(parents=True, exist_ok=True)
-            output_file = Path(output_directory, f"{quality}.mp4")
+            output_file = f"{output_directory}\\{quality}.mp4"
             output_video = (
                 input_video
-                .output(str(output_file),
+                .output(output_file,
                         vf=vf_filter,
                         r=23.976,
                         **{"b:v": bitrate_params[str(quality)]["video_bitrate"],
