@@ -1,8 +1,10 @@
 import logging
+import re
 from pathlib import Path
 from config import celery_app
 from django.conf import settings
 
+from kino.cards.models import Film
 from kino.video.models import Media, Task
 from kino.enums import StatusChoose
 from kino.utils import record_video, connection_to_s3, download_video_from_s3
@@ -15,25 +17,30 @@ def download_video(media_id):
     media = Media.objects.get(id=media_id)
     info_start_work = f"Start work with {media.card.name}"
     logging.info(info_start_work)
-    destination_path = Path(media_path) / "source" / media.card.name
+    task = Task.objects.create(media=media, status=StatusChoose.processing)
     try:
-        if not Path(destination_path).exists():
-            if connection_to_s3():
-                Task.objects.create(media=media, status=StatusChoose.processing)
-                logging.info("Download started from S3")
+        if connection_to_s3():
+            logging.info("Download started from MinIO")
+            directory_name = re.sub(r'[:"/\\|?*]', '', media.card.name) # noqa: Q000
+            content_type_model = media.content_type.model_class()
+            content_type_folder = "films" if content_type_model == Film else "serials"
+            destination_path = Path(media_path) / "source" / content_type_folder / directory_name
+            if not Path(destination_path).exists():
+                destination_path.mkdir(parents=True, exist_ok=True)
                 video_path = download_video_from_s3(media, destination_path)
+                encode_video.delay(video_path, media_id, task.id)
             else:
-                video_path = media.source_link
-                logging.info("Start work with video from local machine")
-                Task.objects.create(media=media, status=StatusChoose.processing)
-                encode_video.delay(video_path, media_id)
+                logging.error("File was downloading yet. Please check directory again")
         else:
-            logging.error("File was downloading yet. Please check directory again")
+            video_path = media.source_link
+            logging.info("Start work with video from local machine")
+            encode_video.delay(video_path, media_id)
     except Exception:
-        Task.objects.filter(media=media).update(status=StatusChoose.failed)
+        task.status = StatusChoose.failed
+        task.save()
         logging.exception("Error during download")
 
 
 @celery_app.task()
-def encode_video(video_path, media_id):
-    record_video(video_path, media_id)
+def encode_video(video_path, media_id, task_id):
+    record_video(video_path, media_id, task_id)
