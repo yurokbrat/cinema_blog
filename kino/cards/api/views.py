@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework import mixins
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 
 from kino.cards.models import Film, Serial, Genre
@@ -12,7 +13,9 @@ from kino.cards.api.serializers.serializers_all import GenreFullSerializer
 
 
 # Card's ViewSet  for all users
-class CardViewSet(viewsets.ModelViewSet):
+class CardViewSet(viewsets.GenericViewSet,
+                  mixins.ListModelMixin,
+                  mixins.RetrieveModelMixin):
     permission_classes = {
         "admin": [IsAdminUser],
         "authenticated": [IsAuthenticatedOrReadOnly],
@@ -24,18 +27,39 @@ class CardViewSet(viewsets.ModelViewSet):
         user = self.request.user
         auth_status = "admin" if user.is_authenticated and user.is_staff \
             else "authenticated" if user.is_authenticated else "guest"
-        serializers_classes = {
-            "admin": AdminFilmFullSerializer if self.basename == "films" and self.kwargs.get("pk")
-            else AdminSerialFullSerializer if self.basename == "serials" and self.kwargs.get("pk")
-            else AdminFilmListSerializer if self.basename == "films" else AdminSerialListSerializer,
-            "authenticated": FilmFullSerializer if self.basename == "films" and self.kwargs.get("pk")
-            else SerialFullSerializer if self.basename == "serials" and self.kwargs.get("pk")
-            else FilmListSerializer if self.basename == "films" else SerialListSerializer,
-            "guest": FilmFullGuestSerializer if self.basename == "films" and self.kwargs.get("pk")
-            else SerialFullGuestSerializer if self.basename == "serials" and self.kwargs.get("pk")
-            else FilmListGuestSerializer if self.basename == "films" else SerialListGuestSerializer
+        serializer_class = {
+            "admin": {
+                "films": {
+                    "list": AdminFilmListSerializer,
+                    "retrieve": AdminFilmFullSerializer,
+                },
+                "serials": {
+                    "list": AdminSerialListSerializer,
+                    "retrieve": AdminSerialFullSerializer,
+                }
+            },
+            "authenticated": {
+                "films": {
+                    "list": FilmListSerializer,
+                    "retrieve": FilmFullSerializer,
+                },
+                "serials": {
+                    "list": SerialListSerializer,
+                    "retrieve": SerialFullSerializer,
+                }
+            },
+            "guest": {
+                "films": {
+                    "list": FilmListGuestSerializer,
+                    "retrieve": FilmFullGuestSerializer,
+                },
+                "serials": {
+                    "list": SerialListGuestSerializer,
+                    "retrieve": SerialFullGuestSerializer,
+                }
+            }
         }
-        return serializers_classes.get(auth_status)
+        return serializer_class[auth_status][self.basename][self.action]
 
     def get_permissions(self):
         user = self.request.user
