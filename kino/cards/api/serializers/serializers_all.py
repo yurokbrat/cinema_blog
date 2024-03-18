@@ -24,9 +24,7 @@ class GenreFullSerializer(GenreSerializer):
 class PhotoFilmSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotoFilm
-        fields = [
-            "photo_film",
-        ]
+        fields = ["photo_film"]
 
 
 class PhotoSerialSerializer(serializers.ModelSerializer):
@@ -51,5 +49,4 @@ class BaseSerializer(serializers.ModelSerializer):
             "avg_rating",
             "rating_imdb",
             "age_restriction",
-            "poster",
         ]
