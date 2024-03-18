@@ -81,6 +81,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
+    "minio_storage",
     "storages",
 ]
 
@@ -337,6 +338,8 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 70
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
@@ -353,8 +356,10 @@ SPECTACULAR_SETTINGS = {
 # Your stuff...
 # ------------------------------------------------------------------------------
 # IMDb API rating
+# ------------------------
 IMDB_API = env.str("IMDB_API", default="")
-# Save video path
+# Save recorded video path
+# ------------------------
 PATH_TO_MEDIA = env.str("PATH_TO_MEDIA", default="")
 
 # Storages

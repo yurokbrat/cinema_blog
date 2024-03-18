@@ -20,8 +20,8 @@ class OtherMixin(serializers.Serializer):
             if media:
                 qualities = VideoQuality.objects.filter(media=media)
                 if request.user.is_staff:
-                    return AdminQualitySerializer(qualities, many=True).data
-                return QualitySerializer(qualities, many=True).data
+                    return AdminQualitySerializer(qualities, many=True, context=self.context).data
+                return QualitySerializer(qualities, many=True, context=self.context).data
         return None
 
     def get_photo(self, obj):
@@ -29,8 +29,8 @@ class OtherMixin(serializers.Serializer):
         if request.user:
             if isinstance(obj, Film):
                 photo = PhotoFilm.objects.filter(film_id=obj.id)
-                return PhotoFilmSerializer(photo, many=True).data
+                return PhotoFilmSerializer(photo, many=True, context=self.context).data
             elif isinstance(obj, Serial):
                 photo = PhotoSerial.objects.filter(serial_id=obj.id)
-                return PhotoSerialSerializer(photo, many=True).data
+                return PhotoSerialSerializer(photo, many=True, context=self.context).data
         return None
