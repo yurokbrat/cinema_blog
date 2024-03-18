@@ -58,10 +58,6 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
     default=True,
 )
 
-# STATIC & MEDIA
-# ------------------------
-STATIC_URL = f"https://{aws_s3_domain}/static/"
-
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email

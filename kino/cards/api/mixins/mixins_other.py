@@ -33,17 +33,17 @@ class OtherMixin(serializers.Serializer):
                 photo = PhotoFilm.objects.filter(film_id=obj.id)
                 serialized_photo_data = PhotoFilmSerializer(photo, many=True, context=self.context).data
                 for item in serialized_photo_data:
-                    if 'photo_film' in item:
-                        item['photo_film'] = (f"{settings.MEDIA_URL}photos_films/"
-                                              f"{item['photo_film'].split('/')[-1]}")
+                    if "photo_film" in item:
+                        item["photo_film"] = (f"{settings.MEDIA_URL}photos_films/"
+                                              f"{item["photo_film"].split("/")[-1]}")
                 return serialized_photo_data
             elif isinstance(obj, Serial):
                 photo = PhotoSerial.objects.filter(serial_id=obj.id)
                 serialized_photo_data = PhotoSerialSerializer(photo, many=True, context=self.context).data
                 for item in serialized_photo_data:
-                    if 'photo_serial' in item:
-                        item['photo_serial'] = (f"{settings.MEDIA_URL}photos_serials/"
-                                                f"{item['photo_serial'].split('/')[-1]}")
+                    if "photo_serial" in item:
+                        item["photo_serial"] = (f"{settings.MEDIA_URL}photos_serials/"
+                                                f"{item["photo_serial"].split("/")[-1]}")
                 return serialized_photo_data
         return None
 
