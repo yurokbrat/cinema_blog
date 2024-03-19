@@ -6,12 +6,13 @@ from kino.cards.api.serializers.serializers_all import BaseSerializer
 
 
 # Serializers for authenticated users
-class FilmListSerializer(BaseSerializer, ActivityMixin, RatesMixin):
+class FilmListSerializer(BaseSerializer, ActivityMixin, RatesMixin, OtherMixin):
 
     class Meta(BaseSerializer.Meta):
         model = Film
         fields = [
             *BaseSerializer.Meta.fields,
+            "poster",
             "year",
             "is_watched",
             "is_rated",
@@ -19,12 +20,13 @@ class FilmListSerializer(BaseSerializer, ActivityMixin, RatesMixin):
         ]
 
 
-class SerialListSerializer(BaseSerializer, ActivityMixin, RatesMixin):
+class SerialListSerializer(BaseSerializer, ActivityMixin, RatesMixin, OtherMixin):
 
     class Meta(BaseSerializer.Meta):
         model = Serial
         fields = [
             *BaseSerializer.Meta.fields,
+            "poster",
             "start_year",
             "end_year",
             "is_watched",
