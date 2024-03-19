@@ -1,15 +1,13 @@
 import logging
-import re
 
 import ffmpeg
 from pathlib import Path
 from django.conf import settings
 
-from kino.cards.models import Film
 from kino.enums import StatusChoose
 from kino.video.models import Task, Media
 from kino.utils import upload_video
-
+from kino.video.s3.s3_client import s3_current_client
 
 media_path = settings.PATH_TO_MEDIA
 
@@ -35,9 +33,7 @@ def record_video(input_file, media_id, task_id):
             "720": {"video_bitrate": "3500k", "audio_bitrate": "220k"},
         }
 
-        directory_name = re.sub(r'[:"/\\|?*]', '', media.card.name) # noqa: Q000
-        content_type_model = media.content_type.model_class()
-        content_type_folder = "films" if content_type_model == Film else "serials"
+        directory_name, content_type_folder = s3_current_client.get_media_folders(media)
         output_directory = Path(media_path, "quality", content_type_folder, directory_name)
         output_directory.mkdir(parents=True, exist_ok=True)
         info_start_encode = f"Starting encode to {output_directory}"

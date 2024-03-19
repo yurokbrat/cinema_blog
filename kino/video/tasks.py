@@ -1,13 +1,12 @@
 import logging
-import re
 from pathlib import Path
 from config import celery_app
 from django.conf import settings
 
-from kino.cards.models import Film
 from kino.video.models import Media, Task
 from kino.enums import StatusChoose
-from kino.utils import record_video, connection_to_s3, download_video_from_s3
+from kino.utils import record_video, connection_to_s3
+from kino.video.s3.s3_client import s3_current_client
 
 media_path = settings.PATH_TO_MEDIA
 
@@ -21,15 +20,15 @@ def download_video(media_id):
     try:
         if connection_to_s3():
             logging.info("Download started from MinIO")
-            directory_name = re.sub(r'[:"/\\|?*]', '', media.card.name) # noqa: Q000
-            content_type_model = media.content_type.model_class()
-            content_type_folder = "films" if content_type_model == Film else "serials"
-            destination_path = Path(media_path) / "source" / content_type_folder / directory_name
+            directory_name, content_type_folder = s3_current_client.get_media_folders(media)
+            destination_path = Path(media_path, "source", content_type_folder, directory_name)
             if not Path(destination_path).exists():
                 destination_path.mkdir(parents=True, exist_ok=True)
-                video_path = download_video_from_s3(media, destination_path)
+                video_path = s3_current_client.download_video(media, destination_path)
                 encode_video.delay(video_path, media_id, task.id)
             else:
+                task.status = StatusChoose.failed
+                task.save()
                 logging.error("File was downloading yet. Please check directory again")
         else:
             video_path = media.source_link
