@@ -346,10 +346,33 @@ CORS_URLS_REGEX = r"^/api/.*$"
 # By Default swagger ui is available only to admin user(s). You can change permission classes to change that
 # See more configuration options at https://drf-spectacular.readthedocs.io/en/latest/settings.html#settings
 SPECTACULAR_SETTINGS = {
-    "TITLE": "try_kino API",
-    "DESCRIPTION": "Documentation of API endpoints of try_kino",
+    "TITLE": "kino API",
+    "DESCRIPTION": "API для отображения фильмов, сериалов и жанров для онлайн-кинотеатра.",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    'SWAGGER_UI_SETTINGS': {
+        'theme': 'flattop_new',
+        'favicon_href': 'https://cdn.jsdelivr.net/npm/swagger-ui-themes/flattop_new/favicon-32x32.png',
+    },
+    'CONTACT': {
+        'name': 'yurokbrat',
+        'url': 'https://t.me/yurokbrat',
+        'email': 'yurokbrat@yandex.ru',
+    },
+    'LICENSE': {
+        'name': 'MIT License',
+        'url': 'https://opensource.org/licenses/MIT',
+    },
+    'SWAGGER_UI_DIST': 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest',
+    'REDOC_DIST': 'https://cdn.jsdelivr.net/npm/redoc@latest',
+    'REDOC_SETTINGS': {
+        'theme': 'dark',
+    },
+    'TAGS': [
+        {'name': 'Users', 'description': 'Все операции, связанные с пользователем'},
+        {'name': 'Cards', 'description': 'Все операции, связанные с фильмами или сериалами'},
+        {'name': 'Genres', 'description': 'Все операции, связанные с жанрами карточек'},
+    ],
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
