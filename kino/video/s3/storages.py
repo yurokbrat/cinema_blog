@@ -8,6 +8,7 @@ from transliterate import translit
 
 from kino.cards.models import Film
 from kino.utils.check_urls_to_quality import urls_to_quality
+from kino.utils.generate_hide_url import media_url_generate
 
 
 class S3Client:
@@ -53,6 +54,10 @@ class S3Client:
         else:
             path_s3 = f"{content_type_folder}/{bucket_name}/{file_name}"
         self.client.upload_file(output_file, self.bucket_name, path_s3)
-        urls_to_quality(media, quality, f"{settings.AWS_S3_ENDPOINT_URL}/"
-                                        f"{settings.AWS_STORAGE_BUCKET_NAME}/"
-                                        f"{path_s3}")
+        encrypted_path_s3 = media_url_generate()
+        urls_to_quality(media, quality,
+                        f"{settings.AWS_S3_ENDPOINT_URL}/"
+                        f"{settings.AWS_STORAGE_BUCKET_NAME}/"
+                        f"{path_s3}",
+                        f"{settings.AWS_S3_ENDPOINT_URL}/{settings.AWS_STORAGE_BUCKET_NAME}/"
+                        f"{content_type_folder}/{encrypted_path_s3}/{file_name}")

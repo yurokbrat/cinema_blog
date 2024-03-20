@@ -43,8 +43,9 @@ class VideoQuality(models.Model):
 
     media = models.ForeignKey(Media, on_delete=models.CASCADE, verbose_name="Медиа")
     quality = models.CharField(choices=QualityChoose.choices, verbose_name="Качество")
-    video_url = models.CharField(default=None, verbose_name="Ссылка на медиа")
-    date_added = models.DateTimeField(auto_now=True, verbose_name="Дата загрузки качества")
+    video_url = models.CharField(default=None, verbose_name="Оригинальная ссылка")
+    encrypted_url = models.CharField(default=None, blank=True, verbose_name="Зашифрованная ссылка")
+    date_added = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки качества")
 
     class Meta:
         verbose_name = "качество медиафайла"
