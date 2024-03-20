@@ -7,7 +7,7 @@ class QualitySerializer(serializers.ModelSerializer):
         model = VideoQuality
         fields = [
             "quality",
-            "encrypted_url",
+            "video_url",
         ]
 
 
@@ -15,6 +15,5 @@ class AdminQualitySerializer(QualitySerializer):
     class Meta(QualitySerializer.Meta):
         fields = [
             *QualitySerializer.Meta.fields,
-            "video_url",
             "date_added",
         ]

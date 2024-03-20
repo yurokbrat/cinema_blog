@@ -7,6 +7,7 @@ from kino.video.models import Media, Task
 from kino.enums import StatusChoose
 from kino.utils.record_video import record_video
 from kino.utils.check_s3 import connection_to_s3
+from kino.utils.create_folder import get_media_folders
 from kino.video.s3.s3_client import s3_current_client
 
 media_path = settings.PATH_TO_MEDIA
@@ -21,7 +22,7 @@ def download_video(media_id):
     try:
         if connection_to_s3():
             logging.info("Download started from MinIO")
-            directory_name, content_type_folder = s3_current_client.get_media_folders(media)
+            directory_name, content_type_folder = get_media_folders(media)
             destination_path = Path(media_path, "source", content_type_folder, directory_name)
             destination_path.mkdir(parents=True, exist_ok=True)
             video_path = s3_current_client.download_video(media, destination_path)

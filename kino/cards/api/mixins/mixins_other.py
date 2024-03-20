@@ -37,7 +37,7 @@ class OtherMixin(serializers.Serializer):
                         item["photo_film"] = (f"{settings.MEDIA_URL}photos_films/"
                                               f"{item['photo_film'].split('/')[-1]}")
                 return serialized_photo_data
-            elif isinstance(obj, Serial):
+            elif isinstance(obj, Serial):  # noqa: RET505
                 photo = PhotoSerial.objects.filter(serial_id=obj.id)
                 serialized_photo_data = PhotoSerialSerializer(photo, many=True, context=self.context).data
                 for item in serialized_photo_data:
