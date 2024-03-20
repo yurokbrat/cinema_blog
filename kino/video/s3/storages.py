@@ -7,7 +7,7 @@ from django.conf import settings
 from transliterate import translit
 
 from kino.cards.models import Film
-from kino.video.models import VideoQuality
+from kino.utils.check_urls_to_quality import urls_to_quality
 
 
 class S3Client:
@@ -43,6 +43,7 @@ class S3Client:
         transliterated_name = translit(media.card.name, "ru", reversed=True)
         bucket_name = re.sub(r'[^\w.-]', '_', transliterated_name).lower()  # noqa: Q000
         file_name = Path(output_file).name
+        # Проверяем, есть ли сезон и серия для создания дополнительных папок в S3
         if media.season:
             path_s3 = (f"{content_type_folder}/{bucket_name}/"
                        f"season_{media.season}/{file_name}")
@@ -52,8 +53,6 @@ class S3Client:
         else:
             path_s3 = f"{content_type_folder}/{bucket_name}/{file_name}"
         self.client.upload_file(output_file, self.bucket_name, path_s3)
-        VideoQuality.objects.create(media=media,
-                                    quality=quality,
-                                    video_url=f"{settings.AWS_S3_ENDPOINT_URL}/"
-                                              f"{settings.AWS_STORAGE_BUCKET_NAME}/"
-                                              f"{path_s3}")
+        urls_to_quality(media, quality, f"{settings.AWS_S3_ENDPOINT_URL}/"
+                                        f"{settings.AWS_STORAGE_BUCKET_NAME}/"
+                                        f"{path_s3}")

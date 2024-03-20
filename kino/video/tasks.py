@@ -22,14 +22,9 @@ def download_video(media_id):
             logging.info("Download started from MinIO")
             directory_name, content_type_folder = s3_current_client.get_media_folders(media)
             destination_path = Path(media_path, "source", content_type_folder, directory_name)
-            if not Path(destination_path).exists():
-                destination_path.mkdir(parents=True, exist_ok=True)
-                video_path = s3_current_client.download_video(media, destination_path)
-                encode_video.delay(video_path, media_id, task.id)
-            else:
-                task.status = StatusChoose.failed
-                task.save()
-                logging.error("File was downloading yet. Please check directory again")
+            destination_path.mkdir(parents=True, exist_ok=True)
+            video_path = s3_current_client.download_video(media, destination_path)
+            encode_video.delay(video_path, media_id, task.id)
         else:
             video_path = media.source_link
             logging.info("Start work with video from local machine")
