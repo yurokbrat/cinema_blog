@@ -87,7 +87,7 @@ class CardViewSet(viewsets.GenericViewSet,
     def get_queryset(self):
         if self.basename == "films":
             return Film.objects.all()
-        elif self.basename == "serials":
+        elif self.basename == "serials":  # noqa: RET505
             return Serial.objects.all()
         return None
 
