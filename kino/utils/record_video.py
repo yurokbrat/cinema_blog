@@ -6,7 +6,7 @@ from django.conf import settings
 
 from kino.enums import StatusChoose
 from kino.video.models import Task, Media
-from kino.utils import upload_video
+from kino.utils.upload_video import upload_video
 from kino.video.s3.s3_client import s3_current_client
 
 media_path = settings.PATH_TO_MEDIA

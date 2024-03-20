@@ -5,7 +5,8 @@ from django.conf import settings
 
 from kino.video.models import Media, Task
 from kino.enums import StatusChoose
-from kino.utils import record_video, connection_to_s3
+from kino.utils.record_video import record_video
+from kino.utils.check_s3 import connection_to_s3
 from kino.video.s3.s3_client import s3_current_client
 
 media_path = settings.PATH_TO_MEDIA

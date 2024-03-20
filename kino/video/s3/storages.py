@@ -22,7 +22,7 @@ class S3Client:
                                    region_name=settings.AWS_S3_REGION_NAME)
 
     def get_media_folders(self, media):
-        directory_name = re.sub(r'[:"/\\|?*]', '', media.card.name)  # noqa: Q000
+        directory_name = re.sub(r'[:"/\\|?*]', '', media.card.name)
         content_type_model = media.content_type.model_class()
         content_type_folder = "films" if content_type_model == Film else "serials"
         if media.season:
@@ -42,7 +42,7 @@ class S3Client:
         # Создаём допустимое название для bucket в S3
         directory_name, content_type_folder = self.get_media_folders(media)
         transliterated_name = translit(media.card.name, "ru", reversed=True)
-        bucket_name = re.sub(r'[^\w.-]', '_', transliterated_name).lower()  # noqa: Q000
+        bucket_name = re.sub(r'[^\w.-]', '_', transliterated_name).lower()
         file_name = Path(output_file).name
         # Проверяем, есть ли сезон и серия для создания дополнительных папок в S3
         if media.season:

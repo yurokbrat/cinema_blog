@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 from kino.enums import AgeChoose
+from kino.utils.hide_photos import rename_file
 
 
 class Genre(models.Model):
@@ -39,7 +40,7 @@ class Card(models.Model):
     age_restriction = models.CharField(choices=AgeChoose.choices, default=0,
                                        blank=True, verbose_name="Возрастное ограничение")
     trailer = models.URLField(default=None, blank=True, verbose_name="Трейлер")
-    poster = models.ImageField(upload_to="posters/", blank=True, verbose_name="Постер")
+    poster = models.ImageField(upload_to=rename_file("posters/"), blank=True, verbose_name="Постер")
     is_visible = models.BooleanField(default=False, verbose_name="Публикация")
 
     class Meta:
@@ -74,7 +75,8 @@ class Serial(Card):
 
 class PhotoFilm(models.Model):
     film = models.ForeignKey(Film, on_delete=models.CASCADE, verbose_name="Карточка")
-    photo_film = models.ImageField(upload_to="photos_films/", verbose_name="Кадры из фильма", blank=True, null=True)
+    photo_film = models.ImageField(upload_to=rename_file("photos_films/"),
+                                   verbose_name="Кадры из фильма", blank=True, null=True)
 
     class Meta:
         verbose_name = "фотография фильма"
@@ -86,7 +88,8 @@ class PhotoFilm(models.Model):
 
 class PhotoSerial(models.Model):
     serial = models.ForeignKey(Serial, on_delete=models.CASCADE, verbose_name="Карточка")
-    photo_serial = models.ImageField(upload_to="photos_serials/", verbose_name="Кадры из фильма", blank=True, null=True)
+    photo_serial = models.ImageField(upload_to=rename_file("photos_serials/"),
+                                     verbose_name="Кадры из фильма", blank=True, null=True)
 
     class Meta:
         verbose_name = "фотография сериала"
