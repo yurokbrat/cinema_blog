@@ -3,8 +3,16 @@ from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 
-from kino.cards.api.serializers.serializers_all import PhotoFilmSerializer, PhotoSerialSerializer
-from kino.cards.models import Film, Serial, PhotoFilm, PhotoSerial
+from kino.cards.api.serializers.serializers_all import (
+    PhotoFilmSerializer,
+    PhotoSerialSerializer,
+)
+from kino.cards.models import (
+    Film,
+    Serial,
+    PhotoFilm,
+    PhotoSerial,
+)
 from kino.video.models import Media, VideoQuality
 from kino.video.serializers import AdminQualitySerializer, QualitySerializer
 
@@ -21,12 +29,16 @@ class OtherMixin(serializers.Serializer):
         request = self.context.get("request")
         if request.user:
             content_type = ContentType.objects.get_for_model(obj)
-            media = Media.objects.filter(content_type=content_type, object_id=obj.pk).first()
-            if media:
+            if media := Media.objects.filter(content_type=content_type,
+                                             object_id=obj.pk).first():
                 qualities = VideoQuality.objects.filter(media=media)
                 if request.user.is_staff:
-                    quality_all = AdminQualitySerializer(qualities, many=True, context=self.context).data
-                quality_all = QualitySerializer(qualities, many=True, context=self.context).data
+                    quality_all = AdminQualitySerializer(qualities,
+                                                         many=True,
+                                                         context=self.context).data
+                quality_all = QualitySerializer(qualities,
+                                                many=True,
+                                                context=self.context).data
                 quality_data = {}
                 for quality in quality_all:
                     quality_data[quality["quality"]] = quality["video_url"]
@@ -39,7 +51,9 @@ class OtherMixin(serializers.Serializer):
         if request.user:
             if isinstance(obj, Film):
                 photo = PhotoFilm.objects.filter(film_id=obj.id)
-                serialized_photo_data = PhotoFilmSerializer(photo, many=True, context=self.context).data
+                serialized_photo_data = PhotoFilmSerializer(photo,
+                                                            many=True,
+                                                            context=self.context).data
                 for item in serialized_photo_data:
                     if "photo_film" in item:
                         item["photo_film"] = (f"{settings.MEDIA_URL}photos_films/"
@@ -54,7 +68,9 @@ class OtherMixin(serializers.Serializer):
         if request.user:
             if isinstance(obj, Serial):
                 photo = PhotoSerial.objects.filter(serial_id=obj.id)
-                serialized_photo_data = PhotoSerialSerializer(photo, many=True, context=self.context).data
+                serialized_photo_data = PhotoSerialSerializer(photo,
+                                                              many=True,
+                                                              context=self.context).data
                 for item in serialized_photo_data:
                     if "photo_serial" in item:
                         item["photo_serial"] = (f"{settings.MEDIA_URL}photos_serials/"

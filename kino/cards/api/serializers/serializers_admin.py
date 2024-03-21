@@ -1,13 +1,12 @@
+from kino.cards.api.mixins import ActivityMixin, OtherMixin, RatesMixin, CommentMixin
 from kino.cards.api.serializers.serializers_all import BaseSerializer
-from kino.cards.models import Serial, Film
 from kino.cards.api.serializers.serializers_auth import (FilmListSerializer, SerialListSerializer,
                                                          FilmFullSerializer, SerialFullSerializer)
-from kino.cards.api.mixins import ActivityMixin, OtherMixin, RatesMixin, CommentMixin
+from kino.cards.models import Serial, Film
 
 
 # Serializers for admins
 class AdminBaseSerializer(BaseSerializer):
-
     class Meta:
         fields = [
             "id_imdb",
@@ -17,7 +16,13 @@ class AdminBaseSerializer(BaseSerializer):
         ]
 
 
-class AdminFilmListSerializer(AdminBaseSerializer, ActivityMixin, RatesMixin, CommentMixin, OtherMixin):
+class AdminFilmListSerializer(
+    AdminBaseSerializer,
+    ActivityMixin,
+    RatesMixin,
+    CommentMixin,
+    OtherMixin,
+):
     class Meta(AdminBaseSerializer.Meta):
         model = Film
         fields = [
@@ -26,8 +31,13 @@ class AdminFilmListSerializer(AdminBaseSerializer, ActivityMixin, RatesMixin, Co
         ]
 
 
-class AdminSerialListSerializer(AdminBaseSerializer, ActivityMixin, RatesMixin, CommentMixin, OtherMixin):
-
+class AdminSerialListSerializer(
+    AdminBaseSerializer,
+    ActivityMixin,
+    RatesMixin,
+    CommentMixin,
+    OtherMixin,
+):
     class Meta(AdminBaseSerializer.Meta):
         model = Serial
         fields = [
@@ -36,9 +46,14 @@ class AdminSerialListSerializer(AdminBaseSerializer, ActivityMixin, RatesMixin, 
         ]
 
 
-class AdminFilmFullSerializer(AdminBaseSerializer, FilmFullSerializer, ActivityMixin,
-                              RatesMixin, CommentMixin, OtherMixin):
-
+class AdminFilmFullSerializer(
+    AdminBaseSerializer,
+    FilmFullSerializer,
+    ActivityMixin,
+    RatesMixin,
+    CommentMixin,
+    OtherMixin,
+):
     class Meta(AdminFilmListSerializer.Meta):
         model = Film
         fields = [
@@ -47,8 +62,14 @@ class AdminFilmFullSerializer(AdminBaseSerializer, FilmFullSerializer, ActivityM
         ]
 
 
-class AdminSerialFullSerializer(AdminBaseSerializer, SerialFullSerializer, ActivityMixin,
-                                RatesMixin, CommentMixin, OtherMixin):
+class AdminSerialFullSerializer(
+    AdminBaseSerializer,
+    SerialFullSerializer,
+    ActivityMixin,
+    RatesMixin,
+    CommentMixin,
+    OtherMixin,
+):
     class Meta(AdminSerialListSerializer.Meta):
         model = Serial
         fields = [

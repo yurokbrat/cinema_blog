@@ -1,20 +1,35 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.contrib.contenttypes.fields import GenericForeignKey
 from simple_history.models import HistoricalRecords
 
 from kino.enums import QualityChoose, StatusChoose
 
 
 class Media(models.Model):
-
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     card = GenericForeignKey("content_type", "object_id")
-    season = models.PositiveSmallIntegerField(default=None, null=True, blank=True, verbose_name="Номер сезона")
-    episode = models.PositiveSmallIntegerField(default=None, null=True, blank=True, verbose_name="Номер серии")
-    source_link = models.CharField(verbose_name="Ссылка на исходное видео в S3 ИЛИ путь к файлу на компьютере")
-    date_added = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    season = models.PositiveSmallIntegerField(
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name="Номер сезона",
+    )
+    episode = models.PositiveSmallIntegerField(
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name="Номер серии",
+    )
+    source_link = models.CharField(
+        verbose_name="Ссылка на исходное видео в S3 "
+                     "ИЛИ путь к файлу на компьютере",
+    )
+    date_added = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата создания",
+    )
     history = HistoricalRecords()
 
     class Meta:
@@ -26,10 +41,19 @@ class Media(models.Model):
 
 
 class Task(models.Model):
-
-    media = models.ForeignKey(Media, on_delete=models.CASCADE, verbose_name="Медиа")
-    status = models.CharField(choices=StatusChoose.choices, verbose_name="Статус выполнения")
-    date_added = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки задачи")
+    media = models.ForeignKey(
+        Media,
+        on_delete=models.CASCADE,
+        verbose_name="Медиа",
+    )
+    status = models.CharField(
+        choices=StatusChoose.choices,
+        verbose_name="Статус выполнения",
+    )
+    date_added = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата загрузки задачи",
+    )
 
     class Meta:
         verbose_name = "статус загрузки"
@@ -40,11 +64,23 @@ class Task(models.Model):
 
 
 class VideoQuality(models.Model):
-
-    media = models.ForeignKey(Media, on_delete=models.CASCADE, verbose_name="Медиа")
-    quality = models.CharField(choices=QualityChoose.choices, verbose_name="Качество")
-    video_url = models.CharField(default=None, verbose_name="Cсылка на видео")
-    date_added = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки качества")
+    media = models.ForeignKey(
+        Media,
+        on_delete=models.CASCADE,
+        verbose_name="Медиа",
+    )
+    quality = models.CharField(
+        choices=QualityChoose.choices,
+        verbose_name="Качество",
+    )
+    video_url = models.CharField(
+        default=None,
+        verbose_name="Cсылка на видео",
+    )
+    date_added = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата загрузки качества",
+    )
 
     class Meta:
         verbose_name = "качество медиафайла"

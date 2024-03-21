@@ -1,13 +1,17 @@
 from rest_framework import serializers
 
 from kino.cards.api.mixins import OtherMixin, RatesMixin, CommentMixin, ActivityMixin
-from kino.cards.models import Film, Serial
 from kino.cards.api.serializers.serializers_all import BaseSerializer
+from kino.cards.models import Film, Serial
 
 
 # Serializers for authenticated users
-class FilmListSerializer(BaseSerializer, ActivityMixin, RatesMixin, OtherMixin):
-
+class FilmListSerializer(
+    BaseSerializer,
+    ActivityMixin,
+    RatesMixin,
+    OtherMixin,
+):
     class Meta(BaseSerializer.Meta):
         model = Film
         fields = [
@@ -20,8 +24,12 @@ class FilmListSerializer(BaseSerializer, ActivityMixin, RatesMixin, OtherMixin):
         ]
 
 
-class SerialListSerializer(BaseSerializer, ActivityMixin, RatesMixin, OtherMixin):
-
+class SerialListSerializer(
+    BaseSerializer,
+    ActivityMixin,
+    RatesMixin,
+    OtherMixin,
+):
     class Meta(BaseSerializer.Meta):
         model = Serial
         fields = [
@@ -34,7 +42,13 @@ class SerialListSerializer(BaseSerializer, ActivityMixin, RatesMixin, OtherMixin
         ]
 
 
-class FilmFullSerializer(FilmListSerializer, ActivityMixin, RatesMixin, CommentMixin, OtherMixin):
+class FilmFullSerializer(
+    FilmListSerializer,
+    ActivityMixin,
+    RatesMixin,
+    CommentMixin,
+    OtherMixin,
+):
     trailer = serializers.CharField(max_length=150)
 
     class Meta(FilmListSerializer.Meta):
@@ -50,7 +64,13 @@ class FilmFullSerializer(FilmListSerializer, ActivityMixin, RatesMixin, CommentM
         ]
 
 
-class SerialFullSerializer(SerialListSerializer, ActivityMixin, RatesMixin, CommentMixin, OtherMixin):
+class SerialFullSerializer(
+    SerialListSerializer,
+    ActivityMixin,
+    RatesMixin,
+    CommentMixin,
+    OtherMixin,
+):
     trailer = serializers.CharField(max_length=150)
 
     class Meta(SerialListSerializer.Meta):

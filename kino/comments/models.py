@@ -27,8 +27,14 @@ class Rates(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     card = GenericForeignKey("content_type", "object_id")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
-    value = models.IntegerField(choices=[(1, "like"), (-1, "dislike")], verbose_name="Оценка")
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь"
+    )
+    value = models.IntegerField(
+        choices=[(1, "like"), (-1, "dislike")],
+        verbose_name="Оценка")
     date_created = models.DateTimeField(auto_now_add=True, verbose_name="Дата оценки")
 
     class Meta:
