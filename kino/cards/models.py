@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 from kino.enums import AgeChoose
-from kino.utils.generate_hide_url import upload_to_posters, upload_to_serials, upload_to_films
+from kino.utils.other.generate_hide_url import upload_to_posters, upload_to_serials, upload_to_films
 
 
 class Genre(models.Model):

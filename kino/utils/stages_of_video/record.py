@@ -3,17 +3,15 @@ import logging
 import ffmpeg
 from pathlib import Path
 from django.conf import settings
-
 from kino.enums import StatusChoose
+from kino.utils.stages_of_video.encoding import processing_video
 from kino.video.models import Task, Media
-from kino.utils.upload_video import upload_video
-from kino.utils.create_folder import get_media_folders
+from kino.utils.other.create_folder import get_media_folders
 
 media_path = settings.PATH_TO_MEDIA
 
 
 # Record video in different qualities
-
 def record_video(input_file, media_id, task_id):
     media = Media.objects.get(id=media_id)
     task = Task.objects.get(id=task_id)
@@ -24,14 +22,7 @@ def record_video(input_file, media_id, task_id):
         width = int(video_stream["width"])
         height = int(video_stream["height"])
         aspect_ratio = width / height
-
         qualities = [360, 480, 720]
-
-        bitrate_params = {
-            "360": {"video_bitrate": "1000k", "audio_bitrate": "128k"},
-            "480": {"video_bitrate": "1800k", "audio_bitrate": "162k"},
-            "720": {"video_bitrate": "3500k", "audio_bitrate": "220k"},
-        }
 
         directory_name, content_type_folder = get_media_folders(media)
         output_directory = Path(media_path, "quality", content_type_folder, directory_name)
@@ -40,25 +31,8 @@ def record_video(input_file, media_id, task_id):
         logging.info(info_start_encode)
 
         for quality in qualities:
-            quality_width = round((quality * aspect_ratio) / 2) * 2
-            vf_filter = f"scale={quality_width}:{quality}"
-            output_file = Path(output_directory, f"{quality}.mp4")
-            output_video = (
-                input_video
-                .output(str(output_file),
-                        vf=vf_filter,
-                        r=23.976,
-                        **{"b:v": bitrate_params[str(quality)]["video_bitrate"],
-                           "b:a": bitrate_params[str(quality)]["audio_bitrate"]})
-                .overwrite_output()
-            )
-            output_video.run()
-            info_end_encode = f"{media.card.name} was converted to {quality}"
-            logging.info(info_end_encode)
-            upload_video(output_file, media)
+            processing_video(quality, output_directory, input_video, media, aspect_ratio, task_id)
 
-        task.status = StatusChoose.completed
-        task.save()
     except Exception:
         task.status = StatusChoose.failed
         task.save()
