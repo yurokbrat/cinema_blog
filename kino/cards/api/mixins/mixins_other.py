@@ -16,7 +16,7 @@ class OtherMixin(serializers.Serializer):
     photo_serial = serializers.SerializerMethodField()
     poster = serializers.SerializerMethodField()
 
-    @extend_schema_field(QualitySerializer)
+    @extend_schema_field(serializers.DictField(child=serializers.URLField()))
     def get_quality(self, obj):
         request = self.context.get("request")
         if request.user:
@@ -25,8 +25,12 @@ class OtherMixin(serializers.Serializer):
             if media:
                 qualities = VideoQuality.objects.filter(media=media)
                 if request.user.is_staff:
-                    return AdminQualitySerializer(qualities, many=True, context=self.context).data
-                return QualitySerializer(qualities, many=True, context=self.context).data
+                    quality_all = AdminQualitySerializer(qualities, many=True, context=self.context).data
+                quality_all = QualitySerializer(qualities, many=True, context=self.context).data
+                quality_data = {}
+                for quality in quality_all:
+                    quality_data[quality["quality"]] = quality["video_url"]
+                return quality_data
         return None
 
     @extend_schema_field(PhotoFilmSerializer)

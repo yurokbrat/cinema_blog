@@ -8,8 +8,10 @@ class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = [
+            "id",
             "name",
         ]
+
 
 class GenreFullSerializer(GenreSerializer):
     class Meta(GenreSerializer.Meta):
@@ -19,17 +21,22 @@ class GenreFullSerializer(GenreSerializer):
         ]
 
 
-
 class PhotoFilmSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotoFilm
-        fields = ["photo_film"]
+        fields = [
+            "id",
+            "photo_film",
+        ]
 
 
 class PhotoSerialSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotoSerial
-        fields = ["photo_serial"]
+        fields = [
+            "id",
+            "photo_serial",
+        ]
 
 
 class BaseSerializer(serializers.ModelSerializer):

@@ -6,13 +6,17 @@ from kino.cards.models import Country
 class PhotoPersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotoPerson
-        fields = ["photo_person"]
+        fields = [
+            "id",
+            "photo_person",
+        ]
 
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
         fields = [
+            "id",
             "name",
         ]
 
@@ -23,6 +27,7 @@ class FilmCrewSerializer(serializers.ModelSerializer):
     class Meta:
         model = FilmCrew
         fields = [
+            "id",
             "name",
             "profession",
             "country",
