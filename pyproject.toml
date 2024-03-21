@@ -148,6 +148,7 @@ ignore = [
     "RUF001", # String contains ambiguous
     "RUF003",  # Comment contains ambiguous
     "I001", # Import block is un-sorted or un-formatted
+    "Q000", # Single quotes found but double quotes preferred
 ]
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]

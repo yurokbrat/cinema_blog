@@ -2,6 +2,7 @@ import logging
 
 from pathlib import Path
 
+from django.conf import settings
 from kino.utils.check_s3 import connection_to_s3
 from kino.utils.check_urls_to_quality import urls_to_quality
 from kino.enums import QualityChoose
@@ -21,7 +22,11 @@ def upload_video(output_file, media):
         quality = Path(output_file).name.split(".")[-2]
         if quality in quality_map:
             quality_choose = quality_map[quality]
-            s3_current_client.upload_video(output_file, quality_choose, media)
+            path_s3 = s3_current_client.upload_video(output_file, media)
+            urls_to_quality(media, quality_choose,
+                            f"{settings.AWS_S3_ENDPOINT_URL}/"
+                            f"{settings.AWS_STORAGE_BUCKET_NAME}/"
+                            f"{path_s3}")
             info_unload = f"{media.card.name} - {quality_choose} was unload"
             logging.info(info_unload)
         else:
@@ -31,7 +36,7 @@ def upload_video(output_file, media):
         quality = Path(output_file).name.split("_")[-1].split(".")[0]
         if quality in quality_map:
             quality_choose = quality_map[quality]
-            urls_to_quality(media, quality_choose, output_file)
+            urls_to_quality(media, quality_choose, output_file, None)
             info_added = f"{media.card.name} - {quality_choose} was added"
             logging.info(info_added)
         else:
