@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from kino.cards.models import Genre, PhotoFilm, PhotoSerial, Card
 from kino.filmcrew.serializers import CountrySerializer, FilmCrewSerializer
 
@@ -12,13 +11,13 @@ class GenreSerializer(serializers.ModelSerializer):
             "name",
         ]
 
-
 class GenreFullSerializer(GenreSerializer):
     class Meta(GenreSerializer.Meta):
         fields = [
             *GenreSerializer.Meta.fields,
             "description",
         ]
+
 
 
 class PhotoFilmSerializer(serializers.ModelSerializer):

@@ -41,7 +41,7 @@ class FilmFullSerializer(FilmListSerializer, ActivityMixin, RatesMixin, CommentM
         fields = [
             *FilmListSerializer.Meta.fields,
             "description",
-            "photo",
+            "photo_film",
             "trailer",
             "is_see_later",
             "rating_value",
@@ -58,13 +58,12 @@ class SerialFullSerializer(SerialListSerializer, ActivityMixin, RatesMixin, Comm
         fields = [
             *SerialListSerializer.Meta.fields,
             "description",
-            "photo",
+            "photo_serial",
             "trailer",
             "num_seasons",
             "num_episodes",
             "comments",
             "quality",
-            "photo",
             "film_crew",
             "is_favorite",
             "is_see_later",
