@@ -7,7 +7,7 @@ from kino.utils.stages_of_video.upload import upload_video
 from kino.video.models import Media, Task
 
 
-def processing_video(
+def processing_video(  # noqa: PLR0913
     quality,
     output_directory,
     input_video,

@@ -30,7 +30,7 @@ class Rates(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name="Пользователь"
+        verbose_name="Пользователь",
     )
     value = models.IntegerField(
         choices=[(1, "like"), (-1, "dislike")],

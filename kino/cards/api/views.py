@@ -94,9 +94,15 @@ class CardViewSet(
 
     def get_queryset(self):
         if self.basename == "films":
-            return Film.objects.all()
+            return (
+                Film.objects.all().
+                prefetch_related("genre", "film_crew", "country", "film_crew__country")
+            )
         elif self.basename == "serials":  # noqa: RET505
-            return Serial.objects.all()
+            return (
+                Serial.objects.all().
+                prefetch_related("genre", "film_crew", "country", "film_crew__country")
+            )
         return None
 
 

@@ -6,7 +6,7 @@ from .models import (
     Country,
     Genre,
     PhotoSerial,
-    PhotoFilm
+    PhotoFilm,
 )
 
 admin.site.register(Film)
