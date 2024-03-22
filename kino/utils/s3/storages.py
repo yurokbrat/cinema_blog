@@ -4,8 +4,8 @@ import boto3
 from botocore.config import Config
 from django.conf import settings
 
-from kino.utils.create_folder import get_media_folders
-from kino.utils.generate_hide_url import media_url_generate, upload_to_s3
+from kino.utils.other.create_folder import get_media_folders
+from kino.utils.other.generate_hide_url import media_url_generate, upload_to_s3
 
 
 class S3Client:
