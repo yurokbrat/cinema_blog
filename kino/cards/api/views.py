@@ -25,17 +25,11 @@ class CardViewSet(viewsets.GenericViewSet,
     }
     serializer_class = FilmListGuestSerializer
 
-    @extend_schema(
-        description="Отображение всех карточек",
-        responses={200: FilmListGuestSerializer(many=True)}
-    )
+    @extend_schema(description="Отображение всех карточек")
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-    @extend_schema(
-        description="Детальное отображение карточки в зависимости от её id",
-        responses={200: FilmListGuestSerializer}
-    )
+    @extend_schema(description="Детальное отображение карточки в зависимости от её id")
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
 

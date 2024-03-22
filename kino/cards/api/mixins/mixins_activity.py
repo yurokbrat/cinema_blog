@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from drf_spectacular.utils import extend_schema_field
 from kino.cards.models import Film, Serial
 
 
@@ -20,11 +20,14 @@ class ActivityMixin(serializers.Serializer):
             return status_queryset.filter(pk=obj.pk).exists()
         return False
 
+    @extend_schema_field(serializers.BooleanField(default=False))
     def get_is_watched(self, obj):
         return self.get_card_status(obj, "watched")
 
+    @extend_schema_field(serializers.BooleanField(default=False))
     def get_is_favorite(self, obj):
         return self.get_card_status(obj, "favorite")
 
+    @extend_schema_field(serializers.BooleanField(default=False))
     def get_is_see_later(self, obj):
         return self.get_card_status(obj, "see_later")

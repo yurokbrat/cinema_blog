@@ -350,10 +350,6 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API для отображения фильмов, сериалов и жанров для онлайн-кинотеатра.",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
-    'SWAGGER_UI_SETTINGS': {
-        'theme': 'flattop_new',
-        'favicon_href': 'https://cdn.jsdelivr.net/npm/swagger-ui-themes/flattop_new/favicon-32x32.png',
-    },
     'CONTACT': {
         'name': 'yurokbrat',
         'url': 'https://t.me/yurokbrat',
@@ -364,13 +360,9 @@ SPECTACULAR_SETTINGS = {
         'url': 'https://opensource.org/licenses/MIT',
     },
     'SWAGGER_UI_DIST': 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest',
-    'REDOC_DIST': 'https://cdn.jsdelivr.net/npm/redoc@latest',
-    'REDOC_SETTINGS': {
-        'theme': 'dark',
-    },
     'TAGS': [
         {'name': 'Users', 'description': 'Все операции, связанные с пользователем'},
-        {'name': 'Cards', 'description': 'Все операции, связанные с фильмами или сериалами'},
+        {'name': 'Cards', 'description': 'Все операции, связанные с карточками'},
         {'name': 'Genres', 'description': 'Все операции, связанные с жанрами карточек'},
     ],
 }
