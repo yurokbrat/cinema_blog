@@ -33,7 +33,7 @@ class CrewChoose(models.TextChoices):
     actor = "Актёр", "Актёр"
     cinematographer = "Оператор", "Оператор"
     editor = "Монтажёр", "Монтажёр"
-    screenwriter = "Сценарист","Сценарист"
+    screenwriter = "Сценарист", "Сценарист"
     designer = "Художник-постановщик", "Художник-постановщик"
     sound_engineer = "Звукорежиссёр", "Звукорежиссёр"
     composer = "Композитор", "Композитор"

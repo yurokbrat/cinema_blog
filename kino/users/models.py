@@ -11,18 +11,42 @@ class User(AbstractUser):
     name = models.CharField(_("Name of User"), blank=True, max_length=255)
     first_name = None  # type: ignore[assignment]
     last_name = None  # type: ignore[assignment]
-    favorite_films = models.ManyToManyField(Film, verbose_name="Избранное", blank=True,
-                                            related_name="favorite_films")
-    see_later_films = models.ManyToManyField(Film, verbose_name="Просмотреть позже", blank=True,
-                                             related_name="see_later_films")
-    watched_films = models.ManyToManyField(Film, verbose_name="Просмотрено", blank=True,
-                                           related_name="watched_serials")
-    favorite_serials = models.ManyToManyField(Serial, verbose_name="Избранное", blank=True,
-                                              related_name="favorite_serials")
-    see_later_serials = models.ManyToManyField(Serial, verbose_name="Просмотреть позже", blank=True,
-                                               related_name="see_later_serials")
-    watched_serials = models.ManyToManyField(Serial, verbose_name="Просмотрено", blank=True,
-                                             related_name="watched_serials")
+    favorite_films = models.ManyToManyField(
+        Film,
+        verbose_name="Избранное",
+        blank=True,
+        related_name="favorite_films",
+    )
+    see_later_films = models.ManyToManyField(
+        Film,
+        verbose_name="Просмотреть позже",
+        blank=True,
+        related_name="see_later_films",
+    )
+    watched_films = models.ManyToManyField(
+        Film,
+        verbose_name="Просмотрено",
+        blank=True,
+        related_name="watched_serials",
+    )
+    favorite_serials = models.ManyToManyField(
+        Serial,
+        verbose_name="Избранное",
+        blank=True,
+        related_name="favorite_serials",
+    )
+    see_later_serials = models.ManyToManyField(
+        Serial,
+        verbose_name="Просмотреть позже",
+        blank=True,
+        related_name="see_later_serials",
+    )
+    watched_serials = models.ManyToManyField(
+        Serial,
+        verbose_name="Просмотрено",
+        blank=True,
+        related_name="watched_serials",
+    )
 
     def get_absolute_url(self) -> str:
         """Get URL for user"s detail view.

@@ -1,12 +1,11 @@
 from rest_framework import serializers
 
-from kino.cards.models import Serial, Film
 from kino.cards.api.serializers.serializers_all import BaseSerializer
+from kino.cards.models import Serial, Film
 
 
 # Serializers for guests
 class FilmListGuestSerializer(BaseSerializer):
-
     class Meta(BaseSerializer.Meta):
         model = Film
         fields = [
@@ -16,7 +15,6 @@ class FilmListGuestSerializer(BaseSerializer):
 
 
 class SerialListGuestSerializer(BaseSerializer):
-
     class Meta(BaseSerializer.Meta):
         model = Serial
         fields = [

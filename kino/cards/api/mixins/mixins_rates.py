@@ -1,5 +1,4 @@
 from django.contrib.contenttypes.models import ContentType
-from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from kino.comments.models import Rates, Comments
@@ -10,7 +9,6 @@ class RatesMixin(serializers.Serializer):
     is_rated = serializers.SerializerMethodField()
     rating_value = serializers.SerializerMethodField()
 
-    @extend_schema_field(serializers.BooleanField(default=False))
     def get_is_rated(self, obj):
         request = self.context.get("request")
         if request.user:
@@ -20,7 +18,6 @@ class RatesMixin(serializers.Serializer):
                                         object_id=obj.pk).exists()
         return None
 
-    @extend_schema_field(serializers.CharField)
     def get_rating_value(self, obj):
         request = self.context.get("request")
         if request.user:
@@ -36,7 +33,6 @@ class RatesMixin(serializers.Serializer):
 class CommentMixin(serializers.Serializer):
     comments = serializers.SerializerMethodField()
 
-    @extend_schema_field(CommentSerializer)
     def get_comments(self, obj):
         request = self.context.get("request")
         if request.user:

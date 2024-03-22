@@ -7,7 +7,14 @@ from kino.utils.stages_of_video.upload import upload_video
 from kino.video.models import Media, Task
 
 
-def processing_video(quality, output_directory, input_video, media, aspect_ratio, task_id):  # noqa: PLR0913
+def processing_video(
+    quality,
+    output_directory,
+    input_video,
+    media,
+    aspect_ratio,
+    task_id,
+):
     bitrate_params = {
         "360": {"video_bitrate": "1000k", "audio_bitrate": "128k"},
         "480": {"video_bitrate": "1800k", "audio_bitrate": "162k"},

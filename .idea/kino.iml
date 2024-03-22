@@ -28,6 +28,9 @@
   <component name="ReSTService">
     <option name="DOC_DIR" value="$MODULE_DIR$/docs" />
   </component>
+  <component name="SonarLintModuleSettings">
+    <option name="uniqueId" value="306bceda-1f43-4c87-bf6d-4a6adea67119" />
+  </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
@@ -37,7 +40,6 @@
     </option>
   </component>
   <component name="TestRunnerService">
-    <option name="projectConfiguration" value="pytest" />
     <option name="PROJECT_TEST_RUNNER" value="pytest" />
   </component>
 </module>

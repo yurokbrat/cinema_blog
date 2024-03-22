@@ -1,27 +1,41 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework import viewsets
 from rest_framework import mixins
+from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 
-from kino.cards.models import Film, Serial, Genre
-from kino.cards.api.serializers.serializers_guest import (FilmListGuestSerializer, FilmFullGuestSerializer,
-                                                          SerialListGuestSerializer, SerialFullGuestSerializer)
-from kino.cards.api.serializers.serializers_admin import (AdminFilmListSerializer, AdminFilmFullSerializer,
-                                                          AdminSerialListSerializer, AdminSerialFullSerializer)
-from kino.cards.api.serializers.serializers_auth import (FilmListSerializer, FilmFullSerializer,
-                                                         SerialListSerializer, SerialFullSerializer)
+from kino.cards.api.serializers.serializers_admin import (
+    AdminFilmListSerializer,
+    AdminFilmFullSerializer,
+    AdminSerialListSerializer,
+    AdminSerialFullSerializer,
+)
 from kino.cards.api.serializers.serializers_all import GenreFullSerializer
+from kino.cards.api.serializers.serializers_auth import (
+    FilmListSerializer,
+    FilmFullSerializer,
+    SerialListSerializer,
+    SerialFullSerializer,
+)
+from kino.cards.api.serializers.serializers_guest import (
+    FilmListGuestSerializer,
+    FilmFullGuestSerializer,
+    SerialListGuestSerializer,
+    SerialFullGuestSerializer,
+)
+from kino.cards.models import Film, Serial, Genre
 
 
 # Card's ViewSet  for all users
 @extend_schema(tags=['Cards'])
-class CardViewSet(viewsets.GenericViewSet,
-                  mixins.ListModelMixin,
-                  mixins.RetrieveModelMixin):
+class CardViewSet(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+):
     permission_classes = {
         "admin": [IsAdminUser],
         "authenticated": [IsAuthenticatedOrReadOnly],
-        "guest": [IsAuthenticatedOrReadOnly]
+        "guest": [IsAuthenticatedOrReadOnly],
     }
     serializer_class = FilmListGuestSerializer
 
@@ -46,7 +60,7 @@ class CardViewSet(viewsets.GenericViewSet,
                 "serials": {
                     "list": AdminSerialListSerializer,
                     "retrieve": AdminSerialFullSerializer,
-                }
+                },
             },
             "authenticated": {
                 "films": {
@@ -56,7 +70,7 @@ class CardViewSet(viewsets.GenericViewSet,
                 "serials": {
                     "list": SerialListSerializer,
                     "retrieve": SerialFullSerializer,
-                }
+                },
             },
             "guest": {
                 "films": {
@@ -66,8 +80,8 @@ class CardViewSet(viewsets.GenericViewSet,
                 "serials": {
                     "list": SerialListGuestSerializer,
                     "retrieve": SerialFullGuestSerializer,
-                }
-            }
+                },
+            },
         }
         return serializer_class[auth_status][self.basename][self.action]
 

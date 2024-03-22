@@ -27,4 +27,3 @@ def upload_to_s3(bucket_name, filename):
     ext = filename.split(".")[-1]
     filename = f"{uuid4().hex}.{ext}"
     return f"{bucket_name}/{filename}"
-

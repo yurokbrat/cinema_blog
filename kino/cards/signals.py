@@ -1,8 +1,8 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from kino.utils.other.update_ratings import update_rating_imdb, update_rating_for_card
 from kino.cards.models import Film, Serial
+from kino.utils.other.update_ratings import update_rating_imdb, update_rating_for_card
 
 
 # update rating from IMDb

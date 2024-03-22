@@ -2,7 +2,11 @@ from django.db import models
 from django.utils import timezone
 
 from kino.enums import AgeChoose
-from kino.utils.other.generate_hide_url import upload_to_posters, upload_to_serials, upload_to_films
+from kino.utils.other.generate_hide_url import (
+    upload_to_posters,
+    upload_to_serials,
+    upload_to_films,
+)
 
 
 class Genre(models.Model):
@@ -34,15 +38,37 @@ class Card(models.Model):
     country = models.ManyToManyField(Country, verbose_name="Страна производитель")
     genre = models.ManyToManyField(Genre, verbose_name="Жанр")
     film_crew = models.ManyToManyField("filmcrew.FilmCrew", verbose_name="Съемочная группа")
-    avg_rating = models.FloatField(default=0.0, blank=True, verbose_name="Рейтинг пользователей")
-    id_imdb = models.CharField(max_length=255, blank=True, verbose_name="ID фильма/сериала на IMDb")
-    rating_imdb = models.FloatField(default=0.0, blank=True, verbose_name="Рейтинг IMDb")
-    age_restriction = models.CharField(choices=AgeChoose.choices, default=0,
-                                       blank=True, verbose_name="Возрастное ограничение")
-    trailer = models.URLField(default=None, blank=True, verbose_name="Трейлер")
-    poster = models.ImageField(upload_to=upload_to_posters,
-                               blank=True, verbose_name="Постер")
-
+    avg_rating = models.FloatField(
+        default=0.0,
+        blank=True,
+        verbose_name="Рейтинг пользователей",
+    )
+    id_imdb = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="ID фильма/сериала на IMDb",
+    )
+    rating_imdb = models.FloatField(
+        default=0.0,
+        blank=True,
+        verbose_name="Рейтинг IMDb",
+    )
+    age_restriction = models.CharField(
+        choices=AgeChoose.choices,
+        default=0,
+        blank=True,
+        verbose_name="Возрастное ограничение",
+    )
+    trailer = models.URLField(
+        default=None,
+        blank=True,
+        verbose_name="Трейлер",
+    )
+    poster = models.ImageField(
+        upload_to=upload_to_posters,
+        blank=True,
+        verbose_name="Постер",
+    )
     is_visible = models.BooleanField(default=False, verbose_name="Публикация")
 
     class Meta:
@@ -61,11 +87,23 @@ class Film(Card):
 
 
 class Serial(Card):
-    start_year = models.PositiveSmallIntegerField(blank=True, verbose_name="Год начала выхода сериала")
-    end_year = models.PositiveSmallIntegerField(default=timezone.now().year, blank=True,
-                                                verbose_name="Год окончания выхода сериала")
-    num_seasons = models.PositiveSmallIntegerField(blank=True, verbose_name="Количество сезонов")
-    num_episodes = models.PositiveSmallIntegerField(blank=True, verbose_name="Количество серий")
+    start_year = models.PositiveSmallIntegerField(
+        blank=True,
+        verbose_name="Год начала выхода сериала",
+    )
+    end_year = models.PositiveSmallIntegerField(
+        default=timezone.now().year,
+        blank=True,
+        verbose_name="Год окончания выхода сериала",
+    )
+    num_seasons = models.PositiveSmallIntegerField(
+        blank=True,
+        verbose_name="Количество сезонов",
+    )
+    num_episodes = models.PositiveSmallIntegerField(
+        blank=True,
+        verbose_name="Количество серий",
+    )
 
     class Meta:
         verbose_name = "сериал"
@@ -76,9 +114,17 @@ class Serial(Card):
 
 
 class PhotoFilm(models.Model):
-    film = models.ForeignKey(Film, on_delete=models.CASCADE, verbose_name="Карточка")
-    photo_film = models.ImageField(upload_to=upload_to_films,
-                                   verbose_name="Кадры из фильма", blank=True, null=True)
+    film = models.ForeignKey(
+        Film,
+        on_delete=models.CASCADE,
+        verbose_name="Карточка",
+    )
+    photo_film = models.ImageField(
+        upload_to=upload_to_films,
+        verbose_name="Кадры из фильма",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "фотография фильма"
@@ -89,9 +135,17 @@ class PhotoFilm(models.Model):
 
 
 class PhotoSerial(models.Model):
-    serial = models.ForeignKey(Serial, on_delete=models.CASCADE, verbose_name="Карточка")
-    photo_serial = models.ImageField(upload_to=upload_to_serials,
-                                     verbose_name="Кадры из фильма", blank=True, null=True)
+    serial = models.ForeignKey(
+        Serial,
+        on_delete=models.CASCADE,
+        verbose_name="Карточка",
+    )
+    photo_serial = models.ImageField(
+        upload_to=upload_to_serials,
+        verbose_name="Кадры из фильма",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "фотография сериала"
