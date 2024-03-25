@@ -6,6 +6,8 @@ from drf_spectacular.utils import extend_schema_field
 from kino.cards.api.serializers.serializers_all import (
     PhotoFilmSerializer,
     PhotoSerialSerializer,
+    AdminPhotoSerialSerializer,
+    AdminPhotoFilmSerializer,
 )
 from kino.cards.models import (
     Film,
@@ -51,9 +53,14 @@ class OtherMixin(serializers.Serializer):
         if request.user:
             if isinstance(obj, Film):
                 photo = PhotoFilm.objects.filter(film_id=obj.id)
-                serialized_photo_data = PhotoFilmSerializer(photo,
-                                                            many=True,
-                                                            context=self.context).data
+                if request.user.is_staff:
+                    serialized_photo_data = AdminPhotoFilmSerializer(photo,
+                                                                     many=True,
+                                                                     context=self.context).data
+                else:
+                    serialized_photo_data = PhotoFilmSerializer(photo,
+                                                                many=True,
+                                                                context=self.context).data
                 for item in serialized_photo_data:
                     if "photo_film" in item:
                         item["photo_film"] = (f"{settings.MEDIA_URL}photos_films/"
@@ -68,9 +75,14 @@ class OtherMixin(serializers.Serializer):
         if request.user:
             if isinstance(obj, Serial):
                 photo = PhotoSerial.objects.filter(serial_id=obj.id)
-                serialized_photo_data = PhotoSerialSerializer(photo,
-                                                              many=True,
-                                                              context=self.context).data
+                if request.user.is_staff:
+                    serialized_photo_data = AdminPhotoSerialSerializer(photo,
+                                                                       many=True,
+                                                                       context=self.context).data
+                else:
+                    serialized_photo_data = PhotoSerialSerializer(photo,
+                                                                  many=True,
+                                                                  context=self.context).data
                 for item in serialized_photo_data:
                     if "photo_serial" in item:
                         item["photo_serial"] = (f"{settings.MEDIA_URL}photos_serials/"
