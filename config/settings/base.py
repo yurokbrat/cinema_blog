@@ -83,6 +83,7 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "minio_storage",
     "storages",
+    "silk",
 ]
 
 LOCAL_APPS = [
@@ -150,6 +151,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "silk.middleware.SilkyMiddleware",
 ]
 
 # STATIC
@@ -410,5 +412,12 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
 MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/"
+
+# django-silk
+# ------------------------
+SILKY_AUTHENTICATION = True
+SILKY_AUTHORISATION = True
+SILKY_PERMISSIONS = lambda user: user.is_superuser  # noqa: E731
+SILKY_META = True
+SILKY_INTERCEPT_PERCENT = env.int("SILK_PERCENT", default=0)
