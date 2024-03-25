@@ -31,12 +31,28 @@ class PhotoFilmSerializer(serializers.ModelSerializer):
         ]
 
 
+class AdminPhotoFilmSerializer(PhotoFilmSerializer):
+    class Meta(PhotoFilmSerializer.Meta):
+        fields = [
+            *PhotoFilmSerializer.Meta.fields,
+            "date_created",
+        ]
+
+
 class PhotoSerialSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotoSerial
         fields = [
             "id",
             "photo_serial",
+        ]
+
+
+class AdminPhotoSerialSerializer(PhotoSerialSerializer):
+    class Meta(PhotoSerialSerializer.Meta):
+        fields = [
+            *PhotoSerialSerializer.Meta.fields,
+            "date_created",
         ]
 
 

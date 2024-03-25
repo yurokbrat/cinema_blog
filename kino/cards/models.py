@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.utils import timezone
 
@@ -70,6 +71,10 @@ class Card(models.Model):
         verbose_name="Постер",
     )
     is_visible = models.BooleanField(default=False, verbose_name="Публикация")
+    date_created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата создания",
+    )
 
     class Meta:
         abstract = True
@@ -125,6 +130,10 @@ class PhotoFilm(models.Model):
         blank=True,
         null=True,
     )
+    date_created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата создания",
+    )
 
     class Meta:
         verbose_name = "фотография фильма"
@@ -145,6 +154,10 @@ class PhotoSerial(models.Model):
         verbose_name="Кадры из фильма",
         blank=True,
         null=True,
+    )
+    date_created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата создания",
     )
 
     class Meta:

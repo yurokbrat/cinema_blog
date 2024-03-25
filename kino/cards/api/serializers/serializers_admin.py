@@ -13,6 +13,7 @@ class AdminBaseSerializer(BaseSerializer):
             "is_visible",
             "country",
             "genre",
+            "date_created",
         ]
 
 
