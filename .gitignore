@@ -194,6 +194,9 @@ cmake-build-debug/
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml
 
+# Sonarlint plugin:
+.idea/sonarlint/
+
 ## File-based project format:
 *.iws
 
