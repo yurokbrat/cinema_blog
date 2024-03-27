@@ -68,9 +68,9 @@ class AdminFilmFullSerializer(
             *FilmFullSerializer.Meta.fields,
             *AdminBaseSerializer.Meta.fields,
             "comments_admin",
-            "photo_film_admin",
+            "photo_admin",
         ]
-        fields.remove("photo_film")
+        fields.remove("photo")
         fields.remove("comments")
 
 
@@ -89,7 +89,7 @@ class AdminSerialFullSerializer(
             *SerialFullSerializer.Meta.fields,
             *AdminBaseSerializer.Meta.fields,
             "comments_admin",
-            "photo_serial_admin",
+            "photo_admin",
         ]
-        fields.remove("photo_serial")
+        fields.remove("photo")
         fields.remove("comments")
