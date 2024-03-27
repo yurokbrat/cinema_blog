@@ -10,11 +10,3 @@ class QualitySerializer(serializers.ModelSerializer):
             "quality",
             "video_url",
         ]
-
-
-class AdminQualitySerializer(QualitySerializer):
-    class Meta(QualitySerializer.Meta):
-        fields = [
-            *QualitySerializer.Meta.fields,
-            "date_added",
-        ]

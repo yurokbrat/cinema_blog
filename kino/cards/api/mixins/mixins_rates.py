@@ -1,4 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from kino.comments.models import Rates, Comments
@@ -9,6 +10,7 @@ class RatesMixin(serializers.Serializer):
     is_rated = serializers.SerializerMethodField()
     rating_value = serializers.SerializerMethodField()
 
+    @extend_schema_field(serializers.BooleanField)
     def get_is_rated(self, obj):
         request = self.context.get("request")
         if request.user:
@@ -18,6 +20,7 @@ class RatesMixin(serializers.Serializer):
                                         object_id=obj.pk).exists()
         return None
 
+    @extend_schema_field(serializers.BooleanField)
     def get_rating_value(self, obj):
         request = self.context.get("request")
         if request.user:
@@ -32,14 +35,21 @@ class RatesMixin(serializers.Serializer):
 
 class CommentMixin(serializers.Serializer):
     comments = serializers.SerializerMethodField()
+    comments_admin = serializers.SerializerMethodField()
 
-    def get_comments(self, obj):
+    def get_comments_base(self, serializer_class, obj):
         request = self.context.get("request")
         if request.user:
             content_type = ContentType.objects.get_for_model(obj)
             comments = Comments.objects.filter(content_type=content_type,
                                                object_id=obj.pk)
-            if request.user.is_staff:
-                return AdminCommentSerializer(comments, many=True).data
-            return CommentSerializer(comments, many=True).data
+            return serializer_class(comments, many=True).data
         return None
+
+    @extend_schema_field(AdminCommentSerializer)
+    def get_comments_admin(self, obj):
+        return self.get_comments_base(AdminCommentSerializer, obj)
+
+    @extend_schema_field(CommentSerializer)
+    def get_comments(self, obj):
+        return self.get_comments_base(CommentSerializer, obj)
