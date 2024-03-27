@@ -1,7 +1,17 @@
-from kino.cards.api.mixins import ActivityMixin, OtherMixin, RatesMixin, CommentMixin
+from kino.cards.api.mixins import (
+    ActivityMixin,
+    QualityMixin,
+    RatesMixin,
+    CommentMixin,
+    PhotoMixin,
+)
 from kino.cards.api.serializers.serializers_all import BaseSerializer
-from kino.cards.api.serializers.serializers_auth import (FilmListSerializer, SerialListSerializer,
-                                                         FilmFullSerializer, SerialFullSerializer)
+from kino.cards.api.serializers.serializers_auth import (
+    FilmListSerializer,
+    SerialListSerializer,
+    FilmFullSerializer,
+    SerialFullSerializer,
+)
 from kino.cards.models import Serial, Film
 
 
@@ -21,8 +31,6 @@ class AdminFilmListSerializer(
     AdminBaseSerializer,
     ActivityMixin,
     RatesMixin,
-    CommentMixin,
-    OtherMixin,
 ):
     class Meta(AdminBaseSerializer.Meta):
         model = Film
@@ -36,8 +44,6 @@ class AdminSerialListSerializer(
     AdminBaseSerializer,
     ActivityMixin,
     RatesMixin,
-    CommentMixin,
-    OtherMixin,
 ):
     class Meta(AdminBaseSerializer.Meta):
         model = Serial
@@ -53,14 +59,19 @@ class AdminFilmFullSerializer(
     ActivityMixin,
     RatesMixin,
     CommentMixin,
-    OtherMixin,
+    QualityMixin,
+    PhotoMixin,
 ):
     class Meta(AdminFilmListSerializer.Meta):
         model = Film
         fields = [
             *FilmFullSerializer.Meta.fields,
             *AdminBaseSerializer.Meta.fields,
+            "comments_admin",
+            "photo_film_admin",
         ]
+        fields.remove("photo_film")
+        fields.remove("comments")
 
 
 class AdminSerialFullSerializer(
@@ -69,11 +80,16 @@ class AdminSerialFullSerializer(
     ActivityMixin,
     RatesMixin,
     CommentMixin,
-    OtherMixin,
+    QualityMixin,
+    PhotoMixin,
 ):
     class Meta(AdminSerialListSerializer.Meta):
         model = Serial
         fields = [
             *SerialFullSerializer.Meta.fields,
             *AdminBaseSerializer.Meta.fields,
+            "comments_admin",
+            "photo_serial_admin",
         ]
+        fields.remove("photo_serial")
+        fields.remove("comments")
