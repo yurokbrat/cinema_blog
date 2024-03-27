@@ -20,7 +20,7 @@ class RatesMixin(serializers.Serializer):
                                         object_id=obj.pk).exists()
         return None
 
-    @extend_schema_field(serializers.BooleanField)
+    @extend_schema_field(serializers.CharField)
     def get_rating_value(self, obj):
         request = self.context.get("request")
         if request.user:
