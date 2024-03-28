@@ -54,7 +54,7 @@ class FilmFullSerializer(
         fields = [
             *FilmListSerializer.Meta.fields,
             "description",
-            "photo_film",
+            "photo",
             "trailer",
             "is_see_later",
             "rating_value",
@@ -78,7 +78,7 @@ class SerialFullSerializer(
         fields = [
             *SerialListSerializer.Meta.fields,
             "description",
-            "photo_serial",
+            "photo",
             "trailer",
             "num_seasons",
             "num_episodes",

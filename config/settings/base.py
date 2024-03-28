@@ -84,6 +84,7 @@ THIRD_PARTY_APPS = [
     "minio_storage",
     "storages",
     "silk",
+    "sorl.thumbnail",
 ]
 
 LOCAL_APPS = [
