@@ -15,7 +15,6 @@ class FilmListSerializer(
         model = Film
         fields = [
             *BaseSerializer.Meta.fields,
-            "poster",
             "year",
             "is_watched",
             "is_rated",
@@ -32,7 +31,6 @@ class SerialListSerializer(
         model = Serial
         fields = [
             *BaseSerializer.Meta.fields,
-            "poster",
             "start_year",
             "end_year",
             "is_watched",

@@ -1,6 +1,6 @@
-
 from django.db import models
 from django.utils import timezone
+from sorl.thumbnail import ImageField
 
 from kino.enums import AgeChoose
 from kino.utils.other.generate_hide_url import (
@@ -8,6 +8,7 @@ from kino.utils.other.generate_hide_url import (
     upload_to_serials,
     upload_to_films,
 )
+from kino.utils.other.thumbnail import clean_poster
 
 
 class Genre(models.Model):
@@ -65,10 +66,11 @@ class Card(models.Model):
         blank=True,
         verbose_name="Трейлер",
     )
-    poster = models.ImageField(
+    poster = ImageField(
         upload_to=upload_to_posters,
         blank=True,
         verbose_name="Постер",
+        validators=[clean_poster],
     )
     is_visible = models.BooleanField(default=False, verbose_name="Публикация")
     date_created = models.DateTimeField(

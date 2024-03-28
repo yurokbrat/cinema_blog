@@ -1,7 +1,17 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from kino.cards.models import Genre, PhotoFilm, PhotoSerial, Card
-from kino.filmcrew.serializers import CountrySerializer, FilmCrewSerializer
+from kino.cards.models import (
+    Genre,
+    PhotoFilm,
+    PhotoSerial,
+    Card,
+)
+from kino.filmcrew.serializers import (
+    CountrySerializer,
+    FilmCrewSerializer,
+)
+from kino.utils.other.thumbnail import poster_thumbnail
 
 
 # Serializers for all users
@@ -60,6 +70,7 @@ class BaseSerializer(serializers.ModelSerializer):
     country = CountrySerializer(many=True, read_only=True)
     genre = GenreSerializer(many=True, read_only=True)
     film_crew = FilmCrewSerializer(many=True, read_only=True)
+    posters = serializers.SerializerMethodField()
 
     class Meta:
         model = Card
@@ -67,9 +78,13 @@ class BaseSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "country",
-            "genre",
             "film_crew",
             "avg_rating",
             "rating_imdb",
             "age_restriction",
+            "posters",
         ]
+
+    @extend_schema_field(serializers.DictField(child=serializers.URLField()))
+    def get_posters(self, obj):
+        return poster_thumbnail(obj)
