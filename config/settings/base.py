@@ -422,3 +422,11 @@ SILKY_AUTHORISATION = True
 SILKY_PERMISSIONS = lambda user: user.is_superuser  # noqa: E731
 SILKY_META = True
 SILKY_INTERCEPT_PERCENT = env.int("SILK_PERCENT", default=0)
+
+# sorl-thumbnail
+# ------------------------
+THUMBNAIL_FORCE_OVERWRITE = True
+THUMBNAIL_FAST_URL = True
+THUMBNAIL_PREFIX = "posters/"
+THUMBNAIL_DEBUG = True
+THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'

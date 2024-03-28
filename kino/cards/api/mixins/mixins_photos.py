@@ -65,9 +65,3 @@ class PhotoMixin(serializers.Serializer):
             else "photos_serial",
             obj,
         )
-
-    @extend_schema_field(serializers.CharField(default=None))
-    def get_poster(self, obj):
-        if obj.poster:
-            return f"{settings.MEDIA_URL}{obj.poster}"
-        return None
