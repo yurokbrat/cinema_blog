@@ -2,8 +2,8 @@ from kino.cards.api.mixins import (
     ActivityMixin,
     QualityMixin,
     RatesMixin,
-    CommentMixin,
-    PhotoMixin,
+    CommentAdminMixin,
+    PhotoAdminMixin,
 )
 from kino.cards.api.serializers.serializers_all import BaseSerializer
 from kino.cards.api.serializers.serializers_auth import (
@@ -58,9 +58,9 @@ class AdminFilmFullSerializer(
     FilmFullSerializer,
     ActivityMixin,
     RatesMixin,
-    CommentMixin,
+    CommentAdminMixin,
     QualityMixin,
-    PhotoMixin,
+    PhotoAdminMixin,
 ):
     class Meta(AdminFilmListSerializer.Meta):
         model = Film
@@ -79,9 +79,9 @@ class AdminSerialFullSerializer(
     SerialFullSerializer,
     ActivityMixin,
     RatesMixin,
-    CommentMixin,
+    CommentAdminMixin,
     QualityMixin,
-    PhotoMixin,
+    PhotoAdminMixin,
 ):
     class Meta(AdminSerialListSerializer.Meta):
         model = Serial

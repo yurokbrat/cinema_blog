@@ -26,7 +26,7 @@ from kino.cards.models import Film, Serial, Genre
 
 
 # Card's ViewSet  for all users
-@extend_schema(tags=['Cards'])
+@extend_schema(tags=["Cards"])
 class CardViewSet(
     viewsets.GenericViewSet,
     mixins.ListModelMixin,
@@ -39,11 +39,17 @@ class CardViewSet(
     }
     serializer_class = FilmListGuestSerializer
 
-    @extend_schema(description="Отображение всех карточек")
+    @extend_schema(
+        description="Отображение всех карточек",
+        tags=["Cards"],
+    )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-    @extend_schema(description="Детальное отображение карточки в зависимости от её id")
+    @extend_schema(
+        description="Детальное отображение карточек",
+        tags=["Cards"],
+    )
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
 
