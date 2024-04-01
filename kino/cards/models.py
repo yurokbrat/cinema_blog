@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils import timezone
 from sorl.thumbnail import ImageField
@@ -77,6 +78,7 @@ class Card(models.Model):
         auto_now_add=True,
         verbose_name="Дата создания",
     )
+    rates = GenericRelation('comments.Rates')
 
     class Meta:
         abstract = True

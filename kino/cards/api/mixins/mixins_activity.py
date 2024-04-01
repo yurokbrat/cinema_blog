@@ -1,7 +1,8 @@
+from django.db.models import Exists, OuterRef
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from kino.cards.models import Film, Serial
+from kino.cards.models import Film
 
 
 class ActivityMixin(serializers.Serializer):
@@ -9,26 +10,53 @@ class ActivityMixin(serializers.Serializer):
     is_favorite = serializers.SerializerMethodField()
     is_see_later = serializers.SerializerMethodField()
 
-    def get_card_status(self, obj, status_type):
+    @extend_schema_field(serializers.BooleanField(default=False))
+    def get_is_watched(self, obj):
         request = self.context.get("request")
         if request.user:
             if isinstance(obj, Film):
-                status_field = f"{status_type}_films"
-            elif isinstance(obj, Serial):
-                status_field = f"{status_type}_serials"
-
-            status_queryset = getattr(request.user, status_field)
-            return status_queryset.filter(pk=obj.pk).exists()
-        return False
-
-    @extend_schema_field(serializers.BooleanField(default=False))
-    def get_is_watched(self, obj):
-        return self.get_card_status(obj, "watched")
+                return self.Meta.model.objects.annotate(
+                    is_watched=Exists(
+                        request.user.watched_films.filter(pk=OuterRef('pk'))
+                    )
+                ).values_list("is_watched", flat=True).first()
+            return self.Meta.model.objects.annotate(
+                is_watched=Exists(
+                    request.user.watched_serials.filter(pk=OuterRef('pk'))
+                )
+            ).values_list("is_watched", flat=True).first()
+        return None
 
     @extend_schema_field(serializers.BooleanField(default=False))
     def get_is_favorite(self, obj):
-        return self.get_card_status(obj, "favorite")
+        request = self.context.get("request")
+        if request.user:
+            if isinstance(obj, Film):
+                return self.Meta.model.objects.annotate(
+                    is_favorite=Exists(
+                        request.user.watched_films.filter(pk=OuterRef('pk'))
+                    )
+                ).values_list("is_favorite", flat=True).first()
+            return self.Meta.model.objects.annotate(
+                is_favorite=Exists(
+                    request.user.watched_serials.filter(pk=OuterRef('pk'))
+                )
+            ).values_list("is_favorite", flat=True).first()
+        return None
 
     @extend_schema_field(serializers.BooleanField(default=False))
     def get_is_see_later(self, obj):
-        return self.get_card_status(obj, "see_later")
+        request = self.context.get("request")
+        if request.user:
+            if isinstance(obj, Film):
+                return self.Meta.model.objects.annotate(
+                    is_see_later=Exists(
+                        request.user.see_later_films.filter(pk=OuterRef('pk'))
+                    )
+                ).values_list("is_see_later", flat=True).first()
+            return self.Meta.model.objects.annotate(
+                is_see_later=Exists(
+                    request.user.see_later_serials.filter(pk=OuterRef('pk'))
+                )
+            ).values_list("is_see_later", flat=True).first()
+        return None
