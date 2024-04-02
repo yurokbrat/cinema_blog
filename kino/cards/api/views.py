@@ -1,4 +1,3 @@
-from django.db.models import Prefetch
 from drf_spectacular.utils import extend_schema
 from rest_framework import mixins
 from rest_framework import viewsets
@@ -24,7 +23,7 @@ from kino.cards.api.serializers.serializers_guest import (
     SerialFullGuestSerializer,
 )
 from kino.cards.models import Film, Serial, Genre
-from kino.comments.models import User
+from kino.utils.other.queryset_for_model import get_queryset_for_model
 
 
 # Card's ViewSet  for all users
@@ -101,21 +100,10 @@ class CardViewSet(
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
+        user = self.request.user
         if self.basename == "films":
-            return Film.objects.prefetch_related(
-                "genre",
-                "film_crew",
-                "country",
-                "film_crew__country",
-                "rates"
-            )
-        return Serial.objects.prefetch_related(
-            "genre",
-            "film_crew",
-            "country",
-            "film_crew__country",
-            "rates"
-        )
+            return get_queryset_for_model(Film, self.basename, user)
+        return get_queryset_for_model(Serial, self.basename, user)
 
 
 # Genre's ViewSet for all users
