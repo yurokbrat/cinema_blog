@@ -15,11 +15,7 @@ from kino.cards.models import (
 )
 
 
-class PhotoMixin(serializers.Serializer):
-    photo = serializers.SerializerMethodField()
-    photo_admin = serializers.SerializerMethodField()
-    poster = serializers.SerializerMethodField()
-
+class PhotoBaseMixin(serializers.Serializer):
     def get_photo_base(
         self,
         serializer_class,
@@ -46,6 +42,10 @@ class PhotoMixin(serializers.Serializer):
             return serialized_photo_data
         return None
 
+
+class PhotoAdminMixin(PhotoBaseMixin):
+    photo_admin = serializers.SerializerMethodField()
+
     @extend_schema_field(AdminPhotoFilmSerializer)
     def get_photo_admin(self, obj):
         return self.get_photo_base(
@@ -55,6 +55,10 @@ class PhotoMixin(serializers.Serializer):
             else "photos_serial",
             obj,
         )
+
+
+class PhotoMixin(PhotoBaseMixin):
+    photo = serializers.SerializerMethodField()
 
     @extend_schema_field(PhotoFilmSerializer)
     def get_photo(self, obj):

@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from kino.cards.api.mixins import QualityMixin, RatesMixin, CommentMixin, ActivityMixin, PhotoMixin
+from kino.cards.api.mixins import (
+    QualityMixin,
+    RatesMixin,
+    CommentMixin,
+    ActivityMixin,
+    PhotoMixin,
+)
 from kino.cards.api.serializers.serializers_all import BaseSerializer
 from kino.cards.models import Film, Serial
 
