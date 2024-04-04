@@ -6,6 +6,9 @@ from kino.cards.models import Serial, Film
 
 # Serializers for guests
 class FilmListGuestSerializer(BaseSerializer):
+    """
+    Отображение списка фильмов для гостя
+    """
     class Meta(BaseSerializer.Meta):
         model = Film
         fields = [
@@ -15,6 +18,9 @@ class FilmListGuestSerializer(BaseSerializer):
 
 
 class SerialListGuestSerializer(BaseSerializer):
+    """
+    Отображение списка сериалов для гостя
+    """
     class Meta(BaseSerializer.Meta):
         model = Serial
         fields = [
@@ -25,6 +31,10 @@ class SerialListGuestSerializer(BaseSerializer):
 
 
 class FilmFullGuestSerializer(FilmListGuestSerializer):
+    """
+    Детальное отображение фильма для гостя
+    """
+
     trailer = serializers.CharField(max_length=150)
 
     class Meta(FilmListGuestSerializer.Meta):
@@ -36,6 +46,10 @@ class FilmFullGuestSerializer(FilmListGuestSerializer):
 
 
 class SerialFullGuestSerializer(SerialListGuestSerializer):
+    """
+    Детальное отображение сериала для гостя
+    """
+
     trailer = serializers.CharField(max_length=150)
 
     class Meta(SerialListGuestSerializer.Meta):

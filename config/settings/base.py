@@ -365,8 +365,9 @@ SPECTACULAR_SETTINGS = {
     'SWAGGER_UI_DIST': 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest',
     'TAGS': [
         {'name': 'Users', 'description': 'Все операции, связанные с пользователем'},
-        {'name': 'Cards', 'description': 'Все операции, связанные с карточками'},
-        {'name': 'Genres', 'description': 'Все операции, связанные с жанрами карточек'},
+        {'name': 'Films', 'description': 'Все операции, связанные с фильмами'},
+        {'name': 'Serials', 'description': 'Все операции, связанные с сериалами'},
+        {'name': 'Genres', 'description': 'Все операции, связанные с жанрами'},
     ],
 }
 # Your stuff...

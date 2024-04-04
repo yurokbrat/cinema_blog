@@ -32,6 +32,9 @@ class AdminFilmListSerializer(
     ActivityMixin,
     RatesMixin,
 ):
+    """
+    Отображение списка фильмов для администратора
+    """
     class Meta(AdminBaseSerializer.Meta):
         model = Film
         fields = [
@@ -45,6 +48,9 @@ class AdminSerialListSerializer(
     ActivityMixin,
     RatesMixin,
 ):
+    """
+    Отображение списка сериалов для администратора
+    """
     class Meta(AdminBaseSerializer.Meta):
         model = Serial
         fields = [
@@ -62,6 +68,9 @@ class AdminFilmFullSerializer(
     QualityMixin,
     PhotoAdminMixin,
 ):
+    """
+    Детальное отображение фильма для администратора
+    """
     class Meta(AdminFilmListSerializer.Meta):
         model = Film
         fields = [
@@ -83,6 +92,9 @@ class AdminSerialFullSerializer(
     QualityMixin,
     PhotoAdminMixin,
 ):
+    """
+    Детальное отображение сериала для администратора
+    """
     class Meta(AdminSerialListSerializer.Meta):
         model = Serial
         fields = [

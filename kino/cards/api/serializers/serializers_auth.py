@@ -17,6 +17,9 @@ class FilmListSerializer(
     ActivityMixin,
     RatesMixin,
 ):
+    """
+    Отображение списка фильмов для пользователя
+    """
     class Meta(BaseSerializer.Meta):
         model = Film
         fields = [
@@ -33,6 +36,9 @@ class SerialListSerializer(
     ActivityMixin,
     RatesMixin,
 ):
+    """
+    Отображение списка сериалов для пользователя
+    """
     class Meta(BaseSerializer.Meta):
         model = Serial
         fields = [
@@ -52,6 +58,10 @@ class FilmFullSerializer(
     QualityMixin,
     PhotoMixin,
 ):
+    """
+    Детальное отображение фильма для пользователя
+    """
+
     trailer = serializers.CharField(max_length=150)
 
     class Meta(FilmListSerializer.Meta):
@@ -75,6 +85,10 @@ class SerialFullSerializer(
     QualityMixin,
     PhotoMixin,
 ):
+    """
+    Детальное отображение сериала для пользователя
+    """
+
     trailer = serializers.CharField(max_length=150)
 
     class Meta(SerialListSerializer.Meta):
