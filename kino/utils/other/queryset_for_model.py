@@ -9,15 +9,16 @@ def get_queryset_for_model(model, basename, user):
     watched_field = getattr(user, f"watched_{basename}", None)
     favorite_field = getattr(user, f"favorite_{basename}", None)
     see_later_field = getattr(user, f"see_later_{basename}", None)
-    return (
-        model.objects
-        .prefetch_related(
-            "genre",
-            "film_crew",
-            "country",
-            "film_crew__country",
-        )
-        .annotate(
+
+    queryset = model.objects.prefetch_related(
+        "genre",
+        "film_crew",
+        "country",
+        "film_crew__country",
+    )
+
+    if user.is_authenticated:
+        queryset = queryset.annotate(
             is_rated=Exists(
                 Rates.objects.filter(
                     user=user,
@@ -47,5 +48,6 @@ def get_queryset_for_model(model, basename, user):
                     pk=OuterRef('pk'),
                 ),
             ),
-            )
         )
+
+    return queryset
