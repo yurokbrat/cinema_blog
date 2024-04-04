@@ -42,8 +42,8 @@ def poster_thumbnail(obj):
             quality=99,
         )
         return {
-            "low": poster_low.url,
-            "medium": poster_medium.url,
-            "high": poster_high.url,
+            "360": poster_low.url,
+            "1280": poster_medium.url,
+            "1920": poster_high.url,
         }
     return None
