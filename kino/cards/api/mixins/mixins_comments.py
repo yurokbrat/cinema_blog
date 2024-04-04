@@ -14,7 +14,7 @@ class CommentBaseMixin(serializers.Serializer):
             comments = Comments.objects.filter(
                 content_type=content_type,
                 object_id=obj.pk,
-            )
+            ).prefetch_related("user")
             return serializer_class(comments, many=True).data
         return None
 
