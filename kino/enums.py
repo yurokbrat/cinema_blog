@@ -16,11 +16,11 @@ class QualityChoose(models.TextChoices):
 
 
 class AgeChoose(models.TextChoices):
-    zero = 0, "0+"
-    six = 6, "6+"
-    twelve = 12, "12+"
-    sixteen = 16, "16+"
-    eighteen = 18, "18+"
+    zero = "0+", "0+"
+    six = "6+", "6+"
+    twelve = "12+", "12+"
+    sixteen = "16+", "16+"
+    eighteen = "18+", "18+"
 
 
 class RateChoose(models.TextChoices):

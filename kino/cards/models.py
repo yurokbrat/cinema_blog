@@ -57,8 +57,7 @@ class Card(models.Model):
     )
     age_restriction = models.CharField(
         choices=AgeChoose.choices,
-        default=0,
-        blank=True,
+        default=AgeChoose.zero,
         verbose_name="Возрастное ограничение",
     )
     trailer = models.URLField(
