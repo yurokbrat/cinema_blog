@@ -23,6 +23,7 @@ from kino.cards.api.serializers.serializers_guest import (
     SerialFullGuestSerializer,
 )
 from kino.cards.models import Film, Serial, Genre
+from kino.utils.other.queryset_for_model import get_queryset_for_model
 
 
 # Card's ViewSet  for all users
@@ -99,17 +100,10 @@ class CardViewSet(
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
+        user = self.request.user
         if self.basename == "films":
-            return (
-                Film.objects.all().
-                prefetch_related("genre", "film_crew", "country", "film_crew__country")
-            )
-        elif self.basename == "serials":  # noqa: RET505
-            return (
-                Serial.objects.all().
-                prefetch_related("genre", "film_crew", "country", "film_crew__country")
-            )
-        return None
+            return get_queryset_for_model(Film, self.basename, user)
+        return get_queryset_for_model(Serial, self.basename, user)
 
 
 # Genre's ViewSet for all users
