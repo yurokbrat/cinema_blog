@@ -21,18 +21,7 @@ def update_rating_imdb(model, card):
         imdb_rating = float(data["imdbRating"])
         info_imdb_rating = f"Connected to IMDB; rating {card.name} = {imdb_rating}"
         logging.info(info_imdb_rating)
-        if model == Film:
-            (
-                Film.objects.
-                filter(pk=card.pk).
-                update(rating_imdb=imdb_rating)
-            )
-        else:
-            (
-                Serial.objects.
-                filter(pk=card.pk).
-                update(rating_imdb=imdb_rating)
-            )
+        model.objects.filter(pk=card.pk).update(rating_imdb=imdb_rating)
     else:
         result = data["Error"]
         logging.warning(result)

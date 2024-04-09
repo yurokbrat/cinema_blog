@@ -24,7 +24,7 @@ class Genre(models.Model):
 
 
 class Country(models.Model):
-    name = models.CharField(max_length=30, verbose_name="Название")
+    name = models.CharField(max_length=80, verbose_name="Название")
 
     class Meta:
         verbose_name = "страна"
