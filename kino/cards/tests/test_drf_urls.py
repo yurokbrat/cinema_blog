@@ -1,61 +1,111 @@
-import json
-
+import factory
 import pytest
 from django.urls import reverse
-from factory.django import mute_signals
 
 from kino.cards.signals import post_save
-from kino.cards.tests.factories import FilmFactory, SerialFactory
+from kino.cards.tests.utils.base_create_api_card import BaseAPICard, EXPECTED_COUNT
 from kino.conftest import api_client, create_list_of_cards, create_one_card  # noqa: F401
 
 HTTP_200_OK = 200
 
 
 @pytest.mark.django_db()
-class TestFilmsEndpoints:
-    @mute_signals(post_save)
-    def test_films_list(self, api_client, create_list_of_cards):  # noqa: F811
+class TestFilmsEndpoints(BaseAPICard):
+    def test_films_list(self):
         """
         Тест для списка фильмов
         """
-        create_list_of_cards(FilmFactory, 15)
-        response = api_client.get(reverse("api:films-list"))
+        response = self.client.get(reverse("api:films-list"))
 
-        assert response.status_code == HTTP_200_OK
-        assert len(json.loads(response.content)['results']) == 15  # noqa: PLR2004
+        self.assertEqual(
+            response.status_code,
+            HTTP_200_OK,
+            f"Код ответа {response.status_code}, ожидалось {HTTP_200_OK}",
+        )
+        self.assertTrue(
+            response.data['results'],
+            f"В ответе нет данных: {response.data['results']}",
+        )
+        self.assertEqual(
+            len(response.data['results']),
+            EXPECTED_COUNT,
+            f"Количество фильмов = {len(response.data['results'])},"
+            f"ожидалось {EXPECTED_COUNT}")
 
-    @mute_signals(post_save)
-    def test_film_retrieve(self, api_client, create_one_card):  # noqa: F811
+    def test_film_retrieve(self):
         """
         Тест для детального отображения фильма
         """
-        film = create_one_card(FilmFactory)
-        response = api_client.get(reverse("api:films-detail", kwargs={"pk": film.pk}))
+        response = self.client.get(reverse(
+            "api:films-detail",
+            kwargs={"pk": self.test_film.pk}
+        )
+        )
 
-        assert response.status_code == HTTP_200_OK
-        assert response.data["id"] == film.pk
+        self.assertEqual(
+            response.status_code,
+            HTTP_200_OK,
+            f"Код ответа {response.status_code}, ожидалось {HTTP_200_OK}"
+        )
+        self.assertTrue(
+            response.data,
+            f"В ответе нет данных: {response.data}"
+        )
+        self.assertEqual(
+            response.data["id"],
+            self.test_film.pk,
+            f"id фильма = {response.data['id']}, "
+            f"ожидалось {self.test_film.pk}"
+        )
 
 
 @pytest.mark.django_db()
-class TestSerialsEndpoints:
-    @mute_signals(post_save)
-    def test_serials_list(self, api_client, create_list_of_cards):  # noqa: F811
+class TestSerialsEndpoints(BaseAPICard):
+    def test_serials_list(self):
         """
         Тест для списка сериалов
         """
-        create_list_of_cards(SerialFactory, 8)
-        response = api_client.get(reverse("api:serials-list"))
+        response = self.client.get(reverse("api:serials-list"))
 
-        assert response.status_code == HTTP_200_OK
-        assert len(json.loads(response.content)['results']) == 8  # noqa: PLR2004
+        self.assertEqual(
+            response.status_code,
+            HTTP_200_OK,
+            f"Код ответа {response.status_code}, ожидалось {HTTP_200_OK}"
+        )
+        self.assertTrue(
+            response.data['results'],
+            f"В ответе нет данных: {response.data['results']}"
+        )
+        self.assertEqual(
+            len(response.data['results']),
+            EXPECTED_COUNT,
+            f"Количество сериалов = {len(response.data['results'])},"
+            f"ожидалось {EXPECTED_COUNT}")
 
-    @mute_signals(post_save)
-    def test_serial_retrieve(self, api_client, create_one_card):  # noqa: F811
+    @factory.django.mute_signals(post_save)
+    def test_serial_retrieve(self):
         """
         Тест для детального отображения сериала
         """
-        serial = create_one_card(SerialFactory)
-        response = api_client.get(reverse("api:serials-detail", kwargs={"pk": serial.pk}))
+        response = self.client.get(
+            reverse(
+                "api:serials-detail",
+                kwargs={"pk": self.test_serial.pk}
+            )
+        )
 
-        assert response.status_code == HTTP_200_OK
-        assert response.data["id"] == serial.pk
+        self.assertEqual(
+            response.status_code,
+            HTTP_200_OK,
+            f"Код ответа {response.status_code}, ожидалось {HTTP_200_OK}"
+        )
+        self.assertTrue(
+            response.data,
+            f"В ответе нет данных: {response.data}"
+        )
+        self.assertEqual(
+            response.data["id"],
+            self.test_serial.pk,
+            f"id сериала = {response.data['id']}, "
+            f"ожидалось {self.test_serial.pk}"
+        )

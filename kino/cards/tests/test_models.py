@@ -1,61 +1,78 @@
-import pytest
-from factory.django import mute_signals
-
-from kino.cards.signals import post_save
-from kino.cards.tests.factories import (
-    FilmFactory,
-    SerialFactory,
-    CountryFactory,
-    GenreFactory,
-    FilmCrewFactory,
-)
+from kino.cards.tests.utils.base_create_card import BaseCard
 
 
-@pytest.mark.django_db()
-class TestCards:
-    def setup_method(self, method):
-        self.country = CountryFactory()
-        self.genre = GenreFactory()
-        self.film_crew = FilmCrewFactory()
-
-    def assert_card_properties(self, card):
+class TestCards(BaseCard):
+    def cards_current_fields(self, test_card):
         """
-        Базовые тесты для карточек
+        Базовый тест для всех карточек
         """
-        assert card.name
-        assert card.description
-        assert card.country.first().name == self.country.name
-        assert card.genre.first().name == self.genre.name
-        assert card.film_crew.first().name == self.film_crew.name
-        assert card.film_crew.first().profession == self.film_crew.profession
-        assert card.film_crew.first().birthday == self.film_crew.birthday
-        assert card.film_crew.first().country.name == self.film_crew.country.name
-
-    @mute_signals(post_save)
-    def test_create_film(self):
-        """
-        Тест для создания фильма
-        """
-        test_film = FilmFactory.create(
-            countries=[self.country],
-            genres=[self.genre],
-            film_crews=[self.film_crew],
+        self.assertIsNotNone(
+            test_card.name,
+            "Название карточки отсутствует"
         )
-        self.assert_card_properties(test_film)
-        assert test_film.year
+        self.assertIsNotNone(
+            test_card.description,
+            "Описание карточки отсутствует",
+        )
+        self.assertEqual(
+            test_card.country.first().name,
+            self.country.name,
+            "Страна не совпадает",
+        )
+        self.assertEqual(
+            test_card.genre.first().name,
+            self.genre.name,
+            "Жанр не совпадает",
+        )
+        self.assertEqual(
+            test_card.film_crew.first().name,
+            self.film_crew.name,
+            "Имя члена сьемочной группы не совпадает",
+        )
+        self.assertEqual(
+            test_card.film_crew.first().profession,
+            self.film_crew.profession,
+            "Профессия члена съемочной группы не совпадает",
+        )
+        self.assertEqual(
+            test_card.film_crew.first().birthday,
+            self.film_crew.birthday,
+            "Дата рождения члена съемочной группы не совпадает",
+        )
+        self.assertEqual(
+            test_card.film_crew.first().country.name,
+            self.film_crew.country.name,
+            "Страна члена съемочной группы не совпадает",
+        )
 
-    @mute_signals(post_save)
-    def test_create_serial(self):
+    def test_fields_film(self):
+        """
+        Тест создания фильма
+        """
+        self.cards_current_fields(self.test_film)
+        self.assertIsNotNone(
+            self.test_film.year,
+            "Год выхода карточки отсутствует",
+        )
+
+    def test_fields_serial(self):
         """
         Тест создания сериала
         """
-        test_serial = SerialFactory.create(
-            countries=[self.country],
-            genres=[self.genre],
-            film_crews=[self.film_crew],
+        self.cards_current_fields(self.test_serial)
+        self.assertIsNotNone(
+            self.test_serial.start_year,
+            "Год выхода сериала отутствует",
         )
-        self.assert_card_properties(test_serial)
-        assert test_serial.start_year
-        assert test_serial.end_year
-        assert test_serial.num_seasons
-        assert test_serial.num_episodes
+        self.assertIsNotNone(
+            self.test_serial.end_year,
+            "Год окончания сериала отутствует",
+        )
+        self.assertIsNotNone(
+            self.test_serial.num_seasons,
+            "Количество сезонов отутствует",
+        )
+        self.assertIsNotNone(
+            self.test_serial.num_episodes,
+            "Количество эпизодов отутствует",
+        )

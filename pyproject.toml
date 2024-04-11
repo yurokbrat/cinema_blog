@@ -149,6 +149,7 @@ ignore = [
     "RUF003",  # Comment contains ambiguous
     "I001", # Import block is un-sorted or un-formatted
     "Q000", # Single quotes found but double quotes preferred
+    "PT009",
 ]
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
