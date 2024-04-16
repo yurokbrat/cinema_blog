@@ -1,4 +1,4 @@
-from kino.cards.tests.utils.base_create_card import BaseCard
+from kino.cards.tests.utils.base_card import BaseCard
 
 
 class TestCards(BaseCard):
@@ -8,7 +8,7 @@ class TestCards(BaseCard):
         """
         self.assertIsNotNone(
             test_card.name,
-            "Название карточки отсутствует"
+            "Название карточки отсутствует",
         )
         self.assertIsNotNone(
             test_card.description,

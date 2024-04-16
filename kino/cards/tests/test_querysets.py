@@ -1,5 +1,4 @@
 import pytest
-from django.urls import reverse
 
 from kino.cards.api.serializers.serializers_admin import (
     AdminFilmListSerializer,
@@ -13,7 +12,7 @@ from kino.cards.api.serializers.serializers_guest import (
     FilmListGuestSerializer,
     FilmFullGuestSerializer,
 )
-from kino.cards.tests.utils.base_create_api_card import BaseAPICard
+from kino.cards.tests.utils.base_check_fields import BaseCheckFields
 
 FIELDS_ADMIN_DETAIL = [
     "comments_admin",
@@ -33,27 +32,7 @@ FIELDS_GUEST_LIST = [*FilmListGuestSerializer.Meta.fields]
 
 
 @pytest.mark.django_db()
-class TestFilmViewSet(BaseAPICard):
-
-    def _response_list(self, card, user=None):
-        if user:
-            self.client.force_authenticate(user=user)
-        return self.client.get(
-            reverse(
-                "api:films-list",
-            ),
-        )
-
-    def _response_detail(self, card, user=None):
-        if user:
-            self.client.force_authenticate(user=user)
-        return self.client.get(
-            reverse(
-                "api:films-detail",
-                kwargs={"pk": card.pk},
-            ),
-        )
-
+class TestFilmViewSet(BaseCheckFields):
     def test_detail_fields_for_admin(self):
         response = self._response_detail(self.test_film, self.admin)
         self.check_fields_in_detail(FIELDS_ADMIN_DETAIL, response)

@@ -1,62 +1,69 @@
 import pytest
 
-from kino.cards.tests.utils.base_create_card import BaseCard
-from kino.comments.tests.get_rating_imdb import mock_api_to_imdb
-
-RATING_DEFAULT = 0.0
-RATING_100 = 100.0
-RATING_50 = 50.0
+from kino.comments.tests.utils.base_ratings import BaseRatingCard
 
 
 @pytest.mark.django_db()
-class TestRating(BaseCard):
-    def test_update_imdb_rating(self):
+class TestRatingsFilm(BaseRatingCard):
+    def test_film_default_imdb_rating(self):
+        self.default_imdb_rating(self.test_film)
+
+    def test_film_update_imdb_rating(self):
         """
         Тестирование обновления рейтинга IMDb для фильма
         """
-        self.test_film.id_imdb = "tt0111161"
-        self.test_film.save()
-        expected_rating = mock_api_to_imdb("tt0111161")
+        self.update_imdb_rating(self.test_film)
 
-        self.assertEqual(
-            self.test_film.rating_imdb,
-            RATING_DEFAULT,
-            f"\nРейтинг до выполнения сигнала равен {self.test_film.rating_imdb}."
-            f"\nОжидалось: {RATING_DEFAULT}.",
-        )
-        self.test_film.refresh_from_db()
-        self.assertEqual(
-            self.test_film.rating_imdb,
-            expected_rating,
-            f"Рейтинг после выполнения сигнала равен {self.test_film.rating_imdb}."
-            f"Ожидалось: {expected_rating}.",
-        )
-
-    def test_avg_rating(self):
+    @pytest.mark.run(order=1)
+    def test_film_default_avg_rating(self):
         """
-         Тест обновления среднего рейтинга фильма после оценок от пользователей
+        Тест стандартного среднего рейтинга для фильма
         """
-        self.assertEqual(
-            self.test_film.avg_rating,
-            RATING_DEFAULT,
-            f"Рейтинг до оценки от пользователя равен {self.test_film.avg_rating}. "
-            f"Ожидалось: {RATING_DEFAULT}",
-        )
+        self.check_avg_rating(self.test_film)
 
-        self.add_new_rate(self.test_film, self.original_user, 1)
+    @pytest.mark.run(order=2)
+    def test_film_update_avg_rating_after_like(self):
+        """
+        Тест обновления среднего рейтинга фильма после лайка
+        """
+        self.update_avg_rating_after_like(self.test_film)
 
-        self.assertEqual(
-            self.test_film.avg_rating,
-            RATING_100,
-            f" Рейтинг после лайка равен {self.test_film.avg_rating}. "
-            f"Ожидалось: {RATING_100}.",
-        )
+    @pytest.mark.run(order=3)
+    def test_film_update_avg_rating_after_dislike(self):
+        """
+        Тест обновления среднего рейтинга фильма после дизлайка
+        """
+        self.update_avg_rating_after_dislike(self.test_film)
 
-        self.add_new_rate(self.test_film, self.other_user, -1)
 
-        self.assertEqual(
-            self.test_film.avg_rating,
-            RATING_50,
-            f" Рейтинг после дизлайка равен {self.test_film.avg_rating}. "
-            f"Ожидалось: {RATING_50}.",
-        )
+@pytest.mark.django_db()
+class TestRatingsSerial(BaseRatingCard):
+    def test_serial_default_imdb_rating(self):
+        self.default_imdb_rating(self.test_serial)
+
+    def test_serial_update_imdb_rating(self):
+        """
+        Тестирование обновления рейтинга IMDb для фильма
+        """
+        self.update_imdb_rating(self.test_serial)
+
+    @pytest.mark.run(order=1)
+    def test_serial_default_avg_rating(self):
+        """
+        Тест стандартного среднего рейтинга для фильма
+        """
+        self.check_avg_rating(self.test_serial)
+
+    @pytest.mark.run(order=2)
+    def test_serial_update_avg_rating_after_like(self):
+        """
+        Тест обновления среднего рейтинга сериала после лайка
+        """
+        self.update_avg_rating_after_like(self.test_serial)
+
+    @pytest.mark.run(order=3)
+    def test_serial_update_avg_rating_after_dislike(self):
+        """
+        Тест обновления среднего рейтинга сериала после дизлайка
+        """
+        self.update_avg_rating_after_dislike(self.test_serial)

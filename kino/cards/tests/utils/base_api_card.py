@@ -1,5 +1,6 @@
 import factory
 import pytest
+from django.urls import reverse
 from rest_framework.test import APITestCase
 
 from kino.cards.signals import post_save
@@ -49,30 +50,34 @@ class BaseAPICard(APITestCase):
         cls.admin = UserFactory(is_staff=True)
         cls.original_user = UserFactory(is_staff=False)
 
-    def check_fields_in_detail(self, fields, response):
-        for field in fields:
-            self.assertIn(
-                field,
-                response.data,
-                f"В ответе отсутствует поле '{field}'",
+    def _response_list(self, card, user=None):
+        if user:
+            self.client.force_authenticate(user=user)
+        if card == self.test_film:
+            return self.client.get(
+                reverse(
+                    "api:films-list",
+                ),
             )
+        return self.client.get(
+            reverse(
+                "api:serials-list",
+            ),
+        )
 
-    def check_fields_in_list(self, fields, response):
-        for result in response.data["results"]:
-            for field in fields:
-                self.assertIn(
-                    field,
-                    result,
-                    f"В ответе отсутствует поле '{field}'",
-                )
-
-    def check_list_fields_is_not_retrieve_fields(self, fields_detail, fields_list, response):
-        for result in response.data["results"]:
-            for field in fields_detail:
-                if field not in fields_list:
-                    self.assertNotIn(
-                        field,
-                        result,
-                        f"В отображении списка фильмов"
-                        f"присутствует поле для детального отображения: '{field}'",
-                    )
+    def _response_detail(self, card, user=None):
+        if user:
+            self.client.force_authenticate(user=user)
+        if card == self.test_film:
+            return self.client.get(
+                reverse(
+                    "api:films-detail",
+                    kwargs={"pk": card.pk},
+                ),
+            )
+        return self.client.get(
+            reverse(
+                "api:serials-detail",
+                kwargs={"pk": card.pk},
+            ),
+        )

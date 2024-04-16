@@ -1,4 +1,4 @@
-from django.contrib.contenttypes.models import ContentType
+import pytest
 from django.test import TestCase
 
 from kino.cards.tests.factories import (
@@ -8,10 +8,10 @@ from kino.cards.tests.factories import (
     FilmFactory,
     SerialFactory,
 )
-from kino.comments.tests.factories import RatesFactory, CommentsFactory
 from kino.users.tests.factories import UserFactory
 
 
+@pytest.mark.django_db()
 class BaseCard(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -30,26 +30,3 @@ class BaseCard(TestCase):
             film_crews=[cls.film_crew],
         )
         cls.original_user = UserFactory(is_staff=False)
-        cls.other_user = UserFactory(is_staff=False)
-
-    @staticmethod
-    def add_new_rate(card, user, value):
-        RatesFactory.create(
-            content_type=ContentType.objects.get_for_model(card),
-            object_id=card.pk,
-            user=user,
-            value=value,
-        )
-
-        card.refresh_from_db()
-
-    @staticmethod
-    def add_new_comment(card, user, value):
-        CommentsFactory.create(
-            content_type=ContentType.objects.get_for_model(card),
-            object_id=card.pk,
-            user=user,
-
-        )
-
-        card.refresh_from_db()
