@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
+from wagtail.admin import urls as wagtailadmin_urls
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -18,12 +19,15 @@ urlpatterns = [
         name="about",
     ),
     # Django Admin, use {% url 'admin:index' %}
-    path(settings.ADMIN_URL, admin.site.urls),
+    path(settings.DJANGO_ADMIN_URL, admin.site.urls),
+    # Wagtail Admin
+    path(settings.WAGTAIL_ADMIN_URL, include(wagtailadmin_urls)),
     # User management
     path("users/", include("kino.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Silk
     path('silk/', include('silk.urls', namespace='silk')),
+
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

@@ -87,16 +87,36 @@ THIRD_PARTY_APPS = [
     "sorl.thumbnail",
 ]
 
+# Wagtail apps
+WAGTAIL = [
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtail_modeladmin",
+    "wagtail",
+    "wagtail.api.v2",
+    "modelcluster",
+    "taggit",
+]
+
 LOCAL_APPS = [
     "kino.users",
     "kino.cards",
     "kino.comments",
     "kino.filmcrew",
     "kino.video",
+    "kino.blog",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + WAGTAIL + LOCAL_APPS
 
 # MIGRATIONS
 # ------------------------------------------------------------------------------
@@ -153,6 +173,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "silk.middleware.SilkyMiddleware",
+    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
 # STATIC
@@ -236,7 +257,8 @@ EMAIL_TIMEOUT = 5
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL.
-ADMIN_URL = "admin/"
+DJANGO_ADMIN_URL = "admin/"
+WAGTAIL_ADMIN_URL = "blog-admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [("""Daniel Roy Greenfeld""", "daniel-roy-greenfeld@example.com")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -404,6 +426,7 @@ AWS_S3_MAX_MEMORY_SIZE = env.int(
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#cloudfront
 AWS_S3_ENDPOINT_URL = env("AWS_S3_CUSTOM_DOMAIN", default=None)
+AWS_S3_FILE_OVERWRITE = False
 # MEDIA
 # ------------------------
 STORAGES = {
@@ -431,3 +454,8 @@ THUMBNAIL_FAST_URL = True
 THUMBNAIL_PREFIX = "posters/"
 THUMBNAIL_DEBUG = True
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
+
+# Wagtail
+# ------------------------
+WAGTAIL_SITE_NAME = "kino"
+WAGTAILADMIN_BASE_URL = "https://kino_blog"
