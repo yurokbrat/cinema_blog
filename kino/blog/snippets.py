@@ -6,10 +6,8 @@ from kino.cards.models import Film, Serial, PhotoFilm, PhotoSerial
 DEFAULT_PANELS = [
     FieldPanel("name", read_only=True),
     FieldPanel("poster", read_only=True),
-    FieldPanel("description", read_only=True),
     FieldPanel("country", read_only=True),
     FieldPanel("genre", read_only=True),
-    FieldPanel("trailer", read_only=True),
 ]
 
 
@@ -22,6 +20,8 @@ class FilmBlog(Film):
 
     panels = [
         *DEFAULT_PANELS,
+        FieldPanel("description", read_only=True),
+        FieldPanel("trailer", read_only=True),
         FieldPanel("year", read_only=True),
     ]
 
@@ -35,30 +35,46 @@ class SerialBlog(Serial):
 
     panels = [
         *DEFAULT_PANELS,
+        FieldPanel("description", read_only=True),
+        FieldPanel("trailer", read_only=True),
         FieldPanel("start_year", read_only=True),
         FieldPanel("end_year", read_only=True),
     ]
 
 
-@register_snippet
-class PhotoFilmBlog(PhotoFilm):
+class FilmShortBlog(FilmBlog):
     class Meta:
-        verbose_name = "Кадр из фильма"
-        verbose_name_plural = "Кадры из фильмов"
         proxy = True
 
-    panel = [
-        FieldPanel("photo_film", read_only=True),
+    panels = [
+        *DEFAULT_PANELS,
     ]
 
 
-@register_snippet
-class PhotoSerialBlog(PhotoSerial):
+class SerialShortBlog(SerialBlog):
     class Meta:
-        verbose_name = "Кадр из сериала"
-        verbose_name_plural = "Кадры из сериалов"
         proxy = True
 
-    panel = [
-        FieldPanel("photo_serial", read_only=True),
+    panels = [
+        *DEFAULT_PANELS,
+    ]
+
+
+class FilmFullBlog(FilmBlog):
+    class Meta:
+        proxy = True
+
+    panels = [
+        *FilmBlog.panels,
+        FieldPanel(PhotoFilm.photo_film, read_only=True),
+    ]
+
+
+class SerialFullBlog(SerialBlog):
+    class Meta:
+        proxy = True
+
+    panels = [
+        *SerialBlog.panels,
+        FieldPanel(PhotoSerial.photo_serial, read_only=True),
     ]

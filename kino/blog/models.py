@@ -1,8 +1,9 @@
+from django import forms
 from django.db import models
 from modelcluster.contrib.taggit import ClusterTaggableManager
-from modelcluster.fields import ParentalKey
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import TaggedItemBase
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.blocks import RichTextBlock
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images.blocks import ImageChooserBlock
@@ -10,11 +11,14 @@ from wagtail.models import Page
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 
+from kino.blog.authors import Author
 from kino.blog.snippets import (
     FilmBlog,
     SerialBlog,
-    PhotoFilmBlog,
-    PhotoSerialBlog,
+    FilmShortBlog,
+    FilmFullBlog,
+    SerialFullBlog,
+    SerialShortBlog,
 )
 
 
@@ -53,6 +57,7 @@ class BlogIndexPage(Page):
 class BlogPage(Page):
     date = models.DateField("Дата публикации")
     intro = models.CharField(max_length=250, verbose_name="Заголовок")
+    authors = ParentalManyToManyField(Author, blank=True, verbose_name="Авторы")
     body = StreamField(
         [
             ("text", RichTextBlock(label="Текст блога")),
@@ -64,7 +69,19 @@ class BlogPage(Page):
                 FilmBlog,
                 label="Фильм",
                 required=False,
-                help_text="Укажите фильм",
+                help_text="Укажите фильм с описанием и трейлером",
+            )),
+            ("film_short", SnippetChooserBlock(
+                FilmShortBlog,
+                label="Сериал с краткой информацией",
+                required=False,
+                help_text="Укажите фильм с краткой информацией",
+            )),
+            ("film_full", SnippetChooserBlock(
+                FilmFullBlog,
+                label="Фильм с кадрами",
+                required=False,
+                help_text="Укажите фильм с кадрами",
             )),
             ("serial", SnippetChooserBlock(
                 SerialBlog,
@@ -72,22 +89,22 @@ class BlogPage(Page):
                 required=False,
                 help_text="Укажите сериал",
             )),
-            ("photo_film", SnippetChooserBlock(
-                PhotoFilmBlog,
-                label="Кадр из фильма",
+            ("serial_short", SnippetChooserBlock(
+                SerialShortBlog,
+                label="Сериал с краткой информацией",
                 required=False,
-                help_text="Укажите кадр из фильма",
+                help_text="Укажите сериал с краткой информацией",
             )),
-            ("photo_serial", SnippetChooserBlock(
-                PhotoSerialBlog,
-                label="Кадр из сериала",
+            ("serial_full", SnippetChooserBlock(
+                SerialFullBlog,
+                label="Сериал с кадрами",
                 required=False,
-                help_text="Укажите кадр из сериала",
-                template="kino/blog/templates/photo_serial_blog.html",
+                help_text="Укажите сериал с кадрами",
             )),
         ],
         blank=True,
         verbose_name="Основная часть",
+        use_json_field=True,
     )
     tags = ClusterTaggableManager(
         through=BlogPageTag,
@@ -107,7 +124,10 @@ class BlogPage(Page):
 
     content_panels = [
         *Page.content_panels,
-        FieldPanel("date"),
+        MultiFieldPanel([
+            FieldPanel("date"),
+            FieldPanel("authors", widget=forms.CheckboxSelectMultiple),
+        ], heading="Информация о блоге"),
         FieldPanel("intro"),
         FieldPanel("body"),
         FieldPanel("tags"),

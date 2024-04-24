@@ -1,6 +1,6 @@
 from rest_framework import viewsets, mixins
 
-from kino.blog.api.serializers.serializers_blog import BlogListSerializer, BlogFullSerializer
+from kino.blog.api.serializers.blog_serializers import BlogListSerializer, BlogFullSerializer
 from kino.blog.models import BlogPage
 
 

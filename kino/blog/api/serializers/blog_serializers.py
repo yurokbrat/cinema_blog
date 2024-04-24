@@ -1,23 +1,14 @@
 from rest_framework import serializers
 
-from kino.blog.api.serializers.serializers_stream_field import StreamFieldSerializer
-from kino.blog.models import BlogPageTag, BlogPage
-
-
-class TagsSerializers(serializers.ModelSerializer):
-    id = serializers.IntegerField(source="tag.id")
-    name = serializers.CharField(source="tag.name")
-
-    class Meta:
-        model = BlogPageTag
-        fields = [
-            "id",
-            "name",
-        ]
+from kino.blog.api.serializers.author_serializers import AuthorsSerializer
+from kino.blog.api.serializers.stream_field_serializers import StreamFieldSerializer
+from kino.blog.api.serializers.tags_serializer import TagsSerializer
+from kino.blog.models import BlogPage
 
 
 class BlogListSerializer(serializers.ModelSerializer):
-    tags = TagsSerializers(source="tagged_items", many=True)
+    tags = TagsSerializer(source="tagged_items", many=True)
+    authors = AuthorsSerializer(many=True)
 
     class Meta:
         model = BlogPage
@@ -25,6 +16,7 @@ class BlogListSerializer(serializers.ModelSerializer):
             "id",
             "date",
             "intro",
+            "authors",
             "tags",
         ]
 
