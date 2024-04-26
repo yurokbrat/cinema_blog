@@ -110,18 +110,6 @@ class Migration(migrations.Migration):
                                 ),
                                 ("film_2", wagtail.blocks.RichTextBlock("фильм 2")),
                                 ("film_3", wagtail.blocks.RichTextBlock("фильм 3")),
-                                (
-                                    "photo_films",
-                                    wagtail.blocks.ListBlock(
-                                        wagtail.snippets.blocks.SnippetChooserBlock(
-                                            kino.blog.snippets.PhotoFilmBlog,
-                                            help_text="Укажите кадр из фильма",
-                                            label="Кадр из фильма",
-                                        ),
-                                        label="Кадры из фильма",
-                                        required=False,
-                                    ),
-                                ),
                             ],
                             help_text="Выберите вариант отображения фильма",
                             label="Фильмы",
@@ -135,22 +123,6 @@ class Migration(migrations.Migration):
                             help_text="Укажите сериал",
                             label="Сериал",
                             required=False,
-                        ),
-                    ),
-                    (
-                        "photo_film",
-                        wagtail.snippets.blocks.SnippetChooserBlock(
-                            kino.blog.snippets.PhotoFilmBlog,
-                            help_text="Укажите кадр из фильма",
-                            label="Кадр из фильма",
-                        ),
-                    ),
-                    (
-                        "photo_serial",
-                        wagtail.snippets.blocks.SnippetChooserBlock(
-                            kino.blog.snippets.PhotoSerialBlog,
-                            help_text="Укажите кадр из сериала",
-                            label="Кадр из сериала",
                         ),
                     ),
                 ],

@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
             name="poster",
         ),
         migrations.CreateModel(
-            name="FilmBlog",
+            name="FilmDefaultBlog",
             fields=[
                 (
                     "cardblog_ptr",
@@ -124,7 +124,7 @@ class Migration(migrations.Migration):
             bases=("blog.cardblog",),
         ),
         migrations.CreateModel(
-            name="SerialBlog",
+            name="SerialDefaultBlog",
             fields=[
                 (
                     "cardblog_ptr",
@@ -156,19 +156,5 @@ class Migration(migrations.Migration):
                 "abstract": False,
             },
             bases=("blog.cardblog",),
-        ),
-        migrations.AddField(
-            model_name="blogpage",
-            name="serial",
-            field=modelcluster.fields.ParentalManyToManyField(
-                blank=True, to="blog.serialblog"
-            ),
-        ),
-        migrations.AlterField(
-            model_name="blogpage",
-            name="film",
-            field=modelcluster.fields.ParentalManyToManyField(
-                blank=True, to="blog.filmblog"
-            ),
         ),
     ]

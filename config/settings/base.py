@@ -459,3 +459,4 @@ THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
 # ------------------------
 WAGTAIL_SITE_NAME = "kino"
 WAGTAILADMIN_BASE_URL = "https://kino_blog"
+WAGTAILIMAGES_IMAGE_MODEL = "blog.CustomImage"

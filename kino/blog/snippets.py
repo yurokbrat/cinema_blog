@@ -8,6 +8,8 @@ DEFAULT_PANELS = [
     FieldPanel("poster", read_only=True),
     FieldPanel("country", read_only=True),
     FieldPanel("genre", read_only=True),
+    FieldPanel("description", read_only=True),
+    FieldPanel("trailer", read_only=True),
 ]
 
 
@@ -20,9 +22,8 @@ class FilmBlog(Film):
 
     panels = [
         *DEFAULT_PANELS,
-        FieldPanel("description", read_only=True),
-        FieldPanel("trailer", read_only=True),
         FieldPanel("year", read_only=True),
+        FieldPanel(PhotoFilm.photo_film, read_only=True),
     ]
 
 
@@ -35,46 +36,7 @@ class SerialBlog(Serial):
 
     panels = [
         *DEFAULT_PANELS,
-        FieldPanel("description", read_only=True),
-        FieldPanel("trailer", read_only=True),
         FieldPanel("start_year", read_only=True),
         FieldPanel("end_year", read_only=True),
-    ]
-
-
-class FilmShortBlog(FilmBlog):
-    class Meta:
-        proxy = True
-
-    panels = [
-        *DEFAULT_PANELS,
-    ]
-
-
-class SerialShortBlog(SerialBlog):
-    class Meta:
-        proxy = True
-
-    panels = [
-        *DEFAULT_PANELS,
-    ]
-
-
-class FilmFullBlog(FilmBlog):
-    class Meta:
-        proxy = True
-
-    panels = [
-        *FilmBlog.panels,
-        FieldPanel(PhotoFilm.photo_film, read_only=True),
-    ]
-
-
-class SerialFullBlog(SerialBlog):
-    class Meta:
-        proxy = True
-
-    panels = [
-        *SerialBlog.panels,
         FieldPanel(PhotoSerial.photo_serial, read_only=True),
     ]

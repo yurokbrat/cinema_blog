@@ -57,16 +57,8 @@ class Migration(migrations.Migration):
             model_name="cardblog",
             name="genre",
         ),
-        migrations.RemoveField(
-            model_name="filmblog",
-            name="cardblog_ptr",
-        ),
-        migrations.RemoveField(
-            model_name="serialblog",
-            name="cardblog_ptr",
-        ),
         migrations.CreateModel(
-            name="PhotoFilmBlog",
+            name="PhotoFilmDefaultBlog",
             fields=[],
             options={
                 "verbose_name": "Кадр из фильма",
@@ -92,10 +84,6 @@ class Migration(migrations.Migration):
         migrations.RemoveField(
             model_name="blogpage",
             name="film",
-        ),
-        migrations.RemoveField(
-            model_name="blogpage",
-            name="serial",
         ),
         migrations.AlterField(
             model_name="blogpage",
@@ -127,22 +115,6 @@ class Migration(migrations.Migration):
                             required=False,
                         ),
                     ),
-                    (
-                        "photo_film",
-                        wagtail.snippets.blocks.SnippetChooserBlock(
-                            kino.blog.snippets.PhotoFilmBlog,
-                            help_text="Укажите кадр из фильма",
-                            label="Кадр из фильма",
-                        ),
-                    ),
-                    (
-                        "photo_serial",
-                        wagtail.snippets.blocks.SnippetChooserBlock(
-                            kino.blog.snippets.PhotoSerialBlog,
-                            help_text="Укажите кадр из сериала",
-                            label="Кадр из сериала",
-                        ),
-                    ),
                 ],
                 blank=True,
                 verbose_name="Основная часть",
@@ -155,10 +127,10 @@ class Migration(migrations.Migration):
             name="CardBlog",
         ),
         migrations.DeleteModel(
-            name="FilmBlog",
+            name="FilmDefaultBlog",
         ),
         migrations.DeleteModel(
-            name="SerialBlog",
+            name="SerialDefaultBlog",
         ),
         migrations.AddField(
             model_name="blogpage",
@@ -168,7 +140,7 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.CreateModel(
-            name="FilmBlog",
+            name="FilmDefaultBlog",
             fields=[],
             options={
                 "verbose_name": "фильм",
@@ -180,7 +152,7 @@ class Migration(migrations.Migration):
             bases=("cards.film",),
         ),
         migrations.CreateModel(
-            name="SerialBlog",
+            name="SerialDefaultBlog",
             fields=[],
             options={
                 "verbose_name": "сериал",

@@ -15,50 +15,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name="FilmFullBlog",
-            fields=[],
-            options={
-                "proxy": True,
-                "indexes": [],
-                "constraints": [],
-            },
-            bases=("blog.filmblog",),
-        ),
-        migrations.CreateModel(
-            name="FilmShortBlog",
-            fields=[],
-            options={
-                "proxy": True,
-                "indexes": [],
-                "constraints": [],
-            },
-            bases=("blog.filmblog",),
-        ),
-        migrations.CreateModel(
-            name="SerialFullBlog",
-            fields=[],
-            options={
-                "proxy": True,
-                "indexes": [],
-                "constraints": [],
-            },
-            bases=("blog.serialblog",),
-        ),
-        migrations.CreateModel(
-            name="SerialShortBlog",
-            fields=[],
-            options={
-                "proxy": True,
-                "indexes": [],
-                "constraints": [],
-            },
-            bases=("blog.serialblog",),
-        ),
-        migrations.RemoveField(
-            model_name="author",
-            name="work_experience",
-        ),
         migrations.AlterField(
             model_name="blogpage",
             name="body",
@@ -81,24 +37,6 @@ class Migration(migrations.Migration):
                         ),
                     ),
                     (
-                        "film_short",
-                        wagtail.snippets.blocks.SnippetChooserBlock(
-                            kino.blog.snippets.FilmShortBlog,
-                            help_text="Укажите фильм с краткой информацией",
-                            label="Фильм(кратко)",
-                            required=False,
-                        ),
-                    ),
-                    (
-                        "film_full",
-                        wagtail.snippets.blocks.SnippetChooserBlock(
-                            kino.blog.snippets.FilmFullBlog,
-                            help_text="Укажите фильм с кадрами",
-                            label="Фильм(с кадрами)",
-                            required=False,
-                        ),
-                    ),
-                    (
                         "serial",
                         wagtail.snippets.blocks.SnippetChooserBlock(
                             kino.blog.snippets.SerialBlog,
@@ -106,23 +44,7 @@ class Migration(migrations.Migration):
                             label="Сериал",
                             required=False,
                         ),
-                    ),
-                    (
-                        "photo_film",
-                        wagtail.snippets.blocks.SnippetChooserBlock(
-                            kino.blog.snippets.PhotoFilmBlog,
-                            help_text="Укажите кадр из фильма",
-                            label="Кадр из фильма",
-                        ),
-                    ),
-                    (
-                        "photo_serial",
-                        wagtail.snippets.blocks.SnippetChooserBlock(
-                            kino.blog.snippets.PhotoSerialBlog,
-                            help_text="Укажите кадр из сериала",
-                            label="Кадр из сериала",
-                        ),
-                    ),
+                    )
                 ],
                 blank=True,
                 verbose_name="Основная часть",
