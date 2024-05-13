@@ -94,7 +94,7 @@ class FilmViewSet(BaseCardViewSet):
         return super().retrieve(request, *args, **kwargs)
 
     def get_queryset(self):
-        return get_queryset_for_model(Film, self.basename, self.request.user)
+        return get_queryset_for_model(Film, "films", self.request)
 
 
 class SerialViewSet(BaseCardViewSet):
@@ -128,7 +128,7 @@ class SerialViewSet(BaseCardViewSet):
         return super().retrieve(request, *args, **kwargs)
 
     def get_queryset(self):
-        return get_queryset_for_model(Serial, self.basename, self.request.user)
+        return get_queryset_for_model(Serial, "serials", self.request.user)
 
 
 # Genre's ViewSet for all users

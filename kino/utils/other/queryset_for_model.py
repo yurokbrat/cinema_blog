@@ -2,13 +2,11 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import Exists, OuterRef, Subquery
 
 from kino.comments.models import Rates
+from kino.users.models import User
 
 
-def get_queryset_for_model(model, basename, user):
+def get_queryset_for_model(model, basename, request):
     content_type = ContentType.objects.get_for_model(model)
-    watched_field = getattr(user, f"watched_{basename}", None)
-    favorite_field = getattr(user, f"favorite_{basename}", None)
-    see_later_field = getattr(user, f"see_later_{basename}", None)
 
     queryset = model.objects.prefetch_related(
         "genre",
@@ -17,18 +15,22 @@ def get_queryset_for_model(model, basename, user):
         "film_crew__country",
     )
 
-    if user.is_authenticated:
+    if hasattr(request, 'user') and isinstance(request.user, User) and request.user.is_authenticated:
+        watched_field = getattr(request.user, f"watched_{basename}", None)
+        favorite_field = getattr(request.user, f"favorite_{basename}", None)
+        see_later_field = getattr(request.user, f"see_later_{basename}", None)
+
         queryset = queryset.annotate(
             is_rated=Exists(
                 Rates.objects.filter(
-                    user=user,
+                    user=request.user,
                     content_type=content_type,
                     object_id=OuterRef("pk"),
                 ),
             ),
             rating_value=Subquery(
                 Rates.objects.filter(
-                    user=user,
+                    user=request.user,
                     content_type=content_type,
                     object_id=OuterRef("pk"),
                 ).values_list("value")[:1],
@@ -49,5 +51,4 @@ def get_queryset_for_model(model, basename, user):
                 ),
             ),
         )
-
     return queryset

@@ -38,11 +38,10 @@ def download_video(media_id):
                 media,
                 destination_path,
             )
-            encode_video.delay(video_path, media_id, task.id)
         else:
             video_path = media.source_link
             logging.info("Start work with video from local machine")
-            encode_video.delay(video_path, media_id)
+        encode_video.delay(video_path, media_id, task.id)
     except Exception:
         task.status = StatusChoose.failed
         task.save()
