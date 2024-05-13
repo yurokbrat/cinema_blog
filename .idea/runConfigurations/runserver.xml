@@ -17,6 +17,7 @@
       <env name="IMDB_API" value="https://www.omdbapi.com/?apikey=a01fdf9d&amp;i=" />
       <env name="PATH_TO_MEDIA" value="E:\work\study\project\kino\kino\media" />
       <env name="PYTHONUNBUFFERED" value="1" />
+      <env name="USE_DOCKER" value="NO" />
     </envs>
     <option name="SDK_HOME" value="" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
