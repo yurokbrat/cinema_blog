@@ -64,6 +64,7 @@ class CustomImageBlock(blocks.StructBlock):
         images = []
         for image in value["image"]:
             photo = {
+                "id": image.id,
                 "image": ImageRenditionField("max-1920x1080|format-jpeg").to_representation(image),
                 "image_tags": [
                     {"id": tag.id, "name": tag.name}

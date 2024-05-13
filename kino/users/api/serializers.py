@@ -7,11 +7,15 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer[UserType]):
+    date_joined = serializers.DateTimeField(format="%Y-%m-%d")
+
     class Meta:
         model = User
         fields = [
             "id",
             "username",
+            "email",
+            "date_joined",
         ]
 
         extra_kwargs = {

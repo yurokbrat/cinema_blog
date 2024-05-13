@@ -36,7 +36,7 @@ class PhotoBaseMixin(serializers.Serializer):
             if field_name in item:
                 item[field_name] = (
                     f"{settings.MEDIA_URL}{field_name}/"
-                    f"{item[field_name].split('/')[-1]}"
+                    f"{item[field_name].replace('https://', 'http://')}"
                 )
         return serialized_photo_data
 

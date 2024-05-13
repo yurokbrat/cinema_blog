@@ -81,10 +81,10 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
-    "minio_storage",
     "storages",
     "silk",
     "sorl.thumbnail",
+    "cachalot",
 ]
 
 # Wagtail apps
@@ -99,7 +99,6 @@ WAGTAIL = [
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
-    "wagtail_modeladmin",
     "wagtail",
     "wagtail.api.v2",
     "modelcluster",
@@ -392,11 +391,11 @@ SPECTACULAR_SETTINGS = {
         {'name': 'Genres', 'description': 'Все операции, связанные с жанрами'},
     ],
 }
-# Your stuff...
-# ------------------------------------------------------------------------------
+
 # IMDb API rating
 # ------------------------
 IMDB_API = env.str("IMDB_API", default="")
+
 # Save recorded video path
 # ------------------------
 PATH_TO_MEDIA = env.str("PATH_TO_MEDIA", default="")
@@ -426,17 +425,21 @@ AWS_S3_MAX_MEMORY_SIZE = env.int(
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#cloudfront
 AWS_S3_ENDPOINT_URL = env("AWS_S3_CUSTOM_DOMAIN", default=None)
+AWS_S3_URL_PROTOCOL = env("AWS_S3_URL_PROTOCOL", default="http:")
 AWS_S3_FILE_OVERWRITE = False
-# MEDIA
+MINIO_ACCESS_URL = env("MINIO_ACCESS_URL", default=None)
+
+# Media
 # ------------------------
 STORAGES = {
     "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "kino.utils.s3.storages.CustomS3Boto3Storage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
 MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/"
 
 # django-silk
@@ -453,10 +456,16 @@ THUMBNAIL_FORCE_OVERWRITE = True
 THUMBNAIL_FAST_URL = True
 THUMBNAIL_PREFIX = "posters/"
 THUMBNAIL_DEBUG = True
-THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
+THUMBNAIL_KVSTORE = "sorl.thumbnail.kvstores.redis_kvstore.KVStore"
+THUMBNAIL_REDIS_URL = env("REDIS_URL", default="localhost")
 
 # Wagtail
 # ------------------------
 WAGTAIL_SITE_NAME = "kino"
 WAGTAILADMIN_BASE_URL = "https://kino_blog"
 WAGTAILIMAGES_IMAGE_MODEL = "blog.CustomImage"
+
+# django-cachalot
+# ------------------------
+CACHALOT_ENABLED = True
+CACHALOT_TIMEOUT = 1800

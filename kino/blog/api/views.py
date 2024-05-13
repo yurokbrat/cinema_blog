@@ -1,6 +1,11 @@
+from django.db.models import Prefetch
 from rest_framework import viewsets, mixins
 
-from kino.blog.api.serializers.blog_serializers import BlogListSerializer, BlogFullSerializer
+from kino.blog.api.serializers.blog_serializers import (
+    BlogListSerializer,
+    BlogFullSerializer,
+)
+from kino.blog.authors import Author
 from kino.blog.models import BlogPage
 
 
@@ -9,7 +14,6 @@ class BlogViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
 ):
-    queryset = BlogPage.objects.all()
 
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
@@ -23,3 +27,16 @@ class BlogViewSet(
             "retrieve": BlogFullSerializer,
         }
         return serializer_class[self.action]
+
+    def get_queryset(self):
+        return BlogPage.objects.prefetch_related(
+            "tagged_items__tag",
+            Prefetch(
+                "authors",
+                queryset=Author.objects.prefetch_related(
+                    "country",
+                    "profession",
+                    "user",
+                ),
+            ),
+        )

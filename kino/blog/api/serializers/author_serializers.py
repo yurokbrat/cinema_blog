@@ -15,11 +15,9 @@ class ProfessionSerializer(serializers.ModelSerializer):
         ]
 
 
-class AuthorsSerializer(serializers.ModelSerializer):
-    profession = ProfessionSerializer(many=True)
+class AuthorsListSerializer(serializers.ModelSerializer):
     country = CountrySerializer()
     user = UserSerializer()
-    author_image = ImageBlockSerializer()
 
     class Meta:
         model = Author
@@ -29,6 +27,16 @@ class AuthorsSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "country",
+        ]
+
+
+class AuthorsFullSerializer(AuthorsListSerializer):
+    profession = ProfessionSerializer(many=True)
+    author_image = ImageBlockSerializer()
+
+    class Meta(AuthorsListSerializer.Meta):
+        fields = [
+            *AuthorsListSerializer.Meta.fields,
             "author_image",
             "profession",
         ]

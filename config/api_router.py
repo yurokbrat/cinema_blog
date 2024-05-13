@@ -13,7 +13,7 @@ router.register("films", FilmViewSet, basename="films")
 router.register("serials", SerialViewSet, basename="serials")
 router.register("genre", GenreViewSet)
 
-router.register("blogs", BlogViewSet)
+router.register("blogs", BlogViewSet, basename="blogs")
 
 app_name = "api"
 urlpatterns = router.urls

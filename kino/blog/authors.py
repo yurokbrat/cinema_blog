@@ -54,7 +54,7 @@ class Author(models.Model):
         verbose_name="Страна",
     )
     author_image = models.ForeignKey(
-        "wagtailimages.Image",
+        "blog.CustomImage",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -73,7 +73,7 @@ class Author(models.Model):
         FieldPanel("last_name"),
         FieldPanel("country", widget=forms.Select),
         FieldPanel("author_image"),
-        FieldPanel("profession"),
+        FieldPanel("profession", widget=forms.CheckboxSelectMultiple),
     ]
 
     class Meta:

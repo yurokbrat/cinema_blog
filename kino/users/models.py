@@ -8,9 +8,10 @@ from kino.cards.models import Film, Serial
 
 class User(AbstractUser):
     # First and last name do not cover name patterns around the globe
-    name = models.CharField(_("Name of User"), blank=True, max_length=255)
+    name = models.CharField(_("Имя пользователя"), blank=True, max_length=255)
     first_name = None  # type: ignore[assignment]
     last_name = None  # type: ignore[assignment]
+    email = models.EmailField(blank=False)
     favorite_films = models.ManyToManyField(
         Film,
         verbose_name="Избранное",

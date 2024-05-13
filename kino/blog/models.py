@@ -1,6 +1,5 @@
 from django import forms
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField, ParentalKey
 from taggit.models import TaggedItemBase
@@ -8,13 +7,16 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.blocks import RichTextBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.fields import RichTextField, StreamField
-from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.models import Page
 from wagtail.search import index
 
 from kino.blog.authors import Author
-from kino.blog.blocks import FilmBlock, SerialBlock, CustomImageBlock
-from kino.utils.other.generate_hide_url import media_url_generate
+from kino.blog.blocks import (
+    FilmBlock,
+    SerialBlock,
+    CustomImageBlock,
+)
+from kino.blog.image import CustomImage  # noqa: F401
 
 
 class BlogPageTag(TaggedItemBase):
@@ -49,7 +51,19 @@ class BlogPage(Page):
     )
     body = StreamField(
         [
-            ("text", RichTextBlock(label="Текст блога")),
+            ("text", RichTextBlock(
+                label="Текст блога",
+                features=[
+                    "h2",
+                    "h3",
+                    "bold",
+                    "italic",
+                    "hr",
+                    "ol",
+                    "ul",
+                    "blockquote",
+                ],
+            )),
             ("player", EmbedBlock(
                 label="URL-адрес",
                 provider_name="YouTube",
@@ -96,30 +110,3 @@ class BlogPage(Page):
         FieldPanel("intro"),
         FieldPanel("body"),
     ]
-
-
-class CustomImage(AbstractImage):
-    admin_form_fields = Image.admin_form_fields
-
-    class Meta(AbstractImage.Meta):
-        verbose_name = _("image")
-        verbose_name_plural = _("images")
-        permissions = [
-            ("choose_image", "Can choose image"),
-        ]
-
-    def get_upload_to(self, filename):
-        return f"blog-images/{media_url_generate()}"
-
-
-class CustomRendition(AbstractRendition):
-    image = models.ForeignKey(CustomImage, on_delete=models.CASCADE, related_name="renditions")
-
-    class Meta:
-        unique_together = [
-            (
-                "image",
-                "filter_spec",
-                "focal_point_key",
-            ),
-        ]
