@@ -39,7 +39,11 @@ class Card(models.Model):
     description = models.TextField(verbose_name="Описание")
     country = models.ManyToManyField(Country, verbose_name="Страна производитель")
     genre = models.ManyToManyField(Genre, verbose_name="Жанр")
-    film_crew = models.ManyToManyField("filmcrew.FilmCrew", verbose_name="Съемочная группа")
+    film_crew = models.ManyToManyField(
+        "filmcrew.FilmCrew",
+        blank=True,
+        verbose_name="Съемочная группа",
+    )
     avg_rating = models.FloatField(
         default=0.0,
         blank=True,

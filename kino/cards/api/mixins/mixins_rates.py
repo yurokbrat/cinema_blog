@@ -8,7 +8,7 @@ class RatesMixin(serializers.Serializer):
 
     @extend_schema_field(serializers.BooleanField)
     def get_is_rated(self, obj):
-        return obj.is_rated
+        return getattr(obj, "is_rated", None)
 
     @extend_schema_field(serializers.CharField)
     def get_rating_value(self, obj):

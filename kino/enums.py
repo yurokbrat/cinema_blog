@@ -38,3 +38,13 @@ class CrewChoose(models.TextChoices):
     sound_engineer = "Звукорежиссёр", "Звукорежиссёр"
     composer = "Композитор", "Композитор"
     producer = "Продюсер", "Продюсер"
+
+
+class FieldsChoose(models.TextChoices):
+    name = "Название", "Название"
+    posters = "Постер", "Постер"
+    country = "Страна", "Страна"
+    genre = "Жанр", "Жанр"
+    description = "Описание", "Описание"
+    trailer = "Трейлер", "Трейлер"
+    photo = "Кадры из карточки", "Кадры из карточки"

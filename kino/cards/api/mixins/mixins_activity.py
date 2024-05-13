@@ -10,20 +10,20 @@ class ActivityMixin(serializers.Serializer):
     @extend_schema_field(serializers.BooleanField(default=False))
     def get_is_watched(self, obj):
         request = self.context.get("request")
-        if request.user:
+        if request and hasattr(request, "user"):
             return obj.is_watched
         return None
 
     @extend_schema_field(serializers.BooleanField(default=False))
     def get_is_favorite(self, obj):
         request = self.context.get("request")
-        if request.user:
+        if request and hasattr(request, "user"):
             return obj.is_favorite
         return None
 
     @extend_schema_field(serializers.BooleanField(default=False))
     def get_is_see_later(self, obj):
         request = self.context.get("request")
-        if request.user:
+        if request and hasattr(request, "user"):
             return obj.is_see_later
         return None

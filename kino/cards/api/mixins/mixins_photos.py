@@ -12,6 +12,7 @@ from kino.cards.models import (
     PhotoFilm,
     PhotoSerial,
     Film,
+    Serial,
 )
 
 
@@ -22,25 +23,22 @@ class PhotoBaseMixin(serializers.Serializer):
         field_name,
         obj,
     ):
-        request = self.context.get("request")
-        if request.user:
-            if isinstance(obj, Film):
-                photos = PhotoFilm.objects.filter(film=obj)
-            else:
-                photos = PhotoSerial.objects.filter(serial=obj)
-            serialized_photo_data = serializer_class(
-                photos,
-                many=True,
-                context=self.context,
-            ).data
-            for item in serialized_photo_data:
-                if field_name in item:
-                    item[field_name] = (
-                        f"{settings.MEDIA_URL}{field_name}/"
-                        f"{item[field_name].split('/')[-1]}"
-                    )
-            return serialized_photo_data
-        return None
+        photos = PhotoFilm.objects.filter(film=obj) if isinstance(obj, Film) \
+            else PhotoSerial.objects.filter(serial=obj) if isinstance(obj, Serial) \
+            else PhotoFilm.objects.filter(id=obj.id) if isinstance(obj, PhotoFilm) \
+            else PhotoSerial.objects.filter(id=obj.id)
+        serialized_photo_data = serializer_class(
+            photos,
+            many=True,
+            context=self.context,
+        ).data
+        for item in serialized_photo_data:
+            if field_name in item:
+                item[field_name] = (
+                    f"{settings.MEDIA_URL}{field_name}/"
+                    f"{item[field_name].replace('https://', 'http://')}"
+                )
+        return serialized_photo_data
 
 
 class PhotoAdminMixin(PhotoBaseMixin):
@@ -63,9 +61,9 @@ class PhotoMixin(PhotoBaseMixin):
     @extend_schema_field(PhotoFilmSerializer)
     def get_photo(self, obj):
         return self.get_photo_base(
-            PhotoFilmSerializer if isinstance(obj, Film)
+            PhotoFilmSerializer if isinstance(obj, Film | PhotoFilm)
             else PhotoSerialSerializer,
-            "photos_films" if isinstance(obj, Film)
+            "photos_films" if isinstance(obj, Film | PhotoFilm)
             else "photos_serial",
             obj,
         )

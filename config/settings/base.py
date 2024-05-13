@@ -81,10 +81,28 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
-    "minio_storage",
     "storages",
     "silk",
     "sorl.thumbnail",
+    "cachalot",
+]
+
+# Wagtail apps
+WAGTAIL = [
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtail",
+    "wagtail.api.v2",
+    "modelcluster",
+    "taggit",
 ]
 
 LOCAL_APPS = [
@@ -93,10 +111,11 @@ LOCAL_APPS = [
     "kino.comments",
     "kino.filmcrew",
     "kino.video",
+    "kino.blog",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + WAGTAIL + LOCAL_APPS
 
 # MIGRATIONS
 # ------------------------------------------------------------------------------
@@ -153,6 +172,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "silk.middleware.SilkyMiddleware",
+    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
 # STATIC
@@ -236,7 +256,8 @@ EMAIL_TIMEOUT = 5
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL.
-ADMIN_URL = "admin/"
+DJANGO_ADMIN_URL = "admin/"
+WAGTAIL_ADMIN_URL = "blog-admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [("""Daniel Roy Greenfeld""", "daniel-roy-greenfeld@example.com")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -370,11 +391,11 @@ SPECTACULAR_SETTINGS = {
         {'name': 'Genres', 'description': 'Все операции, связанные с жанрами'},
     ],
 }
-# Your stuff...
-# ------------------------------------------------------------------------------
+
 # IMDb API rating
 # ------------------------
 IMDB_API = env.str("IMDB_API", default="")
+
 # Save recorded video path
 # ------------------------
 PATH_TO_MEDIA = env.str("PATH_TO_MEDIA", default="")
@@ -404,16 +425,21 @@ AWS_S3_MAX_MEMORY_SIZE = env.int(
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#cloudfront
 AWS_S3_ENDPOINT_URL = env("AWS_S3_CUSTOM_DOMAIN", default=None)
-# MEDIA
+AWS_S3_URL_PROTOCOL = env("AWS_S3_URL_PROTOCOL", default="http:")
+AWS_S3_FILE_OVERWRITE = False
+MINIO_ACCESS_URL = env("MINIO_ACCESS_URL", default=None)
+
+# Media
 # ------------------------
 STORAGES = {
     "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "kino.utils.s3.storages.CustomS3Boto3Storage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
 MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/"
 
 # django-silk
@@ -430,4 +456,16 @@ THUMBNAIL_FORCE_OVERWRITE = True
 THUMBNAIL_FAST_URL = True
 THUMBNAIL_PREFIX = "posters/"
 THUMBNAIL_DEBUG = True
-THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
+THUMBNAIL_KVSTORE = "sorl.thumbnail.kvstores.redis_kvstore.KVStore"
+THUMBNAIL_REDIS_URL = env("REDIS_URL", default="localhost")
+
+# Wagtail
+# ------------------------
+WAGTAIL_SITE_NAME = "kino"
+WAGTAILADMIN_BASE_URL = "https://kino_blog"
+WAGTAILIMAGES_IMAGE_MODEL = "blog.CustomImage"
+
+# django-cachalot
+# ------------------------
+CACHALOT_ENABLED = True
+CACHALOT_TIMEOUT = 1800
