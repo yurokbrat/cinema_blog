@@ -3,7 +3,7 @@
 USE_DOCKER=yes
 IPYTHONDIR=/app/.ipython
 DATABASE_URL=postgres://postgres:1488@127.0.0.1:5432/kino
-PATH_TO_MEDIA=/app/media
+PATH_TO_MEDIA=/kino/media
 DJANGO_SETTINGS_MODULE=config.settings.local
 # Redis
 # ------------------------------------------------------------------------------
@@ -24,15 +24,9 @@ IMDB_API=https://www.omdbapi.com/?apikey=a01fdf9d&i=
 
 # MY_CUSTOM_AWS
 # ------------------------------------------------------------------------------
-AWS_ACCESS_KEY_ID=yura-bel2
-AWS_SECRET_ACCESS_KEY=14881488
+AWS_ACCESS_KEY_ID=intern-24-belotserkovskiy
+AWS_SECRET_ACCESS_KEY=8nBvWdhbcJTcC3Hrd1ztDUd
 AWS_S3_MAX_MEMORY_SIZE=100_000_000_000_000
-AWS_S3_REGION_NAME=us-east-1
-AWS_STORAGE_BUCKET_NAME=kino-bucket-2
-AWS_S3_CUSTOM_DOMAIN=http://minio:9000
-AWS_S3_URL_PROTOCOL=http:
-# MinIO for docker
-# ------------------------------------------------------------------------------
-MINIO_ROOT_USER=admin_docker
-MINIO_ROOT_PASSWORD=12345678
-MINIO_ACCESS_URL=localhost:9000/kino-bucket-2
+AWS_S3_REGION_NAME=eu-west-2
+AWS_STORAGE_BUCKET_NAME=intern-24-belotserkovskiy
+AWS_S3_ENDPOINT_URL=https://minio.space.rdclr.ru

@@ -3,7 +3,6 @@ version: '3'
 volumes:
   kino_local_postgres_data: {}
   kino_local_postgres_data_backups: {}
-  minio_data:
 
 services:
   django: &django
@@ -16,7 +15,6 @@ services:
       - postgres
       - redis
       - mailpit
-      - minio
     volumes:
       - .:/app:z
     env_file:
@@ -25,8 +23,6 @@ services:
     ports:
       - '7362:7362'
     command: /start
-    networks:
-      - kino-net
 
   postgres:
     build:
@@ -39,8 +35,6 @@ services:
       - kino_local_postgres_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
-    networks:
-      - kino-net
 
   docs:
     image: kino_local_docs
@@ -57,22 +51,16 @@ services:
     ports:
       - '9090:9090'
     command: /start-docs
-    networks:
-      - kino-net
 
   mailpit:
     image: docker.io/axllent/mailpit:latest
     container_name: kino_local_mailpit
     ports:
       - "8025:8025"
-    networks:
-      - kino-net
 
   redis:
     image: docker.io/redis:6
     container_name: kino_local_redis
-    networks:
-      - kino-net
 
   celeryworker:
     <<: *django
@@ -84,8 +72,6 @@ services:
       - mailpit
     ports: []
     command: /start-celeryworker
-    networks:
-      - kino-net
 
   celerybeat:
     <<: *django
@@ -97,8 +83,6 @@ services:
       - mailpit
     ports: []
     command: /start-celerybeat
-    networks:
-      - kino-net
 
   flower:
     <<: *django
@@ -107,28 +91,3 @@ services:
     ports:
       - '5555:5555'
     command: /start-flower
-    networks:
-      - kino-net
-
-  minio:
-    image: minio/minio:RELEASE.2023-11-01T01-57-10Z-cpuv1
-    ports:
-      - 9000:9000
-      - 9001:9001
-    healthcheck:
-      test: [ "CMD", "curl", "-f",
-              "http://localhost:9000/minio/health/live" ]
-      interval: 30s
-      timeout: 20s
-      retries: 3
-    volumes:
-      - minio_data:/data
-    env_file:
-      - ./.envs/.local/.django
-    command: server --console-address ":9001" /data
-    networks:
-      - kino-net
-
-networks:
-  kino-net:
-    driver: bridge

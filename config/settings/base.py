@@ -424,16 +424,14 @@ AWS_S3_MAX_MEMORY_SIZE = env.int(
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#cloudfront
-AWS_S3_ENDPOINT_URL = env("AWS_S3_CUSTOM_DOMAIN", default=None)
-AWS_S3_URL_PROTOCOL = env("AWS_S3_URL_PROTOCOL", default="http:")
+AWS_S3_ENDPOINT_URL = env("AWS_S3_ENDPOINT_URL", default=None)
 AWS_S3_FILE_OVERWRITE = False
-MINIO_ACCESS_URL = env("MINIO_ACCESS_URL", default=None)
 
 # Media
 # ------------------------
 STORAGES = {
     "default": {
-        "BACKEND": "kino.utils.s3.storages.CustomS3Boto3Storage",
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
@@ -457,7 +455,6 @@ THUMBNAIL_FAST_URL = True
 THUMBNAIL_PREFIX = "posters/"
 THUMBNAIL_DEBUG = True
 THUMBNAIL_KVSTORE = "sorl.thumbnail.kvstores.redis_kvstore.KVStore"
-THUMBNAIL_REDIS_URL = env("REDIS_URL", default="localhost")
 
 # Wagtail
 # ------------------------
