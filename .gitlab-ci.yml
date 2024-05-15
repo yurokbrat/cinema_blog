@@ -1,6 +1,6 @@
 stages:
   - lint
-    - test
+  - test
 
 variables:
   POSTGRES_USER: 'kino'
