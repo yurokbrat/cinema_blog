@@ -24,9 +24,7 @@ precommit:
 
 pytest:
   stage: test
-  image: docker/compose:1.29.2
-  tags:
-    - docker
+  image: docker:20.10.16
   services:
     - docker:dind
   before_script:
