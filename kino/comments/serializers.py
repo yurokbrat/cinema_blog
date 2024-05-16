@@ -4,8 +4,8 @@ from kino.comments.models import Comments, Rates
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField(source='user.id', read_only=True)
-    user_name = serializers.SlugField(source='user.username', read_only=True)
+    user_id = serializers.IntegerField(source="user.id", read_only=True)
+    user_name = serializers.SlugField(source="user.username", read_only=True)
 
     class Meta:
         model = Comments

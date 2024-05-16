@@ -374,21 +374,21 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API для отображения фильмов, сериалов и жанров для онлайн-кинотеатра.",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAuthenticatedOrReadOnly"],
-    'CONTACT': {
-        'name': 'yurokbrat',
-        'url': 'https://t.me/yurokbrat',
-        'email': 'yurokbrat@yandex.ru',
+    "CONTACT": {
+        "name": "yurokbrat",
+        "url": "https://t.me/yurokbrat",
+        "email": "yurokbrat@yandex.ru",
     },
-    'LICENSE': {
-        'name': 'MIT License',
-        'url': 'https://opensource.org/licenses/MIT',
+    "LICENSE": {
+        "name": "MIT License",
+        "url": "https://opensource.org/licenses/MIT",
     },
-    'SWAGGER_UI_DIST': 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest',
-    'TAGS': [
-        {'name': 'Users', 'description': 'Все операции, связанные с пользователем'},
-        {'name': 'Films', 'description': 'Все операции, связанные с фильмами'},
-        {'name': 'Serials', 'description': 'Все операции, связанные с сериалами'},
-        {'name': 'Genres', 'description': 'Все операции, связанные с жанрами'},
+    "SWAGGER_UI_DIST": "https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest",
+    "TAGS": [
+        {"name": "Users", "description": "Все операции, связанные с пользователем"},
+        {"name": "Films", "description": "Все операции, связанные с фильмами"},
+        {"name": "Serials", "description": "Все операции, связанные с сериалами"},
+        {"name": "Genres", "description": "Все операции, связанные с жанрами"},
     ],
 }
 

@@ -51,39 +51,53 @@ class BlogPage(Page):
     )
     body = StreamField(
         [
-            ("text", RichTextBlock(
-                label="Текст блога",
-                features=[
-                    "h2",
-                    "h3",
-                    "bold",
-                    "italic",
-                    "hr",
-                    "ol",
-                    "ul",
-                    "blockquote",
-                ],
-            )),
-            ("player", EmbedBlock(
-                label="URL-адрес",
-                provider_name="YouTube",
-                help_text="Вставьте ссылку из Youtube. "
-                          "Например: http://www.youtube.com/watch?v=Cd2ZTG43BJk",
-            )),
-            ("image", CustomImageBlock(
-                label="Изображения",
-                required=False,
-            )),
-            ("film", FilmBlock(
-                label="Фильм",
-                required=False,
-                help_text="Выберите фильм и настройте поля для отображения",
-            )),
-            ("serial", SerialBlock(
-                label="Сериал",
-                required=False,
-                help_text="Выберите сериал и настройте поля для отображения",
-            )),
+            (
+                "text",
+                RichTextBlock(
+                    label="Текст блога",
+                    features=[
+                        "h2",
+                        "h3",
+                        "bold",
+                        "italic",
+                        "hr",
+                        "ol",
+                        "ul",
+                        "blockquote",
+                    ],
+                ),
+            ),
+            (
+                "player",
+                EmbedBlock(
+                    label="URL-адрес",
+                    provider_name="YouTube",
+                    help_text="Вставьте ссылку из Youtube. Например: http://www.youtube.com/watch?v=Cd2ZTG43BJk",
+                ),
+            ),
+            (
+                "image",
+                CustomImageBlock(
+                    label="Изображения",
+                    required=False,
+                ),
+            ),
+            (
+                "film",
+                FilmBlock(
+                    label="Фильм",
+                    required=False,
+                    help_text="Выберите фильм и настройте поля для отображения",
+                ),
+            ),
+            (
+                "serial",
+                SerialBlock(
+                    label="Сериал",
+                    required=False,
+                    help_text="Выберите сериал и настройте поля для отображения",
+                ),
+            ),
         ],
         blank=True,
         verbose_name="Основная часть",
@@ -102,11 +116,14 @@ class BlogPage(Page):
 
     content_panels = [
         *Page.content_panels,
-        MultiFieldPanel([
-            FieldPanel("date"),
-            FieldPanel("authors", widget=forms.CheckboxSelectMultiple),
-            FieldPanel("tags"),
-        ], heading="Информация о посте"),
+        MultiFieldPanel(
+            [
+                FieldPanel("date"),
+                FieldPanel("authors", widget=forms.CheckboxSelectMultiple),
+                FieldPanel("tags"),
+            ],
+            heading="Информация о посте",
+        ),
         FieldPanel("intro"),
         FieldPanel("body"),
     ]

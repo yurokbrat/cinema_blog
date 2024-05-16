@@ -19,8 +19,7 @@ def record_video(input_file, media_id, task_id):
     try:
         input_video = ffmpeg.input(input_file)
         info = ffmpeg.probe(input_file)
-        video_stream = next((stream for stream in info["streams"]
-                             if stream["codec_type"] == "video"), None)
+        video_stream = next((stream for stream in info["streams"] if stream["codec_type"] == "video"), None)
         width = int(video_stream["width"])
         height = int(video_stream["height"])
         aspect_ratio = width / height

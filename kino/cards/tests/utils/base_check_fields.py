@@ -26,6 +26,5 @@ class BaseCheckFields(BaseAPICard):
                     self.assertNotIn(
                         field,
                         result,
-                        f"В отображении списка"
-                        f"присутствует поле для детального отображения: '{field}'",
+                        f"В отображении списка присутствует " f"поле для детального отображения: '{field}'",
                     )

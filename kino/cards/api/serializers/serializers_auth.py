@@ -20,6 +20,7 @@ class FilmListSerializer(
     """
     Отображение списка фильмов для пользователя
     """
+
     class Meta(BaseSerializer.Meta):
         model = Film
         fields = [
@@ -39,6 +40,7 @@ class SerialListSerializer(
     """
     Отображение списка сериалов для пользователя
     """
+
     class Meta(BaseSerializer.Meta):
         model = Serial
         fields = [

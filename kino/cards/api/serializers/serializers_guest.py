@@ -9,6 +9,7 @@ class FilmListGuestSerializer(BaseSerializer):
     """
     Отображение списка фильмов для гостя
     """
+
     class Meta(BaseSerializer.Meta):
         model = Film
         fields = [
@@ -21,6 +22,7 @@ class SerialListGuestSerializer(BaseSerializer):
     """
     Отображение списка сериалов для гостя
     """
+
     class Meta(BaseSerializer.Meta):
         model = Serial
         fields = [

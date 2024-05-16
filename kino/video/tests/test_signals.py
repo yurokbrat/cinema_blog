@@ -15,6 +15,6 @@ class TestMediaSignals(BaseVideoCard):
     def test_download_media_signal(self):
         self.media.source_link = Faker("url")
 
-        with patch('kino.video.tasks.download_video.delay') as mock_download_video:
+        with patch("kino.video.tasks.download_video.delay") as mock_download_video:
             self.media.save()
             mock_download_video.assert_called_once_with(self.media.id)

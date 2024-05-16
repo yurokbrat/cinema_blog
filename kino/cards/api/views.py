@@ -1,9 +1,14 @@
-
 from drf_spectacular.utils import extend_schema
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 
+from kino.cards.api.mixins.mixins_schema_films import (
+    ListFilmsSchemas,
+    ListSerialsSchemas,
+    RetrieveFilmSchemas,
+    RetrieveSerialSchemas,
+)
 from kino.cards.api.serializers.serializers_admin import (
     AdminFilmListSerializer,
     AdminFilmFullSerializer,
@@ -23,12 +28,6 @@ from kino.cards.api.serializers.serializers_guest import (
     SerialListGuestSerializer,
     SerialFullGuestSerializer,
 )
-from kino.cards.api.mixins.mixins_schema_films import (
-    ListFilmsSchemas,
-    ListSerialsSchemas,
-    RetrieveFilmSchemas,
-    RetrieveSerialSchemas,
-)
 from kino.cards.models import Film, Serial, Genre
 from kino.utils.other.queryset_for_model import get_queryset_for_model
 
@@ -46,15 +45,25 @@ class BaseCardViewSet(
 
     def get_permissions(self):
         user = self.request.user
-        auth_status = "admin" if user.is_authenticated and user.is_staff \
-            else "authenticated" if user.is_authenticated else "guest"
+        auth_status = (
+            "admin"
+            if user.is_authenticated and user.is_staff
+            else "authenticated"
+            if user.is_authenticated
+            else "guest"
+        )
         permission_classes = self.permission_classes.get(auth_status)
         return [permission() for permission in permission_classes]
 
     def get_serializer_class(self):
         user = self.request.user
-        auth_status = "admin" if user.is_authenticated and user.is_staff \
-            else "authenticated" if user.is_authenticated else "guest"
+        auth_status = (
+            "admin"
+            if user.is_authenticated and user.is_staff
+            else "authenticated"
+            if user.is_authenticated
+            else "guest"
+        )
         serializer_class = {
             "admin": self.admin_serializer_class,
             "authenticated": self.authenticated_serializer_class,
@@ -132,7 +141,7 @@ class SerialViewSet(BaseCardViewSet):
 
 
 # Genre's ViewSet for all users
-@extend_schema(tags=['Genres'])
+@extend_schema(tags=["Genres"])
 class GenreViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreFullSerializer

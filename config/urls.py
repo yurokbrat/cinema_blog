@@ -26,8 +26,7 @@ urlpatterns = [
     path("users/", include("kino.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Silk
-    path('silk/', include('silk.urls', namespace='silk')),
-
+    path("silk/", include("silk.urls", namespace="silk")),
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

@@ -23,10 +23,15 @@ class PhotoBaseMixin(serializers.Serializer):
         field_name,
         obj,
     ):
-        photos = PhotoFilm.objects.filter(film=obj) if isinstance(obj, Film) \
-            else PhotoSerial.objects.filter(serial=obj) if isinstance(obj, Serial) \
-            else PhotoFilm.objects.filter(id=obj.id) if isinstance(obj, PhotoFilm) \
+        photos = (
+            PhotoFilm.objects.filter(film=obj)
+            if isinstance(obj, Film)
+            else PhotoSerial.objects.filter(serial=obj)
+            if isinstance(obj, Serial)
+            else PhotoFilm.objects.filter(id=obj.id)
+            if isinstance(obj, PhotoFilm)
             else PhotoSerial.objects.filter(id=obj.id)
+        )
         serialized_photo_data = serializer_class(
             photos,
             many=True,
@@ -34,10 +39,7 @@ class PhotoBaseMixin(serializers.Serializer):
         ).data
         for item in serialized_photo_data:
             if field_name in item:
-                item[field_name] = (
-                    f"{settings.MEDIA_URL}{field_name}/"
-                    f"{item[field_name].replace('https://', 'http://')}"
-                )
+                item[field_name] = f"{settings.MEDIA_URL}{field_name}/{item[field_name].replace('https://', 'http://')}"
         return serialized_photo_data
 
 
@@ -47,10 +49,8 @@ class PhotoAdminMixin(PhotoBaseMixin):
     @extend_schema_field(AdminPhotoFilmSerializer)
     def get_photo_admin(self, obj):
         return self.get_photo_base(
-            AdminPhotoFilmSerializer if isinstance(obj, Film)
-            else AdminPhotoSerialSerializer,
-            "photos_films"if isinstance(obj, Film)
-            else "photos_serial",
+            AdminPhotoFilmSerializer if isinstance(obj, Film) else AdminPhotoSerialSerializer,
+            "photos_films" if isinstance(obj, Film) else "photos_serial",
             obj,
         )
 
@@ -61,9 +61,7 @@ class PhotoMixin(PhotoBaseMixin):
     @extend_schema_field(PhotoFilmSerializer)
     def get_photo(self, obj):
         return self.get_photo_base(
-            PhotoFilmSerializer if isinstance(obj, Film | PhotoFilm)
-            else PhotoSerialSerializer,
-            "photos_films" if isinstance(obj, Film | PhotoFilm)
-            else "photos_serial",
+            PhotoFilmSerializer if isinstance(obj, Film | PhotoFilm) else PhotoSerialSerializer,
+            "photos_films" if isinstance(obj, Film | PhotoFilm) else "photos_serial",
             obj,
         )

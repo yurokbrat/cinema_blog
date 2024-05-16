@@ -16,9 +16,6 @@ class ImageBlockSerializer(serializers.Field):
         if instance.file:
             return {
                 "image": ImageRenditionField("max-1920x1080|format-jpeg").to_representation(instance),
-                "image_tags": [
-                    {"id": tag.id, "name": tag.name}
-                    for tag in instance.tags.all()
-                ],
+                "image_tags": [{"id": tag.id, "name": tag.name} for tag in instance.tags.all()],
             }
         return None

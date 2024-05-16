@@ -23,8 +23,7 @@ class Media(models.Model):
         verbose_name="Номер серии",
     )
     source_link = models.CharField(
-        verbose_name="Ссылка на исходное видео в S3 "
-                     "ИЛИ путь к файлу на компьютере",
+        verbose_name="Ссылка на исходное видео в S3 " "ИЛИ путь к файлу на компьютере",
     )
     date_added = models.DateTimeField(
         auto_now_add=True,

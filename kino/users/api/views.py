@@ -13,7 +13,7 @@ from .serializers import UserSerializer
 User = get_user_model()
 
 
-@extend_schema(tags=['Users'])
+@extend_schema(tags=["Users"])
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()

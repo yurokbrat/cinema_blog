@@ -37,12 +37,14 @@ class TestVideoTasks(BaseVideoCard):
         )
         coding_video(self.media, task, self.quality, self.aspect_ratio)
         mock_load_video.assert_called_once_with(
-            str(Path(
-                settings.PATH_TO_MEDIA,
-                "tests",
-                self.media.card.name,
-                f"{self.quality}.mp4",
-            )),
+            str(
+                Path(
+                    settings.PATH_TO_MEDIA,
+                    "tests",
+                    self.media.card.name,
+                    f"{self.quality}.mp4",
+                ),
+            ),
             self.media.id,
             task.id,
         )

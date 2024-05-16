@@ -35,6 +35,7 @@ class AdminFilmListSerializer(
     """
     Отображение списка фильмов для администратора
     """
+
     class Meta(AdminBaseSerializer.Meta):
         model = Film
         fields = [
@@ -51,6 +52,7 @@ class AdminSerialListSerializer(
     """
     Отображение списка сериалов для администратора
     """
+
     class Meta(AdminBaseSerializer.Meta):
         model = Serial
         fields = [
@@ -71,6 +73,7 @@ class AdminFilmFullSerializer(
     """
     Детальное отображение фильма для администратора
     """
+
     class Meta(AdminFilmListSerializer.Meta):
         model = Film
         fields = [
@@ -95,6 +98,7 @@ class AdminSerialFullSerializer(
     """
     Детальное отображение сериала для администратора
     """
+
     class Meta(AdminSerialListSerializer.Meta):
         model = Serial
         fields = [

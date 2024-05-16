@@ -24,6 +24,3 @@ class CardFactory(DjangoModelFactory):
         if not create or not extracted:
             return
         self.film_crew.add(*extracted)
-
-
-
