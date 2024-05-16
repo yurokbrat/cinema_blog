@@ -16,7 +16,7 @@ services:
       - redis
       - mailpit
     volumes:
-      - ./app
+      - .:/app:z
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
