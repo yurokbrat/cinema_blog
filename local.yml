@@ -17,6 +17,7 @@ services:
       - mailpit
     volumes:
       - .:/app:z
+    working_dir: /app
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
