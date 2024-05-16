@@ -32,7 +32,8 @@ repos:
     hooks:
       # Linter
       - id: ruff
-        args: [ --fix, --exit-non-zero-on-fix, --ignore, S101, RUF012, RUF001, RUF003, I001, Q000, PT009 ]
+        args: [ --fix, --exit-non-zero-on-fix ]
+        ignore: [ "I001", "PT009", "Q000", "RUF001", "RUF003", "RUF012" ]
       # Formatter
       - id: ruff-format
 
