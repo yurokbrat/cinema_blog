@@ -15,7 +15,11 @@ def get_queryset_for_model(model, basename, request):
         "film_crew__country",
     )
 
-    if hasattr(request, "user") and isinstance(request.user, User) and request.user.is_authenticated:
+    if (
+        hasattr(request, "user")
+        and isinstance(request.user, User)
+        and request.user.is_authenticated
+    ):
         watched_field = getattr(request.user, f"watched_{basename}", None)
         favorite_field = getattr(request.user, f"favorite_{basename}", None)
         see_later_field = getattr(request.user, f"see_later_{basename}", None)

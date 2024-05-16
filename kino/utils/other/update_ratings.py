@@ -31,8 +31,12 @@ def update_rating_for_card(card_instance):
     card_content_type = ContentType.objects.get_for_model(card_instance)
     card_object_id = card_instance.pk
 
-    likes = Rates.objects.filter(content_type=card_content_type, object_id=card_object_id, value=1).count()
-    dislikes = Rates.objects.filter(content_type=card_content_type, object_id=card_object_id, value=-1).count()
+    likes = Rates.objects.filter(
+        content_type=card_content_type, object_id=card_object_id, value=1
+    ).count()
+    dislikes = Rates.objects.filter(
+        content_type=card_content_type, object_id=card_object_id, value=-1
+    ).count()
 
     total_votes = likes + dislikes
     percentage_likes = (likes / total_votes) * 100 if total_votes > 0 else 0

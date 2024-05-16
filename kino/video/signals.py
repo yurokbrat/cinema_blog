@@ -34,9 +34,13 @@ def download_media(sender, instance, created, **kwargs):
             if instance.source_link != history.prev_record.source_link:
                 download_video.delay(instance.id)
             else:
-                error_start = f"{instance.card.name} can't update, {instance.source_link} wasn't new"
+                error_start = (
+                    f"{instance.card.name} can't update, {instance.source_link} wasn't new"
+                )
                 logging.warning(error_start)
         else:
             download_video.delay(instance.id)
     else:
-        logging.warning("Source link is not defined for the Media object or Media object just created.")
+        logging.warning(
+            "Source link is not defined for the Media object or Media object just created."
+        )

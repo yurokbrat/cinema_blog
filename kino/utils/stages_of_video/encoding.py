@@ -27,7 +27,10 @@ def processing_video(  # noqa: PLR0913
         str(output_file),
         vf=vf_filter,
         r=23.976,
-        **{"b:v": bitrate_params[str(quality)]["video_bitrate"], "b:a": bitrate_params[str(quality)]["audio_bitrate"]},
+        **{
+            "b:v": bitrate_params[str(quality)]["video_bitrate"],
+            "b:a": bitrate_params[str(quality)]["audio_bitrate"],
+        },
     ).overwrite_output()
     output_video.run()
     info_end_encode = f"{media.card.name} was converted to {quality}"

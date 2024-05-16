@@ -16,7 +16,9 @@ class BaseTestEndpoints(BaseAPICard):
             response.data["results"],
             f"В ответе нет данных: {response.data['results']}",
         )
-        self.assertEqual(len(response.data["results"]), EXPECTED_COUNT, f"Ответ: {response.data['results']}")
+        self.assertEqual(
+            len(response.data["results"]), EXPECTED_COUNT, f"Ответ: {response.data['results']}"
+        )
 
     def base_test_retrieve(self, card):
         response = self._response_detail(card)
