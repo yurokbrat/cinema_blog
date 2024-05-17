@@ -16,7 +16,7 @@ services:
       - redis
       - mailpit
     volumes:
-      - ./app
+      - /app
     working_dir: /app
     env_file:
       - ./.envs/.local/.django
