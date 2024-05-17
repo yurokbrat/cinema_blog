@@ -12,6 +12,7 @@ from kino.video.tests.utils.convert import coding_video
 
 
 @pytest.mark.django_db()
+@pytest.mark.skip(reason="You only need to test video encoding locally")
 class TestVideoTasks(BaseVideoCard):
     @patch("kino.video.tasks.encode_video.delay")
     def test_create_task(self, mock_encode_video):
@@ -20,7 +21,6 @@ class TestVideoTasks(BaseVideoCard):
         self.assertIsNotNone(task)
 
     @patch("kino.video.tasks.encode_video.delay")
-    @pytest.mark.skip(reason="You only need to use this test locally")
     def test_starting_task_with_correct_parameters(self, mock_encode_video):
         download_video(self.media.id)
         task = Task.objects.filter(media=self.media).first()

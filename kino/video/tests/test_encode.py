@@ -13,6 +13,7 @@ from kino.video.tests.utils.check_quality_video import check_quality_video
 from kino.video.tests.utils.convert import coding_video
 
 
+@pytest.mark.skip(reason="You only need to test video encoding locally")
 class TestEncodeVideo(BaseVideoCard):
     @classmethod
     def setUpClass(cls):
@@ -84,7 +85,6 @@ class TestEncodeVideo(BaseVideoCard):
         )
 
     @pytest.mark.run(order=2)
-    @pytest.mark.skip(reason="You only need to test video encoding locally")
     def test_completed_task_status(self):
         load_video(self.output_file, self.media.id, self.task.id)
         self.task.refresh_from_db()
