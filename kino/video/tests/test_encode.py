@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 from django.conf import settings
 
+from config.settings.base import env
 from kino.enums import StatusChoose
 from kino.utils.stages_of_video.check_urls_to_quality import urls_to_quality
 from kino.utils.stages_of_video.encoding import load_video
@@ -13,7 +14,6 @@ from kino.video.tests.utils.check_quality_video import check_quality_video
 from kino.video.tests.utils.convert import coding_video
 
 
-@pytest.mark.skip(reason="You only need to test video encoding locally")
 class TestEncodeVideo(BaseVideoCard):
     @classmethod
     def setUpClass(cls):
@@ -85,6 +85,10 @@ class TestEncodeVideo(BaseVideoCard):
         )
 
     @pytest.mark.run(order=2)
+    @pytest.mark.skipif(
+        env("AWS_ACCESS_KEY_ID") is not None and env("AWS_SECRET_ACCESS_KEY") is not None,
+        reason="AWS credentials are set, skipping test",
+    )
     def test_completed_task_status(self):
         load_video(self.output_file, self.media.id, self.task.id)
         self.task.refresh_from_db()

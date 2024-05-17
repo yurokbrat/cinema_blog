@@ -90,4 +90,7 @@ RUN chmod +x /start-flower
 # copy application code to WORKDIR
 COPY . ${APP_HOME}
 
+# Copy the media file to the desired location
+COPY ./kino/media/source/tests/Night_city_cut.mp4 /app/kino/media/source/tests/
+
 ENTRYPOINT ["/entrypoint"]
