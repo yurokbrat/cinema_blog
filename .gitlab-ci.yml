@@ -32,8 +32,8 @@ pytest:
     - docker-compose -f local.yml build
     - ls
     - docker-compose -f local.yml up -d
-    - docker exec -it kino_local_django ls -a
-    - docker exec -it kino_local_django ls -a /app
+    - docker-compose -f local.yml exec kino_local_django ls -a
+    - docker-compose -f local.yml exec kino_local_django ls -a /app
     - docker-compose -f local.yml run --rm django python manage.py migrate
     - docker-compose -f local.yml up -d
   script:
