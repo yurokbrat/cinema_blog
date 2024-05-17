@@ -366,14 +366,13 @@ REST_FRAMEWORK = {
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_URLS_REGEX = r"^/api/.*$"
-
 # By Default swagger ui is available only to admin user(s). You can change permission classes to change that
 # See more configuration options at https://drf-spectacular.readthedocs.io/en/latest/settings.html#settings
 SPECTACULAR_SETTINGS = {
     "TITLE": "kino API",
     "DESCRIPTION": "API для отображения фильмов, сериалов и жанров для онлайн-кинотеатра.",
     "VERSION": "1.0.0",
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAuthenticatedOrReadOnly"],
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
     "CONTACT": {
         "name": "yurokbrat",
         "url": "https://t.me/yurokbrat",

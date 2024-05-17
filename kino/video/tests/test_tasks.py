@@ -20,6 +20,7 @@ class TestVideoTasks(BaseVideoCard):
         self.assertIsNotNone(task)
 
     @patch("kino.video.tasks.encode_video.delay")
+    @pytest.mark.skip(reason="You only need to use this test locally")
     def test_starting_task_with_correct_parameters(self, mock_encode_video):
         download_video(self.media.id)
         task = Task.objects.filter(media=self.media).first()

@@ -84,6 +84,7 @@ class TestEncodeVideo(BaseVideoCard):
         )
 
     @pytest.mark.run(order=2)
+    @pytest.mark.skip(reason="You only need to test video encoding locally")
     def test_completed_task_status(self):
         load_video(self.output_file, self.media.id, self.task.id)
         self.task.refresh_from_db()

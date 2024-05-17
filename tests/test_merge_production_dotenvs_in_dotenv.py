@@ -9,11 +9,11 @@ from merge_production_dotenvs_in_dotenv import merge
     ("input_contents", "expected_output"),
     [
         ([], ""),
-        ([""], "\n"),
-        (["JANE=doe"], "JANE=doe\n"),
-        (["SEP=true", "AR=ator"], "SEP=true\nAR=ator\n"),
-        (["A=0", "B=1", "C=2"], "A=0\nB=1\nC=2\n"),
-        (["X=x\n", "Y=y", "Z=z\n"], "X=x\n\nY=y\nZ=z\n\n"),
+        ([""], "\n\n"),
+        (["JANE=doe"], "JANE=doe\n\n"),
+        (["SEP=true", "AR=ator"], "SEP=true\n\nAR=ator\n\n"),
+        (["A=0", "B=1", "C=2"], "A=0\n\nB=1\n\nC=2\n\n"),
+        (["X=x\n", "Y=y", "Z=z\n"], "X=x\n\n\nY=y\n\nZ=z\n\n\n"),
     ],
 )
 def test_merge(

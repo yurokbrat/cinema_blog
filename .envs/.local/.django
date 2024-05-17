@@ -3,7 +3,7 @@
 USE_DOCKER=yes
 IPYTHONDIR=/app/.ipython
 DATABASE_URL=postgres://postgres:1488@127.0.0.1:5432/kino
-PATH_TO_MEDIA=/kino/media
+PATH_TO_MEDIA=/app/kino/media
 DJANGO_SETTINGS_MODULE=config.settings.local
 # Redis
 # ------------------------------------------------------------------------------
