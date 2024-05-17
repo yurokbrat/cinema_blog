@@ -330,6 +330,7 @@ dump.rdb
 
 ### Project template
 kino/media/
+compose/local/django/video_for_tests/
 
 .pytest_cache/
 .ipython/
