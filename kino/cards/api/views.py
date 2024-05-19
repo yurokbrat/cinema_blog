@@ -41,7 +41,7 @@ class BaseCardViewSet(
         "admin": [IsAdminUser],
         "authenticated": [IsAuthenticatedOrReadOnly],
         "guest": [IsAuthenticatedOrReadOnly],
-    }
+    }  # type: ignore[assignment]
 
     def get_permissions(self):
         user = self.request.user
@@ -52,7 +52,7 @@ class BaseCardViewSet(
             if user.is_authenticated
             else "guest"
         )
-        permission_classes = self.permission_classes.get(auth_status)
+        permission_classes = self.permission_classes.get(auth_status)  # type: ignore[has-type]
         return [permission() for permission in permission_classes]
 
     def get_serializer_class(self):
@@ -65,9 +65,9 @@ class BaseCardViewSet(
             else "guest"
         )
         serializer_class = {
-            "admin": self.admin_serializer_class,
-            "authenticated": self.authenticated_serializer_class,
-            "guest": self.guest_serializer_class,
+            "admin": self.admin_serializer_class,  # type: ignore[attr-defined]
+            "authenticated": self.authenticated_serializer_class,  # type: ignore[attr-defined]
+            "guest": self.guest_serializer_class,  # type: ignore[attr-defined]
         }
         return serializer_class[auth_status][self.action]
 
@@ -137,7 +137,7 @@ class SerialViewSet(BaseCardViewSet):
         return super().retrieve(request, *args, **kwargs)
 
     def get_queryset(self):
-        return get_queryset_for_model(Serial, "serials", self.request.user)
+        return get_queryset_for_model(Serial, "serials", self.request)
 
 
 # Genre's ViewSet for all users

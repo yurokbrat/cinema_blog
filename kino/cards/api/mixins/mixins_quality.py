@@ -1,3 +1,6 @@
+from typing import Any
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from drf_spectacular.utils import extend_schema_field
@@ -6,6 +9,9 @@ from rest_framework import serializers
 from kino.enums import QualityChoose
 from kino.video.models import Media, VideoQuality
 from kino.video.serializers import QualitySerializer
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest
 
 
 # Mixin for other methods
@@ -32,9 +38,9 @@ class QualityMixin(serializers.Serializer):
             "description": "Качество видео: ссылка",
         },
     )
-    def get_quality(self, obj):
-        request = self.context.get("request")
-        if request.user:
+    def get_quality(self, obj: Any) -> dict[str, str] | None:
+        request: HttpRequest | None = self.context.get("request")
+        if request and hasattr(request, "user") and hasattr(obj, "pk"):
             content_type = ContentType.objects.get_for_model(obj)
             if media := Media.objects.filter(
                 content_type=content_type,

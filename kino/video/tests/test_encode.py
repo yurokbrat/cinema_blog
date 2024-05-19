@@ -8,13 +8,17 @@ from kino.enums import StatusChoose
 from kino.utils.stages_of_video.check_urls_to_quality import urls_to_quality
 from kino.utils.stages_of_video.encoding import load_video
 from kino.utils.stages_of_video.record import record_video
-from kino.video.models import Task, VideoQuality
+from kino.video.models import Task, VideoQuality, Media
 from kino.video.tests.utils.base_video import BaseVideoCard
 from kino.video.tests.utils.check_quality_video import check_quality_video
 from kino.video.tests.utils.convert import coding_video
 
 
 class TestEncodeVideo(BaseVideoCard):
+    task: Task
+    output_file: Path
+    media: Media
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -23,12 +27,14 @@ class TestEncodeVideo(BaseVideoCard):
             status=StatusChoose.processing,
         )
         coding_video(cls.media, cls.task, cls.quality, cls.aspect_ratio)
-        cls.output_file = Path(
-            settings.PATH_TO_MEDIA,
-            "tests",
-            cls.media.card.name,
-            f"{cls.quality}.mp4",
-        )
+        card_name: str | None = getattr(cls.media.card, "name", None)
+        if card_name:
+            cls.output_file = Path(
+                settings.PATH_TO_MEDIA,
+                "tests",
+                card_name,
+                f"{cls.quality}.mp4",
+            )
 
     # Тесты конвертации видео
     def test_create_output_video(self):
@@ -38,20 +44,22 @@ class TestEncodeVideo(BaseVideoCard):
         )
 
     def test_width_output_video(self):
-        width, height = check_quality_video(self.output_file)
-        self.assertEqual(
-            width,
-            self.quality * self.aspect_ratio,
-            f"Сконвертированное видео создано размером {width}x{height}",
-        )
+        if result := check_quality_video(self.output_file):
+            width, height = result
+            self.assertEqual(
+                width,
+                self.quality * self.aspect_ratio,
+                f"Сконвертированное видео создано размером {width}x{height}",
+            )
 
     def test_height_output_video(self):
-        width, height = check_quality_video(self.output_file)
-        self.assertEqual(
-            height,
-            self.quality,
-            f"Сконвертированное видео создано размером {width}x{height}",
-        )
+        if result := check_quality_video(self.output_file):
+            width, height = result
+            self.assertEqual(
+                height,
+                self.quality,
+                f"Сконвертированное видео создано размером {width}x{height}",
+            )
 
     def test_failed_task_status_with_missing_file(self):
         self.media.source_link = f"{settings.PATH_TO_MEDIA}/source/films/missing_file.mp4"

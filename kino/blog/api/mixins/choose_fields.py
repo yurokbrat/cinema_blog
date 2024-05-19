@@ -29,6 +29,6 @@ def get_fields(representation, type_card):
             for field_name in card_fields:
                 field_key = field_translation.get(field_name)
                 if field_key in serialized_card:
-                    selected_fields[field_key] = serialized_card[field_key]
+                    selected_fields[field_key] = serialized_card[field_key]  # type: ignore[index]
                     representation = selected_fields
     return representation

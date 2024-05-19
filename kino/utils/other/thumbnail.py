@@ -1,26 +1,34 @@
 from django.core.exceptions import ValidationError
 from django.core.files.images import get_image_dimensions
+from django.core.files.uploadedfile import UploadedFile
 from sorl.thumbnail import get_thumbnail
 
 
-def clean_poster(poster):
+def clean_poster(poster: UploadedFile | None) -> UploadedFile | None:
     if poster:
-        w, h = get_image_dimensions(poster)
+        dimensions = get_image_dimensions(poster)
+        error = "Не удалось определить размеры изображения."
+        width_min = 1920
+        if dimensions is None or not isinstance(dimensions, tuple):
+            raise ValidationError(error)
+        w, h = dimensions
+        if w is None or h is None:
+            raise ValidationError(error)
         if w > h:
             error = (
                 f"Вы загрузили горизонтальный постер "
-                f"с расширением {w} x {h}. "
+                f"с разрешением {w} x {h}. "
                 f"\nПожалуйста, загрузите вертикальный "
                 f"постер и повторите попытку."
             )
-            raise (ValidationError(error))
-        if w < 1920:  # noqa: PLR2004
+            raise ValidationError(error)
+        if w < width_min:
             error = (
                 f"Вы загрузили постер с шириной {w}. "
                 f"\nПожалуйста, загрузите постер с минимальной "
                 f"шириной 1920 и повторите попытку."
             )
-            raise (ValidationError(error))
+            raise ValidationError(error)
         return poster
     return None
 

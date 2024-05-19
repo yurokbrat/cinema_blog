@@ -36,7 +36,7 @@ class Media(models.Model):
         verbose_name_plural = "медифайлы"
 
     def __str__(self):
-        return self.card.name
+        return self.card.name if self.card else "Карточка отсутствует"
 
 
 class Task(models.Model):
@@ -59,7 +59,8 @@ class Task(models.Model):
         verbose_name_plural = "статусы загрузок"
 
     def __str__(self):
-        return f"{self.media.card.name} — {self.get_status_display()} — {self.date_added}"
+        return (f"{self.media.card.name} — {self.get_status_display()} — "
+                f"{self.date_added}") if self.media.card else "Карточка отсутствует"
 
 
 class VideoQuality(models.Model):
@@ -86,4 +87,4 @@ class VideoQuality(models.Model):
         verbose_name_plural = "качества медиафайла"
 
     def __str__(self):
-        return f"{self.media.card.name} — {self.quality}"
+        return f"{self.media.card.name} — {self.quality}" if self.media.card else "Карточки нет"

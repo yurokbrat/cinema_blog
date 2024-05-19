@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from kino.cards.models import Film, Serial
 
 
-class User(AbstractUser):
+class User(AbstractUser):  # type: ignore[django-manager-missing]
     # First and last name do not cover name patterns around the globe
     name = models.CharField(_("Имя пользователя"), blank=True, max_length=255)
     first_name = None  # type: ignore[assignment]

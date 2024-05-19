@@ -18,10 +18,21 @@ EXPECTED_COUNT = 12
 
 @pytest.mark.django_db()
 class BaseAPICard(APITestCase):
+    film_crew: FilmCrewFactory
+    genre: GenreFactory
+    country: CountryFactory
+    original_user: UserFactory
+    test_film: FilmFactory
+    test_serial: SerialFactory
+    test_films: FilmFactory
+    test_serials: SerialFactory
+    admin: UserFactory
+
     @classmethod
     @factory.django.mute_signals(post_save)
     def setUpClass(cls):
         super().setUpClass()
+
         cls.country = CountryFactory()
         cls.genre = GenreFactory()
         cls.film_crew = FilmCrewFactory()

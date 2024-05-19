@@ -8,8 +8,7 @@ from kino.comments.serializers import AdminCommentSerializer, CommentSerializer
 
 class CommentBaseMixin(serializers.Serializer):
     def get_comments_base(self, serializer_class, obj):
-        request = self.context.get("request")
-        if request.user:
+        if (request := self.context.get("request")) and request.user:
             content_type = ContentType.objects.get_for_model(obj)
             comments = Comments.objects.filter(
                 content_type=content_type,
