@@ -2,16 +2,16 @@
 # ------------------------------------------------------------------------------
 USE_DOCKER=yes
 IPYTHONDIR=/app/.ipython
-DATABASE_URL=postgres://postgres:1488@127.0.0.1:5432/kino
+DATABASE_URL=postgres://postgres:1488@postgres_kino_test:5432/kino
 PATH_TO_MEDIA=/app/kino/media
 DJANGO_SETTINGS_MODULE=config.settings.local
 # Redis
 # ------------------------------------------------------------------------------
-REDIS_URL=redis://redis:6379/0
+REDIS_URL=redis://redis_kino_test:6379/0
 
 # Celery
 # ------------------------------------------------------------------------------
-CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_BROKER_URL=redis://redis_kino_test:6379/0
 
 # Flower
 # ------------------------------------------------------------------------------

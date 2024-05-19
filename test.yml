@@ -5,7 +5,7 @@ volumes:
   postgres_kino_test_data_backups: { }
 
 services:
-  django_kino_test: &django
+  django_kino_test: &django_kino_test
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
@@ -20,8 +20,6 @@ services:
     env_file:
       - ./.envs/.test/.django
       - ./.envs/.test/.postgres
-    ports:
-      - '7362:7362'
     command: /start
 
   postgres_kino_test:
@@ -41,21 +39,19 @@ services:
     container_name: redis_kino_test
 
   celeryworker_kino_test:
-    <<: *django
+    <<: *django_kino_test
     image: celeryworker_kino_test
     container_name: celeryworker_kino_test
     depends_on:
       - redis_kino_test
       - postgres_kino_test
-    ports: [ ]
     command: /start-celeryworker
 
   celerybeat_kino_test:
-    <<: *django
+    <<: *django_kino_test
     image: celerybeat_kino_test
     container_name: celerybeat_kino_test
     depends_on:
       - redis_kino_test
       - postgres_kino_test
-    ports: [ ]
     command: /start-celerybeat
