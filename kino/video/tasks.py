@@ -18,8 +18,9 @@ media_path = settings.PATH_TO_MEDIA
 def download_video(media_id: int):
     task = None
     try:
-        if ((media := Media.objects.get(id=media_id))
-            and (card_name := getattr(media.card, "name", None))):
+        if (media := Media.objects.get(id=media_id)) and (
+            card_name := getattr(media.card, "name", None)
+        ):
             task = Task.objects.create(
                 media=media,
                 status=StatusChoose.processing,

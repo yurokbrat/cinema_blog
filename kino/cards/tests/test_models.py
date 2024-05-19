@@ -2,7 +2,6 @@ from kino.cards.tests.utils.base_card import BaseCard
 
 
 class TestCards(BaseCard):
-
     def cards_current_fields(self, test_card):
         """
         Базовый тест для всех карточек

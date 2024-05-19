@@ -46,16 +46,22 @@ def get_queryset_for_model(model: Any, basename: str, request: Request) -> Query
                 watched_field.filter(
                     pk=OuterRef("pk"),
                 ),
-            ) if watched_field is not None else None,
+            )
+            if watched_field is not None
+            else None,
             is_favorite=Exists(
                 favorite_field.filter(
                     pk=OuterRef("pk"),
                 ),
-            ) if favorite_field is not None else None,
+            )
+            if favorite_field is not None
+            else None,
             is_see_later=Exists(
                 see_later_field.filter(
                     pk=OuterRef("pk"),
                 ),
-            ) if see_later_field is not None else None,
+            )
+            if see_later_field is not None
+            else None,
         )
     return queryset

@@ -59,8 +59,11 @@ class Task(models.Model):
         verbose_name_plural = "статусы загрузок"
 
     def __str__(self):
-        return (f"{self.media.card.name} — {self.get_status_display()} — "
-                f"{self.date_added}") if self.media.card else "Карточка отсутствует"
+        return (
+            f"{self.media.card.name} — {self.get_status_display()} — " f"{self.date_added}"
+            if self.media.card
+            else "Карточка отсутствует"
+        )
 
 
 class VideoQuality(models.Model):
