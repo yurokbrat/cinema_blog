@@ -50,12 +50,10 @@ deploy:
     - chmod 700 ~/.ssh
     - eval $(ssh-agent -s)
     - echo "${SSH_KEY}" | tr -d '\r' | ssh-add -
-    - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - echo "$ENV_FILE" > .env
-    - docker-compose --env-file .env -f local.yml pull
-    - docker-compose --env-file .env -f local.yml down --timeout=60 --remove-orphans
-    - docker-compose --env-file .env -f local.yml up --build --detach
+    - docker-compose --env-file .env -f production.yml pull
+    - docker-compose --env-file .env -f production.yml down --timeout=60 --remove-orphans
+    - docker-compose --env-file .env -f production.yml up --build --detach
     - docker image prune -f || true
   when: manual
