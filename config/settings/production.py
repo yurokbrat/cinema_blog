@@ -64,7 +64,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
     "DJANGO_DEFAULT_FROM_EMAIL",
-    default="try_kino <noreply@example.com>",
+    default="try_kino kino@google.com>",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
@@ -138,7 +138,7 @@ LOGGING = {
 # -------------------------------------------------------------------------------
 # Tools that generate code samples can use SERVERS to point to the correct domain
 SPECTACULAR_SETTINGS["SERVERS"] = [
-    {"url": "https://example.com", "description": "Production server"},
+    {"url": "https://belotserkovskiy.techhost.wtf", "description": "Production server"},
 ]
 # Your stuff...
 # ------------------------------------------------------------------------------

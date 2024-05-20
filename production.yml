@@ -16,8 +16,8 @@ services:
       - postgres
       - redis
     env_file:
-      - ./.envs/.production/.django
-      - ./.envs/.production/.postgres
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
     command: /start
 
   postgres:
