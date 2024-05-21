@@ -43,16 +43,18 @@ pytest:
 deploy:
   stage: deploy
   image: docker:latest
-  script:
+  before_script:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
     - echo "$SSH_PUBLIC_KEY" > ~/.ssh/id_rsa.pub
     - chmod 600 ~/.ssh/id_rsa
     - chmod 644 ~/.ssh/id_rsa.pub
     - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
-    - ssh -tt $SERVER_USER@$SERVER_HOST
-    - cd kino_server/Belotserkovskiy
-    - git pull https://${CI_USERNAME}:${CI_PASSWORD}@${CI_PATH}
-    - docker-compose -f production.yml up --build --detach
-    - docker image prune -f || true
+  script:
+    - ssh -i ~/.ssh/id_rsa -tt $SERVER_USER@$SERVER_HOST << EOF
+      cd kino_server/Belotserkovskiy
+      git pull https://${CI_USERNAME}:${CI_PASSWORD}@${CI_PATH}
+      docker-compose -f production.yml up --build --detach
+      docker image prune -f || true
+      EOF
   when: manual
