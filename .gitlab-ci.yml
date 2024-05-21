@@ -1,6 +1,5 @@
 image: docker:20.10.16
 stages:
-  - get-ssh-key
   - lint
   - test
   - deploy
@@ -11,14 +10,6 @@ variables:
   POSTGRES_DB: 'test_kino'
   POSTGRES_HOST_AUTH_METHOD: trust
   CELERY_BROKER_URL: 'redis://redis:6379/0'
-
-generate_ssh_key:
-  stage: get-ssh-key
-  image: alpine
-  script:
-    - mkdir -p ~/.ssh
-    - ssh-keygen -t rsa -b 4096 -C "yuriy.belotserkovskiy@redcollar.ru" -N "" -f ~/.ssh/id_rsa
-    - cat ~/.ssh/id_rsa.pub
 
 precommit:
   stage: lint
@@ -39,6 +30,9 @@ pytest:
   services:
     - docker:dind
   before_script:
+    - mkdir -p ~/.ssh
+    - ssh-keygen -t rsa -b 4096 -C "yuriy.belotserkovskiy@redcollar.ru" -N "" -f ~/.ssh/id_rsa
+    - cat ~/.ssh/id_rsa.pub
     - docker-compose -f test.yml build
     - docker-compose -f test.yml run --rm django_kino_test python manage.py migrate
     - docker-compose -f test.yml up -d
