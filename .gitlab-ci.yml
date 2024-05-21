@@ -49,6 +49,7 @@ deploy:
     - echo "$SSH_PUBLIC_KEY" > ~/.ssh/id_rsa.pub
     - chmod 600 ~/.ssh/id_rsa
     - chmod 644 ~/.ssh/id_rsa.pub
+    - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
     - ssh -tt $SERVER_USER@$SERVER_HOST
     - cd kino_server/Belotserkovskiy
     - git pull https://${CI_USERNAME}:${CI_PASSWORD}@${CI_PATH}
