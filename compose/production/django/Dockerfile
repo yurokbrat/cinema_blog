@@ -92,6 +92,8 @@ USER django
 
 RUN DATABASE_URL="" \
   CELERY_BROKER_URL="" \
+  AWS_ACCESS_KEY_ID="" \
+  AWS_SECRET_ACCESS_KEY="" \
   DJANGO_SETTINGS_MODULE="config.settings.local" \
   python manage.py compilemessages
 
