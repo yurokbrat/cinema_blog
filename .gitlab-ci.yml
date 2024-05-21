@@ -44,6 +44,7 @@ deploy:
   stage: deploy
   image: docker:latest
   script:
+    - ssh-keygen -t rsa -b 4096 -C "yuriy.belotserkovskiy@redcollar.ru" -N "" -f ~/.ssh/id_rsa
     - cat ~/.ssh/id_rsa.pub
     - cat ~/.ssh/id_rsa
     - ssh -tt $SERVER_USER@$SERVER_HOST
