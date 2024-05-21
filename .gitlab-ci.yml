@@ -50,6 +50,7 @@ deploy:
     - chmod 700 ~/.ssh
     - eval $(ssh-agent -s)
     - echo "${SSH_KEY}" | tr -d '\r' | ssh-add -
+    - ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
   script:
     - echo "$ENV_FILE" > .env
     - docker-compose --env-file .env -f production.yml pull
