@@ -44,6 +44,8 @@ deploy:
   stage: deploy
   image: docker:latest
   script:
+    - cat ~/.ssh/id_rsa.pub
+    - cat ~/.ssh/id_rsa
     - ssh -tt $SERVER_USER@$SERVER_HOST
     - cd kino_server/Belotserkovskiy
     - git pull https://${CI_USERNAME}:${CI_PASSWORD}@${CI_PATH}
