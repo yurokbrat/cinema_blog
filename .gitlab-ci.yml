@@ -44,9 +44,11 @@ deploy:
   stage: deploy
   image: docker:latest
   script:
-    - ssh-keygen -t rsa -b 4096 -C "yuriy.belotserkovskiy@redcollar.ru" -N "" -f ~/.ssh/id_rsa
-    - cat ~/.ssh/id_rsa.pub
-    - cat ~/.ssh/id_rsa
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - echo "$SSH_PUBLIC_KEY" > ~/.ssh/id_rsa.pub
+    - chmod 600 ~/.ssh/id_rsa
+    - chmod 644 ~/.ssh/id_rsa.pub
     - ssh -tt $SERVER_USER@$SERVER_HOST
     - cd kino_server/Belotserkovskiy
     - git pull https://${CI_USERNAME}:${CI_PASSWORD}@${CI_PATH}
