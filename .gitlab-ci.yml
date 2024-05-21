@@ -51,7 +51,7 @@ deploy:
     - chmod 644 ~/.ssh/id_rsa.pub
     - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
   script:
-    - ssh -tt $SERVER_USER@$SERVER_HOST << 'EOF'
+    - ssh -tt $SERVER_USER@$SERVER_HOST << EOF
       whoami
       pwd
       ls -la
