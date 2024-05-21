@@ -97,6 +97,9 @@ RUN DATABASE_URL="" \
   AWS_STORAGE_BUCKET_NAME="" \
   USE_DOCKER="" \
   DJANGO_SETTINGS_MODULE="config.settings.production" \
+  DJANGO_SECRET_KEY="" \
+  DJANGO_ADMIN_URL="" \
+  WAGTAIL_ADMIN_URL="" \
   python manage.py compilemessages
 
 ENTRYPOINT ["/entrypoint"]
