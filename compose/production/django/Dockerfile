@@ -94,6 +94,7 @@ RUN DATABASE_URL="" \
   CELERY_BROKER_URL="" \
   AWS_ACCESS_KEY_ID="" \
   AWS_SECRET_ACCESS_KEY="" \
+  AWS_STORAGE_BUCKET_NAME="" \
   DJANGO_SETTINGS_MODULE="config.settings.local" \
   python manage.py compilemessages
 
