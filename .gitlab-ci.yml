@@ -52,8 +52,6 @@ deploy:
     - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
   script:
     - ssh -tt $SERVER_USER@$SERVER_HOST <<EOF
-      whoami
-      pwd
       ls -a
       cd kino_server/Belotserkovskiy
       ls -a
