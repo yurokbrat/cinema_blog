@@ -40,6 +40,14 @@ pytest:
     - docker-compose -f test.yml down
     - docker image rm postgres_kino_test
 
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker-compose -f production.yml build
+
 deploy:
   stage: deploy
   image: docker:latest
