@@ -52,4 +52,3 @@ CELERY_FLOWER_PASSWORD=DlokLwE6tf2fKYicdNSDA0oPAop75rjvJYQc6DUcR6gQvpa3vy1JnenN3
 # IMDb API
 # ------------------------------------------------------------------------------
 IMDB_API=https://www.omdbapi.com/?apikey=a01fdf9d&i=
-
