@@ -1,6 +1,7 @@
 # ruff: noqa: E501
 import typing
 
+from .base import *  # noqa: F403
 from .base import DATABASES
 from .base import INSTALLED_APPS
 from .base import SPECTACULAR_SETTINGS
@@ -77,7 +78,8 @@ EMAIL_SUBJECT_PREFIX = env(
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL regex.
-ADMIN_URL = env("DJANGO_ADMIN_URL")
+DJANGO_ADMIN_URL = env("DJANGO_ADMIN_URL")
+WAGTAIL_ADMIN_URL = env("WAGTAIL_ADMIN_URL")
 
 # Anymail
 # ------------------------------------------------------------------------------

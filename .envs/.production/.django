@@ -4,10 +4,10 @@
 DJANGO_SETTINGS_MODULE=config.settings.local
 DJANGO_SECRET_KEY=qpmx7lnmCWfRFRWVqlKR8ixp28AtJtjNtDZj4t8RqyFSJhl7Lyxkj7j4bpMpisrG
 DJANGO_ADMIN_URL=Q2KgZQc3i2Zz6NQzsYIOd6DRCrmyLmL8/
+WAGTAIL_ADMIN_URL=WGQ2KgZQc3i2Zz6NQzsYIOd6DRCrmyLmL8/
 DJANGO_ALLOWED_HOSTS=belotserkovskiy.techhost.wtf
 USE_DOCKER=yes
 IPYTHONDIR=/app/.ipython
-DATABASE_URL=postgres://postgres:1488@postgres:5432/kino
 PATH_TO_MEDIA=/app/kino/media
 
 # Security

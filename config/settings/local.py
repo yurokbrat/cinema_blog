@@ -81,3 +81,7 @@ CELERY_TASK_EAGER_PROPAGATES = True
 # Your stuff...
 # ------------------------------------------------------------------------------
 CELERY_TASK_ALWAYS_EAGER = False
+
+# Django Admin URL.
+DJANGO_ADMIN_URL = "admin/"
+WAGTAIL_ADMIN_URL = "blog-admin/"
