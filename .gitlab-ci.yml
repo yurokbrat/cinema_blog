@@ -46,13 +46,8 @@ pytest:
 deploy:
   stage: deploy
   image: docker:latest
-  before_script:
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - eval $(ssh-agent -s)
-    - echo "${SSH_KEY}" | tr -d '\r' | ssh-add -
-    - ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
   script:
+    - ssh $SERVER_USER@$SERVER_HOST
     - cd kino_server/Belotserkovskiy
     - git pull https://${CI_USERNAME}:${CI_PASSWORD}@${CI_PATH}
     - docker-compose -f production.yml up --build --detach
