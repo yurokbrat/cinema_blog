@@ -1,0 +1,55 @@
+# General
+# ------------------------------------------------------------------------------
+# DJANGO_READ_DOT_ENV_FILE=True
+DJANGO_SETTINGS_MODULE=config.settings.local
+DJANGO_SECRET_KEY=qpmx7lnmCWfRFRWVqlKR8ixp28AtJtjNtDZj4t8RqyFSJhl7Lyxkj7j4bpMpisrG
+DJANGO_ADMIN_URL=Q2KgZQc3i2Zz6NQzsYIOd6DRCrmyLmL8/
+DJANGO_ALLOWED_HOSTS=belotserkovskiy.techhost.wtf
+USE_DOCKER=yes
+IPYTHONDIR=/app/.ipython
+DATABASE_URL=postgres://postgres:1488@postgres:5432/kino
+PATH_TO_MEDIA=/app/kino/media
+
+# Security
+# ------------------------------------------------------------------------------
+# TIP: better off using DNS, however, redirect is OK too
+DJANGO_SECURE_SSL_REDIRECT=False
+
+# Email
+# ------------------------------------------------------------------------------
+DJANGO_SERVER_EMAIL=
+
+
+# AWS
+# ------------------------------------------------------------------------------
+AWS_ACCESS_KEY_ID=intern-24-belotserkovskiy
+AWS_SECRET_ACCESS_KEY=8nBvWdhbcJTcC3Hrd1ztDUd
+AWS_S3_MAX_MEMORY_SIZE=100_000_000_000_000
+AWS_S3_REGION_NAME=eu-west-2
+AWS_STORAGE_BUCKET_NAME=intern-24-belotserkovskiy
+AWS_S3_ENDPOINT_URL=https://minio.space.rdclr.ru
+
+# django-allauth
+# ------------------------------------------------------------------------------
+DJANGO_ACCOUNT_ALLOW_REGISTRATION=True
+
+# Gunicorn
+# ------------------------------------------------------------------------------
+WEB_CONCURRENCY=4
+
+
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+
+# Celery
+# ------------------------------------------------------------------------------
+CELERY_BROKER_URL=redis://redis:6379/0
+# Flower
+CELERY_FLOWER_USER=kyYoiTfvpJPpDnqXIYJPSYamXtspORWB
+CELERY_FLOWER_PASSWORD=DlokLwE6tf2fKYicdNSDA0oPAop75rjvJYQc6DUcR6gQvpa3vy1JnenN3TgnSFuI
+
+# IMDb API
+# ------------------------------------------------------------------------------
+IMDB_API=https://www.omdbapi.com/?apikey=a01fdf9d&i=
+
