@@ -337,4 +337,3 @@ kino/media/
 .envs/*
 !.envs/.local/
 !.envs/.test/
-!.envs/.production/

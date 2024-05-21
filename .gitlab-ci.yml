@@ -1,8 +1,8 @@
 image: docker:20.10.16
 stages:
+  - get-ssh-key
   - lint
   - test
-  - build
   - deploy
 
 variables:
@@ -11,6 +11,14 @@ variables:
   POSTGRES_DB: 'test_kino'
   POSTGRES_HOST_AUTH_METHOD: trust
   CELERY_BROKER_URL: 'redis://redis:6379/0'
+
+generate_ssh_key:
+  stage: get-ssh-key
+  image: alpine
+  script:
+    - mkdir -p ~/.ssh
+    - ssh-keygen -t rsa -b 4096 -C "yuriy.belotserkovskiy@redcollar.ru" -N "" -f ~/.ssh/id_rsa
+    - cat ~/.ssh/id_rsa.pub
 
 precommit:
   stage: lint
@@ -41,21 +49,9 @@ pytest:
     - docker-compose -f test.yml down
     - docker image rm postgres_kino_test
 
-build:
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  script:
-    - echo "$ENV_FILE" > .env
-    - cat .env
-    - docker-compose --env-file .env -f production.yml build
-
 deploy:
   stage: deploy
   image: docker:latest
-  variables:
-    DOCKER_HOST: "ssh://${SERVER_USER}@${SERVER_HOST}"
   before_script:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
@@ -63,8 +59,8 @@ deploy:
     - echo "${SSH_KEY}" | tr -d '\r' | ssh-add -
     - ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
   script:
-    - docker-compose --env-file .env -f production.yml pull
-    - docker-compose --env-file .env -f production.yml down --timeout=60 --remove-orphans
-    - docker-compose --env-file .env -f production.yml up --build --detach
+    - cd kino_server/Belotserkovskiy
+    - git pull https://${CI_USERNAME}:${CI_PASSWORD}@${CI_PATH}
+    - docker-compose -f production.yml up --build --detach
     - docker image prune -f || true
   when: manual
