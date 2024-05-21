@@ -48,6 +48,7 @@ build:
     - docker:dind
   script:
     - echo "$ENV_FILE" > .env
+    - cat .env
     - docker-compose --env-file .env -f production.yml build
 
 deploy:
