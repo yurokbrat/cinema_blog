@@ -39,6 +39,9 @@ pytest:
     - docker-compose -f test.yml run django_kino_test pytest -n auto --create-db
     - docker-compose -f test.yml down
     - docker image rm postgres_kino_test
+  only:
+    - main
+    - merge_requests
 
 deploy:
   stage: deploy
@@ -54,4 +57,6 @@ deploy:
     - ssh -tt $SERVER_USER@$SERVER_HOST "cd kino_server/Belotserkovskiy &&
       git pull https://${CI_USERNAME}:${CI_PASSWORD}@${CI_PATH} feature/add-ci-cd &&
       docker-compose -f production.yml up --build --detach && docker image prune -f || true"
-  when: manual
+  only:
+    - main
+    - merge_requests
