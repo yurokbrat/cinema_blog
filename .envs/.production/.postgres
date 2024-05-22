@@ -1,7 +1,0 @@
-# PostgreSQL
-# ------------------------------------------------------------------------------
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
-POSTGRES_DB=kino
-POSTGRES_USER=iVKIFcmwTxiRQgynUBAPIKqyjcQyPbTP
-POSTGRES_PASSWORD=qhGqbxJVIXcWob0zokDkxrSEPrKRK1elbyH3dsRP5eoAnz5TGEJ8pG1qrRTB47t7

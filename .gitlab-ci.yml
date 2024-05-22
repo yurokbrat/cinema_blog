@@ -55,7 +55,7 @@ deploy:
     - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
   script:
     - ssh -tt $SERVER_USER@$SERVER_HOST "cd kino_server/Belotserkovskiy &&
-      git pull https://${CI_USERNAME}:${CI_PASSWORD}@${CI_PATH} feature/add-ci-cd &&
+      git pull https://${CI_USERNAME}:${CI_PASSWORD}@${CI_PATH} &&
       docker-compose -f production.yml up --build --detach && docker image prune -f || true"
   only:
     - main
