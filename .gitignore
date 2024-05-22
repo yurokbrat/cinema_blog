@@ -334,4 +334,4 @@ kino/media/
 .pytest_cache/
 .ipython/
 .env
-.envs/.production/*
+.envs/.production
