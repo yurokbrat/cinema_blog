@@ -23,11 +23,11 @@ class S3Client:
             region_name=settings.AWS_S3_REGION_NAME,
         )
 
-        print("endpoint_url =", settings.AWS_S3_ENDPOINT_URL)
-        print("aws_access_key_id =", settings.AWS_ACCESS_KEY_ID)
-        print("aws_secret_access_key =", settings.AWS_SECRET_ACCESS_KEY)
-        print("config =", Config(signature_version="s3v4"))
-        print("region_name =", settings.AWS_S3_REGION_NAME)
+        print("endpoint_url =", settings.AWS_S3_ENDPOINT_URL)  # noqa: T201
+        print("aws_access_key_id =", settings.AWS_ACCESS_KEY_ID)  # noqa: T201
+        print("aws_secret_access_key =", settings.AWS_SECRET_ACCESS_KEY)  # noqa: T201
+        print("config =", Config(signature_version="s3v4"))  # noqa: T201
+        print("region_name =", settings.AWS_S3_REGION_NAME)  # noqa: T201
 
     def download_video(self, media, destination_path):
         file_name = media.source_link.split("/")[-1]
