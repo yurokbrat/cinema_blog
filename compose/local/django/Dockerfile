@@ -33,6 +33,8 @@ ENV BUILD_ENV ${BUILD_ENVIRONMENT}
 
 WORKDIR ${APP_HOME}
 
+# Install ffmpeg
+RUN apt-get update && apt-get install --no-install-recommends -y ffmpeg
 
 # devcontainer dependencies and utils
 RUN apt-get update && apt-get install --no-install-recommends -y \
@@ -87,5 +89,8 @@ RUN chmod +x /start-flower
 
 # copy application code to WORKDIR
 COPY . ${APP_HOME}
+
+# Copy the video file to the desired location for video encoding tests
+COPY ./compose/local/django/video_for_tests/Night_city_cut.mp4 /app/kino/media/source/tests/
 
 ENTRYPOINT ["/entrypoint"]

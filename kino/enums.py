@@ -41,7 +41,7 @@ class CrewChoose(models.TextChoices):
 
 
 class FieldsChoose(models.TextChoices):
-    name = "Название", "Название"
+    name = "Название", "Название"  # type: ignore[assignment]
     posters = "Постер", "Постер"
     country = "Страна", "Страна"
     genre = "Жанр", "Жанр"

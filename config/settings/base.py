@@ -366,29 +366,28 @@ REST_FRAMEWORK = {
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_URLS_REGEX = r"^/api/.*$"
-
 # By Default swagger ui is available only to admin user(s). You can change permission classes to change that
 # See more configuration options at https://drf-spectacular.readthedocs.io/en/latest/settings.html#settings
 SPECTACULAR_SETTINGS = {
     "TITLE": "kino API",
     "DESCRIPTION": "API для отображения фильмов, сериалов и жанров для онлайн-кинотеатра.",
     "VERSION": "1.0.0",
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAuthenticatedOrReadOnly"],
-    'CONTACT': {
-        'name': 'yurokbrat',
-        'url': 'https://t.me/yurokbrat',
-        'email': 'yurokbrat@yandex.ru',
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    "CONTACT": {
+        "name": "yurokbrat",
+        "url": "https://t.me/yurokbrat",
+        "email": "yurokbrat@yandex.ru",
     },
-    'LICENSE': {
-        'name': 'MIT License',
-        'url': 'https://opensource.org/licenses/MIT',
+    "LICENSE": {
+        "name": "MIT License",
+        "url": "https://opensource.org/licenses/MIT",
     },
-    'SWAGGER_UI_DIST': 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest',
-    'TAGS': [
-        {'name': 'Users', 'description': 'Все операции, связанные с пользователем'},
-        {'name': 'Films', 'description': 'Все операции, связанные с фильмами'},
-        {'name': 'Serials', 'description': 'Все операции, связанные с сериалами'},
-        {'name': 'Genres', 'description': 'Все операции, связанные с жанрами'},
+    "SWAGGER_UI_DIST": "https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest",
+    "TAGS": [
+        {"name": "Users", "description": "Все операции, связанные с пользователем"},
+        {"name": "Films", "description": "Все операции, связанные с фильмами"},
+        {"name": "Serials", "description": "Все операции, связанные с сериалами"},
+        {"name": "Genres", "description": "Все операции, связанные с жанрами"},
     ],
 }
 
@@ -424,16 +423,14 @@ AWS_S3_MAX_MEMORY_SIZE = env.int(
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#cloudfront
-AWS_S3_ENDPOINT_URL = env("AWS_S3_CUSTOM_DOMAIN", default=None)
-AWS_S3_URL_PROTOCOL = env("AWS_S3_URL_PROTOCOL", default="http:")
+AWS_S3_ENDPOINT_URL = env("AWS_S3_ENDPOINT_URL", default=None)
 AWS_S3_FILE_OVERWRITE = False
-MINIO_ACCESS_URL = env("MINIO_ACCESS_URL", default=None)
 
 # Media
 # ------------------------
 STORAGES = {
     "default": {
-        "BACKEND": "kino.utils.s3.storages.CustomS3Boto3Storage",
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
@@ -457,8 +454,7 @@ THUMBNAIL_FAST_URL = True
 THUMBNAIL_PREFIX = "posters/"
 THUMBNAIL_DEBUG = True
 THUMBNAIL_KVSTORE = "sorl.thumbnail.kvstores.redis_kvstore.KVStore"
-THUMBNAIL_REDIS_URL = env("REDIS_URL", default="localhost")
-
+THUMBNAIL_REDIS_URL = env("REDIS_URL")
 # Wagtail
 # ------------------------
 WAGTAIL_SITE_NAME = "kino"

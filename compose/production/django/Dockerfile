@@ -37,6 +37,8 @@ WORKDIR ${APP_HOME}
 RUN addgroup --system django \
     && adduser --system --ingroup django django
 
+# Install ffmpeg
+RUN apt-get update && apt-get install --no-install-recommends -y ffmpeg
 
 # Install required system dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \
@@ -90,7 +92,15 @@ USER django
 
 RUN DATABASE_URL="" \
   CELERY_BROKER_URL="" \
-  DJANGO_SETTINGS_MODULE="config.settings.test" \
+  AWS_ACCESS_KEY_ID="" \
+  AWS_SECRET_ACCESS_KEY="" \
+  AWS_STORAGE_BUCKET_NAME="" \
+  USE_DOCKER="" \
+  DJANGO_SETTINGS_MODULE="config.settings.production" \
+  DJANGO_SECRET_KEY="" \
+  DJANGO_ADMIN_URL="" \
+  WAGTAIL_ADMIN_URL="" \
+  REDIS_URL="" \
   python manage.py compilemessages
 
 ENTRYPOINT ["/entrypoint"]

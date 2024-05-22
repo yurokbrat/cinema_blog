@@ -13,9 +13,17 @@ from kino.users.tests.factories import UserFactory
 
 @pytest.mark.django_db()
 class BaseCard(TestCase):
+    film_crew: FilmCrewFactory
+    genre: GenreFactory
+    country: CountryFactory
+    original_user: UserFactory
+    test_film: FilmFactory
+    test_serial: SerialFactory
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+
         cls.country = CountryFactory()
         cls.genre = GenreFactory()
         cls.film_crew = FilmCrewFactory()

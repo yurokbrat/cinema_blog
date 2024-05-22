@@ -13,13 +13,12 @@ class BaseTestEndpoints(BaseAPICard):
             f"Ответ: {response.data}",
         )
         self.assertTrue(
-            response.data['results'],
+            response.data["results"],
             f"В ответе нет данных: {response.data['results']}",
         )
         self.assertEqual(
-            len(response.data['results']),
-            EXPECTED_COUNT,
-            f"Ответ: {response.data['results']}")
+            len(response.data["results"]), EXPECTED_COUNT, f"Ответ: {response.data['results']}"
+        )
 
     def base_test_retrieve(self, card):
         response = self._response_detail(card)
@@ -41,7 +40,6 @@ class BaseTestEndpoints(BaseAPICard):
 
 
 class TestFilmsEndpoints(BaseTestEndpoints):
-
     def test_films_list(self):
         """
         Тест для списка фильмов

@@ -14,7 +14,6 @@ class BlogViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
 ):
-
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 

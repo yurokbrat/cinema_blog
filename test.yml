@@ -1,0 +1,57 @@
+version: '3.9'
+
+volumes:
+  postgres_kino_test_data: { }
+  postgres_kino_test_data_backups: { }
+
+services:
+  django_kino_test: &django_kino_test
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: django_kino_test
+    container_name: django_kino_test
+    depends_on:
+      - postgres_kino_test
+      - redis_kino_test
+    volumes:
+      - /app
+    working_dir: /app
+    env_file:
+      - ./.envs/.test/.django
+      - ./.envs/.test/.postgres
+    command: /start
+
+  postgres_kino_test:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: postgres_kino_test
+    container_name: postgres_kino_test
+    volumes:
+      - postgres_kino_test_data:/var/lib/postgresql/data
+      - postgres_kino_test_data_backups:/backups
+    env_file:
+      - ./.envs/.test/.postgres
+
+  redis_kino_test:
+    image: docker.io/redis:6
+    container_name: redis_kino_test
+
+  celeryworker_kino_test:
+    <<: *django_kino_test
+    image: celeryworker_kino_test
+    container_name: celeryworker_kino_test
+    depends_on:
+      - redis_kino_test
+      - postgres_kino_test
+    command: /start-celeryworker
+
+  celerybeat_kino_test:
+    <<: *django_kino_test
+    image: celerybeat_kino_test
+    container_name: celerybeat_kino_test
+    depends_on:
+      - redis_kino_test
+      - postgres_kino_test
+    command: /start-celerybeat

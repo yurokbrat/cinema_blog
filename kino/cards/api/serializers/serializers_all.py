@@ -1,3 +1,4 @@
+from django.conf import settings
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
@@ -12,7 +13,7 @@ from kino.filmcrew.serializers import (
     FilmCrewSerializer,
 )
 from kino.utils.other.thumbnail import poster_thumbnail
-from django.conf import settings
+
 
 # Serializers for all users
 class GenreSerializer(serializers.ModelSerializer):
@@ -91,11 +92,12 @@ class BaseSerializer(serializers.ModelSerializer):
                 '["360", "1280", "1920"]: string($uri)',
             },
             "enum": [
-                "360", "1280", "1920",
+                "360",
+                "1280",
+                "1920",
             ],
             "example": {
-                f"{size}":
-                f"{settings.AWS_S3_ENDPOINT_URL}/{settings.AWS_STORAGE_BUCKET_NAME}"
+                f"{size}": f"{settings.AWS_S3_ENDPOINT_URL}/{settings.AWS_STORAGE_BUCKET_NAME}"
                 f"/posters/99/ff/99ff09652ba52049d46aba12c4e0c947.jpg"
                 for size in ["360", "1280", "1920"]
             },

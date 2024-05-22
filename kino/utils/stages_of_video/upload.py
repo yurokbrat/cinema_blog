@@ -25,9 +25,7 @@ def upload_video(output_file, media):
             urls_to_quality(
                 media,
                 quality_choose,
-                f"{settings.AWS_S3_ENDPOINT_URL}/"
-                f"{settings.AWS_STORAGE_BUCKET_NAME}/"
-                f"{path_s3}",
+                f"{settings.AWS_S3_ENDPOINT_URL}/{settings.AWS_STORAGE_BUCKET_NAME}/{path_s3}",
             )
             info_unload = f"{media.card.name} - {quality_choose} was unload"
             logging.info(info_unload)

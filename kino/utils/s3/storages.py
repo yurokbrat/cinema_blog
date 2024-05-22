@@ -3,7 +3,6 @@ from pathlib import Path
 import boto3
 from botocore.config import Config
 from django.conf import settings
-from storages.backends.s3boto3 import S3Boto3Storage
 
 from kino.utils.other.create_folder import get_media_folders
 from kino.utils.other.generate_hide_url import (
@@ -39,12 +38,3 @@ class S3Client:
         path_s3 = f"{content_type_folder}/{file}"
         self.client.upload_file(output_file, self.bucket_name, path_s3)
         return path_s3
-
-
-class CustomS3Boto3Storage(S3Boto3Storage):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if settings.MINIO_ACCESS_URL:
-            self.secure_urls = False
-            self.custom_domain = settings.MINIO_ACCESS_URL

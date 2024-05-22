@@ -13,6 +13,11 @@ def get_media(card):
 
 
 class BaseVideoCard(TestCase):
+    film: FilmFactory
+    media: Media
+    quality: int
+    aspect_ratio: float
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

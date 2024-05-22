@@ -7,14 +7,18 @@ class StreamFieldSerializer(StreamField):
         for block in value:
             api_representation = block.block.get_api_representation(block.value, self.context)
             if isinstance(api_representation, dict):
-                blocks.append({
-                    "type": block.block_type,
-                    "value": api_representation,
-                })
+                blocks.append(
+                    {
+                        "type": block.block_type,
+                        "value": api_representation,
+                    },
+                )
             else:
-                blocks.append({
-                    "type": block.block_type,
-                    "id": block.id,
-                    "value": api_representation,
-                })
+                blocks.append(
+                    {
+                        "type": block.block_type,
+                        "id": block.id,
+                        "value": api_representation,
+                    },
+                )
         return blocks

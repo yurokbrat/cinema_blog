@@ -10,4 +10,4 @@ def mock_api_to_imdb(id_imdb):
         resp.add(responses.GET, url_to_imdb, json=response_body, status=200)
         response = requests.get(url_to_imdb, timeout=15)
         data = response.json()
-        return float(data['imdbRating'])
+        return float(data["imdbRating"])

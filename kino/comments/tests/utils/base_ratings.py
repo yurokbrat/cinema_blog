@@ -12,6 +12,9 @@ RATING_50 = 50.0
 
 
 class BaseRatingCard(BaseCard):
+    original_user: UserFactory
+    other_user: UserFactory
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

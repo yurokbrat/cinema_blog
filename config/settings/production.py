@@ -1,4 +1,7 @@
 # ruff: noqa: E501
+import typing
+
+from .base import *  # noqa: F403
 from .base import DATABASES
 from .base import INSTALLED_APPS
 from .base import SPECTACULAR_SETTINGS
@@ -62,7 +65,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
     "DJANGO_DEFAULT_FROM_EMAIL",
-    default="try_kino <noreply@example.com>",
+    default="try_kino kino@google.com>",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
@@ -75,7 +78,8 @@ EMAIL_SUBJECT_PREFIX = env(
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL regex.
-ADMIN_URL = env("DJANGO_ADMIN_URL")
+DJANGO_ADMIN_URL = env("DJANGO_ADMIN_URL")
+WAGTAIL_ADMIN_URL = env("WAGTAIL_ADMIN_URL")
 
 # Anymail
 # ------------------------------------------------------------------------------
@@ -85,7 +89,7 @@ INSTALLED_APPS += ["anymail"]
 # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
 # https://anymail.readthedocs.io/en/stable/esps
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-ANYMAIL = {}
+ANYMAIL: dict[str, typing.Any] = {}
 
 
 # LOGGING
@@ -136,7 +140,7 @@ LOGGING = {
 # -------------------------------------------------------------------------------
 # Tools that generate code samples can use SERVERS to point to the correct domain
 SPECTACULAR_SETTINGS["SERVERS"] = [
-    {"url": "https://example.com", "description": "Production server"},
+    {"url": "https://belotserkovskiy.techhost.wtf", "description": "Production server"},
 ]
 # Your stuff...
 # ------------------------------------------------------------------------------
