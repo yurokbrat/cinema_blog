@@ -454,7 +454,7 @@ THUMBNAIL_FAST_URL = True
 THUMBNAIL_PREFIX = "posters/"
 THUMBNAIL_DEBUG = True
 THUMBNAIL_KVSTORE = "sorl.thumbnail.kvstores.redis_kvstore.KVStore"
-
+THUMBNAIL_REDIS_URL = env("REDIS_URL")
 # Wagtail
 # ------------------------
 WAGTAIL_SITE_NAME = "kino"
