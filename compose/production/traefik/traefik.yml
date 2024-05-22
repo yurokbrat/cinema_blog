@@ -31,7 +31,7 @@ certificatesResolvers:
 http:
   routers:
     web-secure-router:
-      rule: 'Host(`belotserkovskiy.techhost.wtf`) || Host(`www.belotserkovskiy.techhost.wtf`)'
+      rule: 'Host(`belotserkovskiy.techhost.wtf`)'
       entryPoints:
         - web-secure
       middlewares:
