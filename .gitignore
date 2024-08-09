@@ -333,5 +333,4 @@ kino/media/
 
 .pytest_cache/
 .ipython/
-.envs/
-!.envs/.test
+.envs/.local
