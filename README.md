@@ -1,28 +1,31 @@
-<<<<<<< HEAD
-# try_kino
+# Cinema Blog 🎬
 
-Behold My Awesome Project!
+### Welcome to **Cinema Blog**! 
+This Django-based application uses Python, Django REST Framework (DRF), and Wagtail CMS to manage movie content, user interactions, and more.
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-## Settings
+## Features 🚀
 
-Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
+- **Movie Management:** Add, edit, and manage movies with video uploads and encoding in multiple qualities. 🎥
+- **User Interaction:** Support for likes, comments, and a blog section. 💬👍
+- **Admin Interface:** Intuitive admin dashboard powered by Wagtail CMS. 🛠️
 
-## Basic Commands
+## Setup 🛠️
 
-### Setting Up Your Users
+### Basic Commands
 
-- To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+#### Setting Up Users
 
-- To create a **superuser account**, use this command:
+- **Superuser Account:** Create with the command:
 
-      $ python manage.py createsuperuser
+  ```bash
+  $ python manage.py createsuperuser
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
-### Type checks
+### Type checks 
 
 Running type checks with mypy:
 
@@ -80,13 +83,38 @@ Please check [cookiecutter-django Docker documentation](http://cookiecutter-djan
 
 With Mailpit running, to view messages that are sent by your application, open your browser and go to `http://127.0.0.1:8025`
 
-## Deployment
+## Deployment 🚀
 
-The following details how to deploy this application.
+### Running Locally
+To run the application locally, use the local.yml Docker Compose configuration. This setup includes Django, PostgreSQL, Redis, Mailpit, and other services necessary for development. To start the application, run:
 
-### Docker
+``` bash
+docker-compose -f local.yml up --build
+```
+
+This command will build and start the containers defined in local.yml, allowing you to develop and test the application on your local machine.
+
+### Production Deployment
+
+For production, use the production.yml Docker Compose configuration. This setup is optimized for a production environment with services like Traefik for reverse proxy and SSL termination. To deploy in production, run:
+
+```bash
+docker-compose -f production.yml up --build
+```
+Ensure that your production environment is properly configured, including environment variables and volumes.
+
+### Running Tests
+To run tests, use the test.yml Docker Compose configuration. This setup is tailored for running tests and includes Django, PostgreSQL, Redis, and Celery services. To execute the test suite, use:
+
+```bash
+docker-compose -f test.yml run django_kino_test pytest -n auto --create-db
+```
+This command will set up the test environment and run your test cases.
+
+For more detailed Docker deployment instructions, refer to the cookiecutter-django Docker documentation. 🌐
+
+
 
 See detailed [cookiecutter-django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html).
 =======
-# video_online
->>>>>>> 17c5756712ba5c3343bb80f9421553d804cfebca
+
