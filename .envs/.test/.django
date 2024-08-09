@@ -1,27 +1,12 @@
 # General
 # ------------------------------------------------------------------------------
 USE_DOCKER=yes
-IPYTHONDIR=/app/.ipython
-DATABASE_URL=postgres://postgres:1488@127.0.0.1:5432/kino
 PATH_TO_MEDIA=/app/kino/media
-DJANGO_SETTINGS_MODULE=config.settings.local
+DJANGO_SETTINGS_MODULE=config.settings.test
 # Redis
 # ------------------------------------------------------------------------------
-REDIS_URL=redis://redis:6379/0
+REDIS_URL=redis://redis_kino_test:6379/0
 
 # Celery
 # ------------------------------------------------------------------------------
-CELERY_BROKER_URL=redis://redis:6379/0
-
-# IMDb API
-# ------------------------------------------------------------------------------
-IMDB_API=https://www.omdbapi.com/?apikey=a01fdf9d&i=
-
-# MY_CUSTOM_AWS
-# ------------------------------------------------------------------------------
-AWS_ACCESS_KEY_ID=intern-24-belotserkovskiy
-AWS_SECRET_ACCESS_KEY=8nBvWdhbcJTcC3Hrd1ztDUd
-AWS_S3_MAX_MEMORY_SIZE=100_000_000_000_000
-AWS_S3_REGION_NAME=eu-west-2
-AWS_STORAGE_BUCKET_NAME=intern-24-belotserkovskiy
-AWS_S3_ENDPOINT_URL=https://minio.space.rdclr.ru
+CELERY_BROKER_URL=redis://redis_kino_test:6379/0
