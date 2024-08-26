@@ -3,7 +3,7 @@ import pytest
 from kino.comments.tests.utils.base_ratings import BaseRatingCard
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 class TestRatingsFilm(BaseRatingCard):
     def test_film_default_imdb_rating(self):
         self.default_imdb_rating(self.test_film)
@@ -36,7 +36,7 @@ class TestRatingsFilm(BaseRatingCard):
         self.update_avg_rating_after_dislike(self.test_film)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 class TestRatingsSerial(BaseRatingCard):
     def test_serial_default_imdb_rating(self):
         self.default_imdb_rating(self.test_serial)

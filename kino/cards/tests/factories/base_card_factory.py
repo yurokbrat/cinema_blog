@@ -11,16 +11,16 @@ class CardFactory(DjangoModelFactory):
     def countries(self, create, extracted, **kwargs):
         if not create or not extracted:
             return
-        self.country.add(*extracted)
+        self.country.set(*extracted)
 
     @post_generation
     def genres(self, create, extracted, **kwargs):
         if not create or not extracted:
             return
-        self.genre.add(*extracted)
+        self.genre.set(*extracted)
 
     @post_generation
     def film_crews(self, create, extracted, **kwargs):
         if not create or not extracted:
             return
-        self.film_crew.add(*extracted)
+        self.film_crew.set(*extracted)

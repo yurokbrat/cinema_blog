@@ -183,6 +183,7 @@ typings/
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
+.idea/
 
 # Gradle:
 .idea/**/gradle.xml
@@ -333,4 +334,5 @@ kino/media/
 
 .pytest_cache/
 .ipython/
-.envs/.local
+.envs/*
+!.envs/.test

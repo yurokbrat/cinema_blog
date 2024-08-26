@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from simple_history.models import HistoricalRecords
 from sorl.thumbnail import ImageField
 
 from kino.enums import AgeChoose
@@ -19,7 +20,7 @@ class Genre(models.Model):
         verbose_name = "жанр"
         verbose_name_plural = "жанры"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -30,14 +31,14 @@ class Country(models.Model):
         verbose_name = "страна"
         verbose_name_plural = "страны"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
 class Card(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Название на русском")
+    name = models.CharField(max_length=255, verbose_name="Название")
     description = models.TextField(verbose_name="Описание")
-    country = models.ManyToManyField(Country, verbose_name="Страна производитель")
+    country = models.ManyToManyField(Country, verbose_name="Страна производства")
     genre = models.ManyToManyField(Genre, verbose_name="Жанр")
     film_crew = models.ManyToManyField(
         "filmcrew.FilmCrew",
@@ -47,17 +48,18 @@ class Card(models.Model):
     avg_rating = models.FloatField(
         default=0.0,
         blank=True,
-        verbose_name="Рейтинг пользователей",
+        verbose_name="Рейтинг от пользователей",
     )
     id_imdb = models.CharField(
         max_length=255,
         blank=True,
-        verbose_name="ID фильма/сериала на IMDb",
+        verbose_name="ID на IMDb",
     )
     rating_imdb = models.FloatField(
         default=0.0,
         blank=True,
         verbose_name="Рейтинг IMDb",
+        editable=False,
     )
     age_restriction = models.CharField(
         choices=AgeChoose.choices,
@@ -87,12 +89,13 @@ class Card(models.Model):
 
 class Film(Card):
     year = models.PositiveSmallIntegerField(blank=True, verbose_name="Год выхода фильма")
+    history = HistoricalRecords()
 
     class Meta:
         verbose_name = "фильм"
         verbose_name_plural = "фильмы"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -114,12 +117,13 @@ class Serial(Card):
         blank=True,
         verbose_name="Количество серий",
     )
+    history = HistoricalRecords()
 
     class Meta:
         verbose_name = "сериал"
         verbose_name_plural = "сериалы"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -144,8 +148,8 @@ class PhotoFilm(models.Model):
         verbose_name = "фотография фильма"
         verbose_name_plural = "фотографии фильмов"
 
-    def __str__(self):
-        return f"Фото фильма {self.film.name}"
+    def __str__(self) -> str:
+        return f"Фото фильма {self.film_id}"
 
 
 class PhotoSerial(models.Model):
@@ -169,5 +173,5 @@ class PhotoSerial(models.Model):
         verbose_name = "фотография сериала"
         verbose_name_plural = "фотографии сериалов"
 
-    def __str__(self):
-        return f"Фото сериала {self.serial.name}"
+    def __str__(self) -> str:
+        return f"Фото сериала {self.serial_id}"

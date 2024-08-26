@@ -12,7 +12,7 @@ def check_comments(card):
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 class TestComments(BaseCommentsCard):
     def test_default_count_comments(self):
         """

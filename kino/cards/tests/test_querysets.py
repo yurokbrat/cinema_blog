@@ -31,7 +31,7 @@ FIELDS_GUEST_DETAIL = [*FilmFullGuestSerializer.Meta.fields]
 FIELDS_GUEST_LIST = [*FilmListGuestSerializer.Meta.fields]
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 class TestFilmViewSet(BaseCheckFields):
     def test_detail_fields_for_admin(self):
         response = self._response_detail(self.test_film, self.admin)

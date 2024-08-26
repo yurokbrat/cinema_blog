@@ -2,6 +2,6 @@
 # ------------------------------------------------------------------------------
 POSTGRES_HOST=postgres_kino_test
 POSTGRES_PORT=5432
-POSTGRES_DB=kino
-POSTGRES_USER=iVKIFcmwTxiRQgynUBAPIKqyjcQyPbTP
-POSTGRES_PASSWORD=UHtW44w94Qv5tgyxeChJ5XrnacAqxHkEH06zBPSDn9bqjlq6b1Yc0E1LpFDUX7td
+POSTGRES_DB=kino_test
+POSTGRES_USER=kino_test
+POSTGRES_PASSWORD=kino_test

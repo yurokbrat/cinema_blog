@@ -4,7 +4,6 @@ from unittest.mock import patch
 import pytest
 from django.conf import settings
 
-from config.settings.base import env
 from kino.enums import StatusChoose
 from kino.video.models import Task, Media
 from kino.video.tasks import download_video
@@ -12,7 +11,7 @@ from kino.video.tests.utils.base_video import BaseVideoCard
 from kino.video.tests.utils.convert import coding_video
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 class TestVideoTasks(BaseVideoCard):
     output_file: Path
     media: Media
@@ -25,13 +24,12 @@ class TestVideoTasks(BaseVideoCard):
 
     @patch("kino.video.tasks.encode_video.delay")
     @pytest.mark.skipif(
-        env("AWS_ACCESS_KEY_ID") is not None and env("AWS_SECRET_ACCESS_KEY") is not None,
+        settings.AWS_ACCESS_KEY_ID != "" and settings.AWS_SECRET_ACCESS_KEY != "",
         reason="AWS credentials are set, skipping test",
     )
     def test_starting_task_with_correct_parameters(self, mock_encode_video):
         download_video(self.media.id)
-        task: Task | None = Task.objects.filter(media=self.media).first()
-        if task:
+        if task := Task.objects.filter(media=self.media).first():
             mock_encode_video.assert_called_once_with(
                 self.media.source_link,
                 self.media.id,

@@ -24,7 +24,7 @@ class Profession(models.Model):
         verbose_name = "профессия автора"
         verbose_name_plural = "профессии авторов"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -80,5 +80,5 @@ class Author(models.Model):
         verbose_name = "автор"
         verbose_name_plural = "авторы"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Автор {self.first_name} {self.last_name}"

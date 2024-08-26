@@ -1,6 +1,6 @@
 # Cinema Blog 🎬
 
-### Welcome to **Cinema Blog**! 
+### Welcome to **Cinema Blog**!
 This Django-based application uses Python, Django REST Framework (DRF), and Wagtail CMS to manage movie content, user interactions, and more.
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
@@ -25,7 +25,7 @@ This Django-based application uses Python, Django REST Framework (DRF), and Wagt
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
-### Type checks 
+### Type checks
 
 Running type checks with mypy:
 
@@ -117,4 +117,3 @@ For more detailed Docker deployment instructions, refer to the cookiecutter-djan
 
 See detailed [cookiecutter-django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html).
 =======
-

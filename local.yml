@@ -1,20 +1,20 @@
 version: '3'
 
 volumes:
-  kino_local_postgres_data: {}
-  kino_local_postgres_data_backups: {}
+  postgres_kino_local_data: {}
+  postgres_kino_local_data_backups: {}
 
 services:
-  django: &django
+  django_kino_local: &django
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    image: kino_local_django
-    container_name: kino_local_django
+    image: django_kino_local
+    container_name: django_kino_local
     depends_on:
-      - postgres
-      - redis
-      - mailpit
+      - postgres_kino_local
+      - redis_kino_local
+      - mailpit_kino_local
     volumes:
       - /app
     working_dir: /app
@@ -25,21 +25,21 @@ services:
       - '7362:7362'
     command: /start
 
-  postgres:
+  postgres_kino_local:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: kino_production_postgres
-    container_name: kino_local_postgres
+    image: postgres_kino_local
+    container_name: postgres_kino_local
     volumes:
-      - kino_local_postgres_data:/var/lib/postgresql/data
-      - kino_local_postgres_data_backups:/backups
+      - postgres_kino_local_data:/var/lib/postgresql/data
+      - postgres_kino_local_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
 
-  docs:
-    image: kino_local_docs
-    container_name: kino_local_docs
+  docs_kino_local:
+    image: docs_kino_local
+    container_name: docs_kino_local
     build:
       context: .
       dockerfile: ./compose/local/docs/Dockerfile
@@ -53,42 +53,42 @@ services:
       - '9090:9090'
     command: /start-docs
 
-  mailpit:
+  mailpit_kino_local:
     image: docker.io/axllent/mailpit:latest
-    container_name: kino_local_mailpit
+    container_name: mailpit_kino_local
     ports:
       - "8026:8025"
 
-  redis:
+  redis_kino_local:
     image: docker.io/redis:6
-    container_name: kino_local_redis
+    container_name: redis_kino_local
 
-  celeryworker:
+  celeryworker_kino_local:
     <<: *django
-    image: kino_local_celeryworker
-    container_name: kino_local_celeryworker
+    image: celeryworker_kino_local
+    container_name: celeryworker_kino_local
     depends_on:
-      - redis
-      - postgres
-      - mailpit
+      - redis_kino_local
+      - postgres_kino_local
+      - mailpit_kino_local
     ports: []
     command: /start-celeryworker
 
-  celerybeat:
+  celerybeat_kino_local:
     <<: *django
-    image: kino_local_celerybeat
-    container_name: kino_local_celerybeat
+    image: celerybeat_kino_local
+    container_name: celerybeat_kino_local
     depends_on:
-      - redis
-      - postgres
-      - mailpit
+      - redis_kino_local
+      - postgres_kino_local
+      - mailpit_kino_local
     ports: []
     command: /start-celerybeat
 
-  flower:
+  flower_kino_local:
     <<: *django
-    image: kino_local_flower
-    container_name: kino_local_flower
+    image: flower_kino_local
+    container_name: flower_kino_local
     ports:
       - '5555:5555'
     command: /start-flower

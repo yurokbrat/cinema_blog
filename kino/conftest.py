@@ -10,17 +10,17 @@ def _media_storage(settings, tmpdir) -> None:
     settings.MEDIA_ROOT = tmpdir.strpath
 
 
-@pytest.fixture()
+@pytest.fixture
 def user(db) -> User:
     return UserFactory()
 
 
-@pytest.fixture()
+@pytest.fixture
 def api_client():
     return APIClient()
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_video(tmp_path):
     # Временный файл для проверки вызова задачи
     input_video = tmp_path / "720.mp4"

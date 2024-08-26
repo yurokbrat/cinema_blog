@@ -1,15 +1,20 @@
+from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from kino.cards.models import Film, Serial
+from kino.cards.models import Film, Serial, Card
 from kino.utils.other.update_ratings import update_rating_imdb, update_rating_for_card
 
 
 # update rating from IMDb
 @receiver(post_save, sender=Film)
 @receiver(post_save, sender=Serial)
-def update_rating_from_imdb(sender, instance, created, update_fields=None, **kwargs):
-    if created or update_fields is None or "rating_imdb" not in update_fields:
+def update_rating_from_imdb(sender: Card, instance, created, update_fields=None, **kwargs):
+    if not settings.USE_IMDB:
+        return
+
+    history = instance.history.first()
+    if history and history.prev_record and history.prev_record.id_imdb is not None:
         update_rating_imdb(sender, instance)
 
 

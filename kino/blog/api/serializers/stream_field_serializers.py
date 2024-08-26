@@ -1,8 +1,10 @@
+from collections.abc import Iterable
+
 from wagtail.api.v2.serializers import StreamField
 
 
 class StreamFieldSerializer(StreamField):
-    def to_representation(self, value, context=None):
+    def to_representation(self, value: Iterable, context=None) -> list:
         blocks = []
         for block in value:
             api_representation = block.block.get_api_representation(block.value, self.context)

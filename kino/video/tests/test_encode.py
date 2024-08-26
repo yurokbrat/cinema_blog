@@ -3,7 +3,6 @@ from pathlib import Path
 import pytest
 from django.conf import settings
 
-from config.settings.base import env
 from kino.enums import StatusChoose
 from kino.utils.stages_of_video.check_urls_to_quality import urls_to_quality
 from kino.utils.stages_of_video.encoding import load_video
@@ -43,7 +42,7 @@ class TestEncodeVideo(BaseVideoCard):
             f"Файл не был создан по адресу {self.output_file}",
         )
 
-    def test_width_output_video(self):
+    def test_resolution_output_video(self):
         if result := check_quality_video(self.output_file):
             width, height = result
             self.assertEqual(
@@ -51,10 +50,6 @@ class TestEncodeVideo(BaseVideoCard):
                 self.quality * self.aspect_ratio,
                 f"Сконвертированное видео создано размером {width}x{height}",
             )
-
-    def test_height_output_video(self):
-        if result := check_quality_video(self.output_file):
-            width, height = result
             self.assertEqual(
                 height,
                 self.quality,
@@ -83,18 +78,8 @@ class TestEncodeVideo(BaseVideoCard):
             f"Задача выполнения кодировки: {task}",
         )
 
-    # Тесты статусов задач
-    @pytest.mark.run(order=1)
-    def test_processing_task_status(self):
-        self.assertEqual(
-            self.task.status,
-            StatusChoose.processing,
-            f"Запись о статусе конвертации: {self.task}",
-        )
-
-    @pytest.mark.run(order=2)
     @pytest.mark.skipif(
-        env("AWS_ACCESS_KEY_ID") is not None and env("AWS_SECRET_ACCESS_KEY") is not None,
+        settings.AWS_ACCESS_KEY_ID != "" and settings.AWS_SECRET_ACCESS_KEY != "",
         reason="AWS credentials are set, skipping test",
     )
     def test_completed_task_status(self):
@@ -107,7 +92,6 @@ class TestEncodeVideo(BaseVideoCard):
         )
 
     # Тест на добавление ссылки на видео
-    @pytest.mark.run(order=3)
     def test_add_video_url(self):
         urls_to_quality(self.media, self.quality, self.output_file)
         url_to_video = VideoQuality.objects.get(

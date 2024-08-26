@@ -1,9 +1,12 @@
 import pytest
+import requests
+import responses
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.test import override_settings
 
 from kino.cards.tests.utils.base_card import BaseCard
 from kino.comments.tests.factories.rate_factory import RatesFactory
-from kino.comments.tests.utils.get_rating_imdb import mock_api_to_imdb
 from kino.users.tests.factories import UserFactory
 
 RATING_DEFAULT = 0.0
@@ -39,16 +42,23 @@ class BaseRatingCard(BaseCard):
 
     def update_imdb_rating(self, card):
         """
-        Тестирование обновления рейтинга IMDb для фильма
+        Тестирование обновления рейтинга IMDb
         """
-        card.id_imdb = "tt0111161"
-        card.save()
-        expected_rating = mock_api_to_imdb("tt0111161")
+        card.id_imdb = "1"
+        expected_rating = 9.3
+        with override_settings(USE_IMDB=True), responses.RequestsMock() as resp_mock:
+            resp_mock.add(
+                responses.GET,
+                f"{settings.IMDB_API}1",
+                json={"imdbRating": expected_rating},
+                status=requests.codes.ok,
+            )
+            card.save()
         card.refresh_from_db()
         self.assertEqual(
             card.rating_imdb,
             expected_rating,
-            f"Фильм: {card.__dict__.items()}",
+            f"Карточка: {card.__dict__.items()}",
         )
 
     @pytest.mark.run(order=1)
@@ -65,7 +75,7 @@ class BaseRatingCard(BaseCard):
     @pytest.mark.run(order=2)
     def update_avg_rating_after_like(self, card):
         """
-        Тест обновления среднего рейтинга фильма после лайка и дизлайка
+        Тест обновления среднего рейтинга карточки после лайка
         """
         self.add_new_rate(card, self.original_user, 1)
 
@@ -77,6 +87,9 @@ class BaseRatingCard(BaseCard):
 
     @pytest.mark.run(order=3)
     def update_avg_rating_after_dislike(self, card):
+        """
+        Тест обновления среднего рейтинга карточки после лайка и дизлайка
+        """
         self.add_new_rate(card, self.original_user, 1)
         self.add_new_rate(card, self.other_user, -1)
 

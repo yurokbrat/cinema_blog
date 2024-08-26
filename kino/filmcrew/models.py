@@ -18,7 +18,7 @@ class FilmCrew(models.Model):
         verbose_name = "участник производства"
         verbose_name_plural = "участники производства"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -30,5 +30,5 @@ class PhotoPerson(models.Model):
         verbose_name = "фотография участника"
         verbose_name_plural = "фотографии участников"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Фото {self.person}"

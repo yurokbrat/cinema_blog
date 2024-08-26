@@ -19,8 +19,8 @@ class Comments(models.Model):
         verbose_name = "комментарий"
         verbose_name_plural = "комментарии"
 
-    def __str__(self):
-        return f"{self.user} оставил комментарий на {self.card}"
+    def __str__(self) -> str:
+        return f"{self.user_id} оставил комментарий на {self.card}"
 
 
 class Rates(models.Model):
@@ -39,5 +39,5 @@ class Rates(models.Model):
         verbose_name = "оценка"
         verbose_name_plural = "оценки"
 
-    def __str__(self):
-        return f'{self.user} {"like" if self.value == 1 else "dislike"} {self.card}'
+    def __str__(self) -> str:
+        return f'{self.user_id} {"like" if self.value == 1 else "dislike"} {self.card}'

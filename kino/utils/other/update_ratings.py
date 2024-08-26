@@ -9,11 +9,9 @@ from kino.comments.models import Rates
 
 logger = logging.getLogger("Update IMDb rating")
 
-IMDB_API = settings.IMDB_API
-
 
 def update_rating_imdb(model, card):
-    url_to_imdb = IMDB_API + card.id_imdb
+    url_to_imdb = settings.IMDB_API + card.id_imdb
     response = requests.get(url_to_imdb, timeout=15)
     data = response.json()
 

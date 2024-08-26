@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.core.exceptions import ValidationError
 from django.core.files.images import get_image_dimensions
 from django.core.files.uploadedfile import UploadedFile
@@ -33,7 +35,7 @@ def clean_poster(poster: UploadedFile | None) -> UploadedFile | None:
     return None
 
 
-def poster_thumbnail(obj):
+def poster_thumbnail(obj) -> dict[str, Any] | None:
     if obj.poster:
         poster_low = get_thumbnail(
             obj.poster,

@@ -287,13 +287,11 @@ LOGGING = {
         },
     },
     "loggers": {
-        "Update IMDb rating": {
-            "level": "ERROR",
+        "django.db.backends": {
             "handlers": ["console"],
-            "propagate": False,
+            "level": "DEBUG",
         },
     },
-    "root": {"level": "INFO", "handlers": ["console"]},
 }
 
 # Celery
@@ -393,7 +391,8 @@ SPECTACULAR_SETTINGS = {
 
 # IMDb API rating
 # ------------------------
-IMDB_API = env.str("IMDB_API", default="")
+USE_IMDB = True
+IMDB_API = env.str("IMDB_API", default="https://www.omdbapi.com/")
 
 # Save recorded video path
 # ------------------------
@@ -402,11 +401,11 @@ PATH_TO_MEDIA = env.str("PATH_TO_MEDIA", default="")
 # Storages
 # ------------------------
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
-AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", default="")
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
-AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", default="")
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
-AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", default="")
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_QUERYSTRING_AUTH = False
 # DO NOT change these unless you know what you're doing.
