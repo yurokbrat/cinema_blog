@@ -29,7 +29,7 @@ def mock_video(tmp_path):
     return input_video
 
 
-@pytest.fixture()
+@pytest.fixture
 def celery_always_eager():
     celery_app.conf.task_always_eager = True
     return celery_app
