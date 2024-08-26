@@ -13,6 +13,7 @@ from kino.video.tests.utils.check_quality_video import check_quality_video
 from kino.video.tests.utils.convert import coding_video
 
 
+@pytest.mark.usefixtures("celery_always_eager")
 class TestEncodeVideo(BaseVideoCard):
     task: Task
     output_file: Path

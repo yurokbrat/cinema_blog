@@ -1,6 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
+from config import celery_app
 from kino.users.models import User
 from kino.users.tests.factories import UserFactory
 
@@ -26,3 +27,9 @@ def mock_video(tmp_path):
     input_video = tmp_path / "720.mp4"
     input_video.write_text("Some dummy video content")
     return input_video
+
+
+@pytest.fixture()
+def celery_always_eager():
+    celery_app.conf.task_always_eager = True
+    return celery_app

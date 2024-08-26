@@ -12,6 +12,7 @@ from kino.video.tests.utils.convert import coding_video
 
 
 @pytest.mark.django_db
+@pytest.mark.usefixtures("celery_always_eager")
 class TestVideoTasks(BaseVideoCard):
     output_file: Path
     media: Media
