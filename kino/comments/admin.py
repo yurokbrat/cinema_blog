@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Comments, Rates
+from kino.comments.models import Comment, Rate
 
-admin.site.register(Comments)
-admin.site.register(Rates)
+admin.site.register(Comment)
+admin.site.register(Rate)

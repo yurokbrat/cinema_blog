@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from kino.comments.models import Comments, Rates
+from kino.comments.models import Comment, Rate
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -8,7 +8,7 @@ class CommentSerializer(serializers.ModelSerializer):
     user_name = serializers.SlugField(source="user.username", read_only=True)
 
     class Meta:
-        model = Comments
+        model = Comment
         fields = [
             "id",
             "user_id",
@@ -19,7 +19,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class RateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Rates
+        model = Rate
         fields = [
             "id",
             "user",

@@ -2,13 +2,13 @@ from django.contrib.contenttypes.models import ContentType
 from factory import Faker, SubFactory, Sequence
 from factory.django import DjangoModelFactory
 
-from kino.comments.models import Comments
+from kino.comments.models import Comment
 from kino.users.tests.factories import UserFactory
 
 
-class CommentsFactory(DjangoModelFactory):
+class CommentFactory(DjangoModelFactory):
     class Meta:
-        model = Comments
+        model = Comment
 
     content_type = SubFactory(ContentType)
     object_id = Sequence(lambda n: n)

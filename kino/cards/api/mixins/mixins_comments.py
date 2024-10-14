@@ -2,7 +2,7 @@ from django.contrib.contenttypes.models import ContentType
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from kino.comments.models import Comments
+from kino.comments.models import Comment
 from kino.comments.serializers import AdminCommentSerializer, CommentSerializer
 
 
@@ -10,7 +10,7 @@ class CommentBaseMixin(serializers.Serializer):
     def get_comments_base(self, serializer_class, obj):
         if (request := self.context.get("request")) and request.user:
             content_type = ContentType.objects.get_for_model(obj)
-            comments = Comments.objects.filter(
+            comments = Comment.objects.filter(
                 content_type=content_type,
                 object_id=obj.pk,
             ).prefetch_related("user")

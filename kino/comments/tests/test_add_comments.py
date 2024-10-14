@@ -1,12 +1,12 @@
 import pytest
 from django.contrib.contenttypes.models import ContentType
 
-from kino.comments.models import Comments
+from kino.comments.models import Comment
 from kino.comments.tests.utils.base_comments import BaseCommentsCard
 
 
 def check_comments(card):
-    return Comments.objects.filter(
+    return Comment.objects.filter(
         content_type=ContentType.objects.get_for_model(card),
         object_id=card.pk,
     )

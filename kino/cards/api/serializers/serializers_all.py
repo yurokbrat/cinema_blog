@@ -6,7 +6,7 @@ from kino.cards.models import (
     Genre,
     PhotoFilm,
     PhotoSerial,
-    Card,
+    BaseCard,
 )
 from kino.filmcrew.serializers import (
     CountrySerializer,
@@ -74,7 +74,7 @@ class BaseSerializer(serializers.ModelSerializer):
     posters = serializers.SerializerMethodField()
 
     class Meta:
-        model = Card
+        model = BaseCard
         fields = [
             "id",
             "name",

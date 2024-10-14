@@ -22,7 +22,7 @@ services:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
     ports:
-      - '7362:7362'
+      - '8000:8000'
     command: /start
 
   postgres_kino_local:

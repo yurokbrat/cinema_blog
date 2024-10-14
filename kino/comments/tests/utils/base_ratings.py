@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.test import override_settings
 
 from kino.cards.tests.utils.base_card import BaseCard
-from kino.comments.tests.factories.rate_factory import RatesFactory
+from kino.comments.tests.factories.rate_factory import RateFactory
 from kino.users.tests.factories import UserFactory
 
 RATING_DEFAULT = 0.0
@@ -25,7 +25,7 @@ class BaseRatingCard(BaseCard):
 
     @staticmethod
     def add_new_rate(card, user, value):
-        RatesFactory.create(
+        RateFactory.create(
             content_type=ContentType.objects.get_for_model(card),
             object_id=card.pk,
             user=user,

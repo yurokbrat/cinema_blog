@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 
 from kino.cards.models import Film, Serial
-from kino.comments.models import Rates
+from kino.comments.models import Rate
 
 logger = logging.getLogger("Update IMDb rating")
 
@@ -29,10 +29,10 @@ def update_rating_for_card(card_instance):
     card_content_type = ContentType.objects.get_for_model(card_instance)
     card_object_id = card_instance.pk
 
-    likes = Rates.objects.filter(
+    likes = Rate.objects.filter(
         content_type=card_content_type, object_id=card_object_id, value=1
     ).count()
-    dislikes = Rates.objects.filter(
+    dislikes = Rate.objects.filter(
         content_type=card_content_type, object_id=card_object_id, value=-1
     ).count()
 

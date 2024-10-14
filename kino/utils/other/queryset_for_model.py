@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import Exists, OuterRef, Subquery, QuerySet
 from rest_framework.request import Request
 
-from kino.comments.models import Rates
+from kino.comments.models import Rate
 from kino.users.models import User
 
 
@@ -29,14 +29,14 @@ def get_queryset_for_model(model: Any, basename: str, request: Request) -> Query
 
         queryset = queryset.annotate(
             is_rated=Exists(
-                Rates.objects.filter(
+                Rate.objects.filter(
                     user=request.user,
                     content_type=content_type,
                     object_id=OuterRef("pk"),
                 ),
             ),
             rating_value=Subquery(
-                Rates.objects.filter(
+                Rate.objects.filter(
                     user=request.user,
                     content_type=content_type,
                     object_id=OuterRef("pk"),
