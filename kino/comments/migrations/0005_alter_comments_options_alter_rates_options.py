@@ -11,11 +11,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name='comments',
+            name='comment',
             options={'verbose_name': 'комментарий', 'verbose_name_plural': 'комментарии'},
         ),
         migrations.AlterModelOptions(
-            name='rates',
+            name='rate',
             options={'verbose_name': 'оценка', 'verbose_name_plural': 'оценки'},
         ),
     ]

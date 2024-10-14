@@ -11,12 +11,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='rates',
+            model_name='rate',
             name='date_created',
             field=models.DateTimeField(auto_now_add=True, verbose_name='Дата оценки'),
         ),
         migrations.AlterField(
-            model_name='rates',
+            model_name='rate',
             name='value',
             field=models.IntegerField(choices=[(1, 'like'), (-1, 'dislike')], verbose_name='Оценка'),
         ),

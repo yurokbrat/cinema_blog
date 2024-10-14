@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='rates',
+            model_name='rate',
             name='value',
             field=models.IntegerField(verbose_name='Оценка'),
         ),
