@@ -7,7 +7,7 @@ from config import celery_app
 from kino.enums import StatusChoose
 from kino.utils.other.create_folder import get_media_folders
 from kino.utils.s3.check_s3 import connection_to_s3
-from kino.utils.s3.s3_client import s3_current_client
+from kino.utils.s3.storages import s3_current_client
 from kino.utils.stages_of_video.record import record_video
 from kino.video.models import Media, Task
 

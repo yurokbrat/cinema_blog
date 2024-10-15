@@ -5,7 +5,7 @@ from django.conf import settings
 
 from kino.enums import QualityChoose
 from kino.utils.s3.check_s3 import connection_to_s3
-from kino.utils.s3.s3_client import s3_current_client
+from kino.utils.s3.storages import s3_current_client
 from kino.utils.stages_of_video.check_urls_to_quality import urls_to_quality
 
 

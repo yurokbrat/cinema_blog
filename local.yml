@@ -3,6 +3,8 @@ version: '3'
 volumes:
   postgres_kino_local_data: {}
   postgres_kino_local_data_backups: {}
+  minio_data:
+
 
 services:
   django_kino_local: &django
@@ -15,6 +17,7 @@ services:
       - postgres_kino_local
       - redis_kino_local
       - mailpit_kino_local
+      - minio-kino-local
     volumes:
       - /app
     working_dir: /app
@@ -24,6 +27,8 @@ services:
     ports:
       - '8000:8000'
     command: /start
+    networks:
+      - kino-net
 
   postgres_kino_local:
     build:
@@ -36,6 +41,9 @@ services:
       - postgres_kino_local_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
+    networks:
+      - kino-net
+
 
   docs_kino_local:
     image: docs_kino_local
@@ -52,16 +60,24 @@ services:
     ports:
       - '9090:9090'
     command: /start-docs
+    networks:
+      - kino-net
+
 
   mailpit_kino_local:
     image: docker.io/axllent/mailpit:latest
     container_name: mailpit_kino_local
     ports:
       - "8026:8025"
+    networks:
+      - kino-net
 
   redis_kino_local:
     image: docker.io/redis:6
     container_name: redis_kino_local
+    networks:
+      - kino-net
+
 
   celeryworker_kino_local:
     <<: *django
@@ -73,6 +89,9 @@ services:
       - mailpit_kino_local
     ports: []
     command: /start-celeryworker
+    networks:
+      - kino-net
+
 
   celerybeat_kino_local:
     <<: *django
@@ -84,6 +103,9 @@ services:
       - mailpit_kino_local
     ports: []
     command: /start-celerybeat
+    networks:
+      - kino-net
+
 
   flower_kino_local:
     <<: *django
@@ -92,3 +114,28 @@ services:
     ports:
       - '5555:5555'
     command: /start-flower
+    networks:
+      - kino-net
+
+  minio-kino-local:
+    image: minio/minio:RELEASE.2023-11-01T01-57-10Z-cpuv1
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    healthcheck:
+      test: [ "CMD", "curl", "-f",
+              "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    volumes:
+      - minio_data:/data
+    env_file:
+      - ./.envs/.local/.django
+    command: server --console-address ":9001" /data
+    networks:
+      - kino-net
+
+networks:
+  kino-net:
+    driver: bridge

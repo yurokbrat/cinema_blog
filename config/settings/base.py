@@ -400,12 +400,14 @@ PATH_TO_MEDIA = env.str("PATH_TO_MEDIA", default="")
 
 # Storages
 # ------------------------
+MINIO_ACCESS_URL = env("MINIO_ACCESS_URL", default=None)
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", default="")
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", default="")
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", default="")
+AWS_S3_URL_PROTOCOL = env("AWS_S3_URL_PROTOCOL", default="http:")
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_QUERYSTRING_AUTH = False
 # DO NOT change these unless you know what you're doing.
@@ -422,14 +424,14 @@ AWS_S3_MAX_MEMORY_SIZE = env.int(
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#cloudfront
-AWS_S3_ENDPOINT_URL = env("AWS_S3_ENDPOINT_URL", default=None)
+AWS_S3_ENDPOINT_URL = env("AWS_S3_CUSTOM_DOMAIN", default=None)
 AWS_S3_FILE_OVERWRITE = False
 
 # Media
 # ------------------------
 STORAGES = {
     "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "kino.utils.s3.storages.CustomS3Boto3Storage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
@@ -459,6 +461,7 @@ THUMBNAIL_REDIS_URL = env("REDIS_URL")
 WAGTAIL_SITE_NAME = "kino"
 WAGTAILADMIN_BASE_URL = "https://kino_blog"
 WAGTAILIMAGES_IMAGE_MODEL = "blog.CustomImage"
+WAGTAILIMAGES_RENDITION_STORAGE = "kino.utils.s3.storages.CustomS3Boto3Storage"
 
 # django-cachalot
 # ------------------------
