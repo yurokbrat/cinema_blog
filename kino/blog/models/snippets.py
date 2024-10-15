@@ -1,7 +1,7 @@
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
-from kino.cards.models import Film, Serial, PhotoFilm, PhotoSerial
+from kino.cards.models import Film, Serial, PhotoSerial
 
 DEFAULT_PANELS = [
     FieldPanel("name", read_only=True),
@@ -10,6 +10,7 @@ DEFAULT_PANELS = [
     FieldPanel("genre", read_only=True),
     FieldPanel("description", read_only=True),
     FieldPanel("trailer", read_only=True),
+    FieldPanel("is_visible"),
 ]
 
 
@@ -23,7 +24,6 @@ class FilmBlog(Film):
     panels = [
         *DEFAULT_PANELS,
         FieldPanel("year", read_only=True),
-        FieldPanel(PhotoFilm.photo_film, read_only=True),
     ]
 
 

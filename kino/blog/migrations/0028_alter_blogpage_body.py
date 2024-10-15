@@ -7,7 +7,7 @@ import wagtail.images.blocks
 import wagtail.snippets.blocks
 from django.db import migrations
 
-import kino.blog.snippets
+import kino.blog.models.snippets
 
 
 class Migration(migrations.Migration):
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                                                                                                      required=False)), (
                                               'film', wagtail.blocks.StructBlock([('film',
                                                                                    wagtail.snippets.blocks.SnippetChooserBlock(
-                                                                                       kino.blog.snippets.FilmBlog,
+                                                                                       kino.blog.models.snippets.FilmBlog,
                                                                                        help_text='Укажите фильм',
                                                                                        label='Фильм')), ('film_fields',
                                                                                                          wagtail.blocks.MultipleChoiceBlock(
@@ -69,7 +69,7 @@ class Migration(migrations.Migration):
                                                                                  label='Фильм', required=False)), (
                                               'serial', wagtail.blocks.StructBlock([('serial',
                                                                                      wagtail.snippets.blocks.SnippetChooserBlock(
-                                                                                         kino.blog.snippets.SerialBlog,
+                                                                                         kino.blog.models.snippets.SerialBlog,
                                                                                          help_text='Укажите сериал',
                                                                                          label='Сериал')), (
                                                                                     'serial_fields',

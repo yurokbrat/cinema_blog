@@ -3,6 +3,7 @@ import logging
 import requests
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from requests import HTTPError, Timeout, RequestException
 
 from kino.cards.models import Film, Serial
 from kino.comments.models import Rate
@@ -12,17 +13,22 @@ logger = logging.getLogger("Update IMDb rating")
 
 def update_rating_imdb(model, card):
     url_to_imdb = settings.IMDB_API + card.id_imdb
-    response = requests.get(url_to_imdb, timeout=15)
-    data = response.json()
+    try:
+        response = requests.get(url_to_imdb, timeout=15)
+        data = response.json()
 
-    if response.ok and "imdbRating" in data:
-        imdb_rating = float(data["imdbRating"])
-        info_imdb_rating = f"Connected to IMDB; rating {card.name} = {imdb_rating}"
-        logging.info(info_imdb_rating)
-        model.objects.filter(pk=card.pk).update(rating_imdb=imdb_rating)
-    else:
-        result = data["Error"]
-        logging.warning(result)
+        if response.ok and "imdbRating" in data:
+            imdb_rating = float(data["imdbRating"])
+            info_imdb_rating = f"Connected to IMDB; rating {card.name} = {imdb_rating}"
+            logging.info(info_imdb_rating)
+            model.objects.filter(pk=card.pk).update(rating_imdb=imdb_rating)
+        else:
+            result = data["Error"]
+            logging.warning(result)
+    except HTTPError:
+        logger.exception("Bad response status")
+    except (ConnectionError, Timeout, RequestException):
+        logger.exception("Error fetching IMDB")
 
 
 def update_rating_for_card(card_instance):

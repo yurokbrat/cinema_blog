@@ -5,7 +5,7 @@ from kino.blog.api.serializers.blog_serializers import (
     BlogListSerializer,
     BlogFullSerializer,
 )
-from kino.blog.authors import Author
+from kino.blog.models.authors import Author
 from kino.blog.models import BlogPage
 
 

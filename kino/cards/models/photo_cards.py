@@ -9,6 +9,7 @@ class PhotoFilm(models.Model):
         Film,
         on_delete=models.CASCADE,
         verbose_name="Карточка",
+        related_name="photos",
     )
     photo_film = models.ImageField(
         upload_to=upload_to_films,

@@ -1,24 +1,16 @@
-from django import forms
 from django.contrib.auth import get_user_model
 from django.db import models
-from wagtail.admin.panels import FieldPanel
-from wagtail.snippets.models import register_snippet
 
 from kino.cards.models import Country
 
 User = get_user_model()
 
 
-@register_snippet
 class Profession(models.Model):
     name = models.CharField(
         max_length=255,
         verbose_name="Название",
     )
-
-    panels = [
-        FieldPanel("name"),
-    ]
 
     class Meta:
         verbose_name = "профессия автора"
@@ -28,7 +20,6 @@ class Profession(models.Model):
         return self.name
 
 
-@register_snippet
 class Author(models.Model):
     user = models.ForeignKey(
         User,
@@ -67,18 +58,9 @@ class Author(models.Model):
         verbose_name="Профессия",
     )
 
-    panels = [
-        FieldPanel("user"),
-        FieldPanel("first_name"),
-        FieldPanel("last_name"),
-        FieldPanel("country", widget=forms.Select),
-        FieldPanel("author_image"),
-        FieldPanel("profession", widget=forms.CheckboxSelectMultiple),
-    ]
-
     class Meta:
         verbose_name = "автор"
         verbose_name_plural = "авторы"
 
     def __str__(self) -> str:
-        return f"Автор {self.first_name} {self.last_name}"
+        return f"{self.first_name} {self.last_name}"

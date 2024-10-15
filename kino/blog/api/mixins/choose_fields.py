@@ -1,5 +1,5 @@
 from kino.blog.api.serializers.cards_serializers import SerialBlogSerializer, FilmBlogSerializer
-from kino.blog.snippets import SerialBlog, FilmBlog
+from kino.cards.models import Film, Serial
 
 field_translation = {
     "Название": "name",
@@ -14,17 +14,11 @@ field_translation = {
 
 def get_fields(representation, type_card):
     if card_id := representation.get(type_card):
-        card = (
-            SerialBlog.objects.get(id=card_id)
-            if type_card == "serial"
-            else FilmBlog.objects.get(id=card_id)
-        )
+        type_model = Film if type_card == "film" else Serial
+        serializer = FilmBlogSerializer if type_card == "film" else SerialBlogSerializer
+        card = type_model.objects.get(id=card_id)
         if card_fields := representation.get(f"{type_card}_fields"):
-            serialized_card = (
-                SerialBlogSerializer(card).data
-                if type_card == "serial"
-                else FilmBlogSerializer(card).data
-            )
+            serialized_card = serializer(card).data
             selected_fields = {"id": card_id}
             for field_name in card_fields:
                 field_key = field_translation.get(field_name)

@@ -5,7 +5,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
 
 from kino.blog.api.mixins.choose_fields import get_fields
-from kino.blog.snippets import FilmBlog, SerialBlog
+from kino.blog.models.snippets import FilmBlog, SerialBlog
 from kino.enums import FieldsChoose
 
 

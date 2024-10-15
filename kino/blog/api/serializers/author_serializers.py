@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from kino.blog.api.serializers.photo_serializers import ImageBlockSerializer
-from kino.blog.authors import Profession, Author
+from kino.blog.models.authors import Profession, Author
 from kino.filmcrew.serializers import CountrySerializer
 from kino.users.api.serializers import UserSerializer
 

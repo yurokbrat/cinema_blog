@@ -10,7 +10,7 @@ import wagtail.snippets.blocks
 from django.conf import settings
 from django.db import migrations, models
 
-import kino.blog.snippets
+import kino.blog.models.snippets
 
 
 class Migration(migrations.Migration):
@@ -102,7 +102,7 @@ class Migration(migrations.Migration):
                                 (
                                     "film",
                                     wagtail.snippets.blocks.SnippetChooserBlock(
-                                        kino.blog.snippets.FilmBlog,
+                                        kino.blog.models.snippets.FilmBlog,
                                         help_text="Укажите фильм",
                                         label="Фильм",
                                         required=False,
@@ -119,7 +119,7 @@ class Migration(migrations.Migration):
                     (
                         "serial",
                         wagtail.snippets.blocks.SnippetChooserBlock(
-                            kino.blog.snippets.SerialBlog,
+                            kino.blog.models.snippets.SerialBlog,
                             help_text="Укажите сериал",
                             label="Сериал",
                             required=False,
