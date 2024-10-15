@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='film',
             name='comments',
-            field=models.ManyToManyField(to='comments.comments', verbose_name='Коментарии'),
+            field=models.ManyToManyField(to='comments.comment', verbose_name='Коментарии'),
         ),
         migrations.AddField(
             model_name='serial',
             name='comments',
-            field=models.ManyToManyField(to='comments.comments', verbose_name='Коментарии'),
+            field=models.ManyToManyField(to='comments.comment', verbose_name='Коментарии'),
         ),
     ]
