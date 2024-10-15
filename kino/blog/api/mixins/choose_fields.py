@@ -16,7 +16,7 @@ def get_fields(representation, type_card):
     if card_id := representation.get(type_card):
         type_model = Film if type_card == "film" else Serial
         serializer = FilmBlogSerializer if type_card == "film" else SerialBlogSerializer
-        card = type_model.objects.get(id=card_id)
+        card = type_model.objects.get(id=card_id)  # type: ignore[attr-defined]
         if card_fields := representation.get(f"{type_card}_fields"):
             serialized_card = serializer(card).data
             selected_fields = {"id": card_id}

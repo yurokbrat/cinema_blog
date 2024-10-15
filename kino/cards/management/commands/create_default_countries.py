@@ -31,4 +31,4 @@ class Command(BaseCommand):
         ]
 
         for country_data in default_countries_data:
-            Country.objects.get_or_create(**country_data)
+            Country.objects.get_or_create(name=country_data["name"])
