@@ -13,6 +13,14 @@ UNWANTED_ITEMS_MENU = frozenset(
     ("documents", "help", "settings", "snippets", "reports"),
 )
 
+DEFAULT_AUTHOR_PANELS = [
+    FieldPanel("user", read_only=True),
+    FieldPanel("first_name", read_only=True),
+    FieldPanel("last_name", read_only=True),
+    FieldPanel("country", read_only=True),
+    FieldPanel("author_image"),
+    FieldPanel("profession", read_only=True),
+]
 
 @hooks.register("construct_main_menu")
 def hide_pages_menu(request: HttpRequest, menu_items: list[MenuItem]) -> None:
@@ -24,6 +32,7 @@ def register_icons(icons):
     icons.append("wagtailadmin/icons/film.svg")
     icons.append("wagtailadmin/icons/serial.svg")
     icons.append("wagtailadmin/icons/profession.svg")
+    icons.append("wagtailadmin/icons/authors.svg")
     return icons
 
 
@@ -67,6 +76,9 @@ class ProfessionWagtailAdmin(ModelAdmin):
 @modeladmin_register
 class AuthorWagtailAdmin(ModelAdmin):
     model = Author
-    menu_label = "Авторы"
-    menu_icon = "group"
-    list_filter = ("profession",)
+    menu_label = "Авторы блогов"
+    menu_icon = "authors"
+    list_display = ("first_name", "last_name", "country")
+    list_filter = ("country",)
+    permission_helper_class = NoCreateAndDeletePermissionHelper
+    edit_handler = MultiFieldPanel(DEFAULT_AUTHOR_PANELS)
